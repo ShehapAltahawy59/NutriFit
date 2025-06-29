@@ -13,6 +13,7 @@ import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
 from . import initialize_azure_client
+from flask_cors import cross_origin
 
 # Create Blueprint for Nutritionist
 nutritionist_bp = Blueprint('nutritionist', __name__)
@@ -200,6 +201,7 @@ async def create_comprehensive_nutrition_plan(Inbody_Speciallist_analysis,client
 
 # Flask routes for Nutritionist
 @nutritionist_bp.route('/create_plan', methods=['POST'])
+@cross_origin()
 def create_nutrition_plan():
     """Main endpoint for creating comprehensive nutrition plans"""
     try:
@@ -239,6 +241,7 @@ def create_nutrition_plan():
 
 
 @nutritionist_bp.route('/health', methods=['GET'])
+@cross_origin()
 def nutritionist_health_check():
     """Health check endpoint for Nutritionist"""
     try:

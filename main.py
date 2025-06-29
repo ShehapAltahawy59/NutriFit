@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
@@ -14,6 +15,15 @@ load_dotenv()
 def create_app():
     """Create and configure the Flask application"""
     app = Flask(__name__)
+    
+    # Enable CORS for all routes
+    CORS(app, resources={
+        r"/*": {
+            "origins": ["*"],  # Allow all origins in development
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"]
+        }
+    })
     
     # Register blueprints with URL prefixes
     app.register_blueprint(inbody_bp, url_prefix='/inbody')

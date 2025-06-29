@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
@@ -123,6 +124,7 @@ async def analyze_inbody_data(user_info, scan_data="", image_url="", goals=""):
 
 # Flask routes for Inbody Specialist
 @inbody_bp.route('/analyze', methods=['POST'])
+@cross_origin()
 def analyze_inbody():
     """Main endpoint for InBody analysis"""
     try:
@@ -158,6 +160,7 @@ def analyze_inbody():
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @inbody_bp.route('/health', methods=['GET'])
+@cross_origin()
 def inbody_health_check():
     """Health check endpoint for Inbody Specialist"""
     try:
@@ -176,6 +179,7 @@ def inbody_health_check():
         }), 500
 
 @inbody_bp.route('/simple_analysis', methods=['POST'])
+@cross_origin()
 def simple_inbody_analysis():
     """Simplified endpoint for basic InBody analysis"""
     try:

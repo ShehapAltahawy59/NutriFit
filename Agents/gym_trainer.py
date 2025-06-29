@@ -11,6 +11,7 @@ import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
 from . import initialize_azure_client
+from flask_cors import cross_origin
 
 # Create Blueprint for Gym Trainer
 gym_trainer_bp = Blueprint('gym_trainer', __name__)
@@ -241,6 +242,7 @@ async def get_exercise_advice(query):
 
 # Flask routes for Gym Trainer
 @gym_trainer_bp.route('/create_workout', methods=['POST'])
+@cross_origin()
 def create_workout_plan():
     """Main endpoint for creating comprehensive workout plans"""
     try:
@@ -415,6 +417,7 @@ def form_check():
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @gym_trainer_bp.route('/health', methods=['GET'])
+@cross_origin()
 def gym_trainer_health_check():
     """Health check endpoint for Gym Trainer"""
     try:

@@ -21,6 +21,7 @@ from typing import Optional
 import requests
 from PIL import Image
 from io import BytesIO
+from flask_cors import cross_origin
 
 # Import agent functions
 from .inbody_specialist import create_inbody_agent, process_inbody_image
@@ -280,6 +281,7 @@ async def execute_complete_workflow(
 
 # Flask routes for Plan Workflow
 @workflow_bp.route('/create_complete_plan', methods=['POST'])
+@cross_origin()
 def create_complete_plan():
     """Main endpoint for complete nutrition planning workflow"""
     try:
@@ -332,6 +334,7 @@ def create_complete_plan():
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @workflow_bp.route('/workflow_status', methods=['GET'])
+@cross_origin()
 def workflow_status():
     """Get workflow status and capabilities"""
     try:
@@ -370,6 +373,7 @@ def workflow_status():
         }), 500
 
 @workflow_bp.route('/test_inbody_analysis', methods=['POST'])
+@cross_origin()
 def test_inbody_analysis():
     """Test endpoint for InBody analysis only"""
     try:
@@ -399,6 +403,7 @@ def test_inbody_analysis():
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @workflow_bp.route('/health', methods=['GET'])
+@cross_origin()
 def workflow_health_check():
     """Health check endpoint for Plan Workflow"""
     try:

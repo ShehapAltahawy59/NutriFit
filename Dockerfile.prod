@@ -50,7 +50,11 @@ WORKDIR /app
 # Copy application code (optimized order for caching)
 COPY --chown=app:app main.py .
 COPY --chown=app:app requirements.txt .
+COPY --chown=app:app start.sh .
 COPY --chown=app:app Agents/ ./Agents/
+
+# Make startup script executable
+RUN chmod +x start.sh
 
 # Switch to non-root user
 USER app
@@ -59,8 +63,8 @@ USER app
 EXPOSE 5000
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:5000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:5000/ping || curl -f http://localhost:5000/health || exit 1
 
-# Run the application with gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "--timeout", "120", "--keep-alive", "5", "--max-requests", "1000", "--max-requests-jitter", "100", "main:app"] 
+# Run the startup script
+CMD ["./start.sh"] 

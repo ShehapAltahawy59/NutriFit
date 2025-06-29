@@ -189,7 +189,7 @@ attempt=1
 
 while [ $attempt -le $max_attempts ]; do
     echo -e "${YELLOW}Health check attempt $attempt/$max_attempts...${NC}"
-    if curl -f --max-time 30 "https://$APP_URL/health" > /dev/null 2>&1; then
+    if curl -f --max-time 30 "https://$APP_URL/ping" > /dev/null 2>&1 || curl -f --max-time 30 "https://$APP_URL/health" > /dev/null 2>&1; then
         echo -e "${GREEN}✅ Health check passed!${NC}"
         break
     else

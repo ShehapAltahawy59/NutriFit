@@ -28,6 +28,7 @@ def create_app():
         return jsonify({
             "status": "healthy",
             "service": "nutrifit_agents",
+            "timestamp": "2024-01-01T00:00:00Z",
             "agents": {
                 "inbody_specialist": "/inbody/health",
                 "nutritionist": "/nutritionist/health",
@@ -35,6 +36,15 @@ def create_app():
                 "plan_workflow": "/workflow/health"
             },
             "version": "1.0.0"
+        })
+    
+    # Simple health check endpoint (no agent dependencies)
+    @app.route('/ping', methods=['GET'])
+    def ping():
+        """Simple ping endpoint for basic connectivity"""
+        return jsonify({
+            "status": "pong",
+            "message": "NutriFit Agents API is running"
         })
     
     # Main status endpoint
@@ -220,13 +230,16 @@ def create_app():
 # Create the app instance
 app = create_app()
 
+# For gunicorn compatibility
+application = app
+
 if __name__ == '__main__':
     # Get port from environment or use default
     port = int(os.environ.get('PORT', 5000))
     
-    # Run the Flask app
+    # Run the Flask app (production mode)
     app.run(
-        debug=True, 
+        debug=False,  # Disable debug mode for production
         host='0.0.0.0', 
         port=port
     ) 

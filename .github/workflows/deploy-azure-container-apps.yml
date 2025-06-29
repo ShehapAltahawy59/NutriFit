@@ -160,7 +160,7 @@ jobs:
         
         while [ $attempt -le $max_attempts ]; do
           echo "Health check attempt $attempt/$max_attempts..."
-          if curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/health"; then
+          if curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/ping" || curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/health"; then
             echo "✅ Health check passed!"
             break
           else

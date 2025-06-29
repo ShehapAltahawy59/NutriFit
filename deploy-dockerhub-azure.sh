@@ -118,7 +118,7 @@ if az containerapp show --name $CONTAINER_APP_NAME --resource-group $RESOURCE_GR
     az containerapp secret set \
         --name $CONTAINER_APP_NAME \
         --resource-group $RESOURCE_GROUP \
-        --secret-names \
+        --secrets \
             azure-openai-endpoint="$AZURE_OPENAI_ENDPOINT" \
             azure-openai-api-key="$AZURE_OPENAI_API_KEY" \
             azure-openai-api-version="$AZURE_OPENAI_API_VERSION" \

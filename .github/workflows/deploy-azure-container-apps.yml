@@ -105,10 +105,11 @@ jobs:
           az containerapp secret set \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --secret-names azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
-            azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" \
-            azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" \
-            azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}"
+            --secrets \
+              azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
+              azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" \
+              azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" \
+              azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}"
           
           # Update environment variables that reference secrets
           az containerapp update \

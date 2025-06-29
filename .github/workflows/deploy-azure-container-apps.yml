@@ -97,7 +97,7 @@ jobs:
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
             --set-env-vars FLASK_APP=main.py FLASK_ENV=production
           
           # Update secrets separately (secrets need to be updated individually)
@@ -125,7 +125,7 @@ jobs:
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --environment ${{ env.ENVIRONMENT_NAME }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
             --target-port 5000 \
             --ingress external \
             --min-replicas 1 \
@@ -165,7 +165,7 @@ jobs:
             body: `🚀 **Deployment Successful!**
           
           **Environment:** Azure Container Apps
-          **Image:** ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          **Image:** ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
           **URL:** https://${{ steps.get-url.outputs.url }}
           **Health Check:** https://${{ steps.get-url.outputs.url }}/health
           **Status:** https://${{ steps.get-url.outputs.url }}/status

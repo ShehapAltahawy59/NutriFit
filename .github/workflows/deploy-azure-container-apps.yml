@@ -96,7 +96,7 @@ jobs:
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache \
             --set-env-vars FLASK_APP=main.py FLASK_ENV=production \
             --set-secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
             --set-env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment

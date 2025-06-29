@@ -52,13 +52,24 @@ fi
 
 echo -e "${GREEN}✅ Prerequisites check passed${NC}"
 
-# Step 0: Register required Azure providers
-echo -e "${YELLOW}🔧 Registering required Azure providers...${NC}"
-az provider register -n Microsoft.App --wait
-az provider register -n Microsoft.OperationalInsights --wait
-az provider register -n Microsoft.Insights --wait
-az provider register -n Microsoft.OperationsManagement --wait
-echo -e "${GREEN}✅ Azure providers registered${NC}"
+# Step 0: Register required Azure providers (if possible)
+echo -e "${YELLOW}🔧 Checking Azure providers...${NC}"
+if az provider show -n Microsoft.App --query registrationState -o tsv 2>/dev/null | grep -q "Registered"; then
+    echo -e "${GREEN}✅ Azure providers already registered${NC}"
+else
+    echo -e "${YELLOW}⚠️  Attempting to register Azure providers...${NC}"
+    echo -e "${YELLOW}Note: This requires Owner/Contributor permissions. If it fails, please register manually:${NC}"
+    echo -e "${YELLOW}az provider register -n Microsoft.App --wait${NC}"
+    echo -e "${YELLOW}az provider register -n Microsoft.OperationalInsights --wait${NC}"
+    echo -e "${YELLOW}az provider register -n Microsoft.Insights --wait${NC}"
+    echo -e "${YELLOW}az provider register -n Microsoft.OperationsManagement --wait${NC}"
+    
+    # Try to register providers, but don't fail if it doesn't work
+    az provider register -n Microsoft.App --wait || echo -e "${YELLOW}⚠️  Could not register Microsoft.App${NC}"
+    az provider register -n Microsoft.OperationalInsights --wait || echo -e "${YELLOW}⚠️  Could not register Microsoft.OperationalInsights${NC}"
+    az provider register -n Microsoft.Insights --wait || echo -e "${YELLOW}⚠️  Could not register Microsoft.Insights${NC}"
+    az provider register -n Microsoft.OperationsManagement --wait || echo -e "${YELLOW}⚠️  Could not register Microsoft.OperationsManagement${NC}"
+fi
 
 # Step 1: Create Resource Group
 echo -e "${YELLOW}📦 Creating Resource Group...${NC}"

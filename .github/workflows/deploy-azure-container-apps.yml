@@ -71,13 +71,6 @@ jobs:
 
     - name: Deploy to Azure Container Apps
       run: |
-        # Register required Azure providers
-        echo "Registering required Azure providers..."
-        az provider register -n Microsoft.App --wait
-        az provider register -n Microsoft.OperationalInsights --wait
-        az provider register -n Microsoft.Insights --wait
-        az provider register -n Microsoft.OperationsManagement --wait
-        
         # Check if resource group exists, create if not
         if ! az group show --name ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
           echo "Creating resource group..."
@@ -87,7 +80,14 @@ jobs:
         # Check if Container Apps environment exists, create if not
         if ! az containerapp env show --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
           echo "Creating Container Apps environment..."
-          az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+          # Try to create with automatic Log Analytics workspace
+          az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} || {
+            echo "Failed to create environment automatically. Trying with manual Log Analytics workspace..."
+            # Create Log Analytics workspace first
+            az monitor log-analytics workspace create --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --location ${{ env.LOCATION }}
+            # Create environment with the workspace
+            az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} --logs-workspace-id $(az monitor log-analytics workspace show --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --query customerId --output tsv)
+          }
         fi
         
         # Check if Container App exists, update if yes, create if no

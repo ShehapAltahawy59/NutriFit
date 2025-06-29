@@ -6,12 +6,12 @@
 set -e
 
 # Configuration Variables
-RESOURCE_GROUP="nutrifit-rg"
-LOCATION="eastus"
+RESOURCE_GROUP="nutrifit"
+LOCATION="uaenorth"
 CONTAINER_APP_NAME="nutrifit-agents-api"
 ENVIRONMENT_NAME="nutrifit-env"
 IMAGE_NAME="nutrifit-agents-api"
-DOCKER_HUB_USERNAME="your-dockerhub-username"  # Change this to your Docker Hub username
+DOCKER_HUB_USERNAME="shehap62"  # Change this to your Docker Hub username
 IMAGE_TAG="latest"
 
 # Colors for output
@@ -40,10 +40,14 @@ if ! az account show &> /dev/null; then
     exit 1
 fi
 
-# Check if logged in to Docker Hub
-if ! docker info | grep -q "Username"; then
-    echo -e "${YELLOW}⚠️  Not logged in to Docker Hub. Please run 'docker login' first.${NC}"
-    exit 1
+# Check if logged in to Docker Hub (improved check)
+echo -e "${YELLOW}🔍 Checking Docker Hub login status...${NC}"
+if ! grep -q "index.docker.io" ~/.docker/config.json; then
+    echo -e "${GREEN}✅ Docker Hub login detected${NC}"
+else
+    echo -e "${YELLOW}⚠️  Docker Hub login not detected. Attempting to login...${NC}"
+    echo -e "${YELLOW}Please enter your Docker Hub credentials when prompted:${NC}"
+    docker login
 fi
 
 echo -e "${GREEN}✅ Prerequisites check passed${NC}"
@@ -59,9 +63,11 @@ az group create \
 echo -e "${YELLOW}🐳 Building and pushing Docker image to Docker Hub...${NC}"
 
 # Build the production image
+echo -e "${YELLOW}Building Docker image...${NC}"
 docker build -f Dockerfile.prod -t $DOCKER_HUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
 
 # Push the image to Docker Hub
+echo -e "${YELLOW}Pushing image to Docker Hub...${NC}"
 docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG
 
 echo -e "${GREEN}✅ Docker image pushed to Docker Hub successfully${NC}"

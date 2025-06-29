@@ -93,13 +93,32 @@ jobs:
         # Check if Container App exists, update if yes, create if no
         if az containerapp show --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
           echo "Updating existing Container App..."
+          # Update the container app with new image and environment variables
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache \
-            --set-env-vars FLASK_APP=main.py FLASK_ENV=production \
-            --set-secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
-            --set-env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
+            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --set-env-vars FLASK_APP=main.py FLASK_ENV=production
+          
+          # Update secrets separately (secrets need to be updated individually)
+          echo "Updating secrets..."
+          az containerapp secret set \
+            --name ${{ env.CONTAINER_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --secret-names azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
+            azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" \
+            azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" \
+            azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}"
+          
+          # Update environment variables that reference secrets
+          az containerapp update \
+            --name ${{ env.CONTAINER_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --set-env-vars \
+              AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
+              AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
+              AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
+              AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
         else
           echo "Creating new Container App..."
           az containerapp create \

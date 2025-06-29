@@ -102,32 +102,67 @@ az containerapp env create \
 # Step 4: Create Container App
 echo -e "${YELLOW}🚀 Creating Container App...${NC}"
 
-# Create the container app using Docker Hub image
-az containerapp create \
-    --name $CONTAINER_APP_NAME \
-    --resource-group $RESOURCE_GROUP \
-    --environment $ENVIRONMENT_NAME \
-    --image $DOCKER_HUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG \
-    --target-port 5000 \
-    --ingress external \
-    --min-replicas 1 \
-    --max-replicas 10 \
-    --cpu 1.0 \
-    --memory 2Gi \
-    --env-vars \
-        FLASK_APP=main.py \
-        FLASK_ENV=production \
-    --secrets \
-        azure-openai-endpoint="$AZURE_OPENAI_ENDPOINT" \
-        azure-openai-api-key="$AZURE_OPENAI_API_KEY" \
-        azure-openai-api-version="$AZURE_OPENAI_API_VERSION" \
-        azure-openai-deployment="$AZURE_OPENAI_DEPLOYMENT" \
-    --env-vars \
-        AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
-        AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
-        AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
-        AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
-    --output table
+# Check if Container App exists, update if yes, create if no
+if az containerapp show --name $CONTAINER_APP_NAME --resource-group $RESOURCE_GROUP --output none 2>/dev/null; then
+    echo -e "${YELLOW}📝 Updating existing Container App...${NC}"
+    
+    # Update the container app with new image and environment variables
+    az containerapp update \
+        --name $CONTAINER_APP_NAME \
+        --resource-group $RESOURCE_GROUP \
+        --image $DOCKER_HUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG \
+        --set-env-vars FLASK_APP=main.py FLASK_ENV=production
+    
+    # Update secrets separately
+    echo -e "${YELLOW}🔐 Updating secrets...${NC}"
+    az containerapp secret set \
+        --name $CONTAINER_APP_NAME \
+        --resource-group $RESOURCE_GROUP \
+        --secret-names \
+            azure-openai-endpoint="$AZURE_OPENAI_ENDPOINT" \
+            azure-openai-api-key="$AZURE_OPENAI_API_KEY" \
+            azure-openai-api-version="$AZURE_OPENAI_API_VERSION" \
+            azure-openai-deployment="$AZURE_OPENAI_DEPLOYMENT"
+    
+    # Update environment variables that reference secrets
+    az containerapp update \
+        --name $CONTAINER_APP_NAME \
+        --resource-group $RESOURCE_GROUP \
+        --set-env-vars \
+            AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
+            AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
+            AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
+            AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
+else
+    echo -e "${YELLOW}🆕 Creating new Container App...${NC}"
+    
+    # Create the container app using Docker Hub image
+    az containerapp create \
+        --name $CONTAINER_APP_NAME \
+        --resource-group $RESOURCE_GROUP \
+        --environment $ENVIRONMENT_NAME \
+        --image $DOCKER_HUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG \
+        --target-port 5000 \
+        --ingress external \
+        --min-replicas 1 \
+        --max-replicas 10 \
+        --cpu 1.0 \
+        --memory 2Gi \
+        --env-vars \
+            FLASK_APP=main.py \
+            FLASK_ENV=production \
+        --secrets \
+            azure-openai-endpoint="$AZURE_OPENAI_ENDPOINT" \
+            azure-openai-api-key="$AZURE_OPENAI_API_KEY" \
+            azure-openai-api-version="$AZURE_OPENAI_API_VERSION" \
+            azure-openai-deployment="$AZURE_OPENAI_DEPLOYMENT" \
+        --env-vars \
+            AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
+            AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
+            AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
+            AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
+        --output table
+fi
 
 # Step 5: Get the application URL
 echo -e "${YELLOW}🔍 Getting application URL...${NC}"

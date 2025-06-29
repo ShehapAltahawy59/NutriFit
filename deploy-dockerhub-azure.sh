@@ -52,6 +52,14 @@ fi
 
 echo -e "${GREEN}✅ Prerequisites check passed${NC}"
 
+# Step 0: Register required Azure providers
+echo -e "${YELLOW}🔧 Registering required Azure providers...${NC}"
+az provider register -n Microsoft.App --wait
+az provider register -n Microsoft.OperationalInsights --wait
+az provider register -n Microsoft.Insights --wait
+az provider register -n Microsoft.OperationsManagement --wait
+echo -e "${GREEN}✅ Azure providers registered${NC}"
+
 # Step 1: Create Resource Group
 echo -e "${YELLOW}📦 Creating Resource Group...${NC}"
 az group create \

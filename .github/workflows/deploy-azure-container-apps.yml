@@ -62,9 +62,22 @@ jobs:
         platforms: linux/amd64
         build-args: |
           BUILDKIT_INLINE_CACHE=1
+        # Temporarily disabled due to GitHub Actions service issues
+        # cache-from: type=gha
+        # cache-to: type=gha,mode=max
+        # Alternative: Use Docker Hub cache
+        cache-from: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache
+        cache-to: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
     - name: Deploy to Azure Container Apps
       run: |
+        # Register required Azure providers
+        echo "Registering required Azure providers..."
+        az provider register -n Microsoft.App --wait
+        az provider register -n Microsoft.OperationalInsights --wait
+        az provider register -n Microsoft.Insights --wait
+        az provider register -n Microsoft.OperationsManagement --wait
+        
         # Check if resource group exists, create if not
         if ! az group show --name ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
           echo "Creating resource group..."

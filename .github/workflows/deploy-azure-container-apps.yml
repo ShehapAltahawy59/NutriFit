@@ -1,0 +1,115 @@
+name: Deploy to Azure Container Apps (Docker Hub)
+
+on:
+  push:
+    branches: [ main, production ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  RESOURCE_GROUP: nutrifit-rg
+  LOCATION: eastus
+  CONTAINER_APP_NAME: nutrifit-agents-api
+  ENVIRONMENT_NAME: nutrifit-env
+  IMAGE_NAME: nutrifit-agents-api
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Build and push Docker image to Docker Hub
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile.prod
+        push: true
+        tags: |
+          ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Deploy to Azure Container Apps
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        appSourcePath: ${{ github.workspace }}
+        acrName: ""  # Not using ACR
+        acrUsername: ""  # Not using ACR
+        acrPassword: ""  # Not using ACR
+        containerAppName: ${{ env.CONTAINER_APP_NAME }}
+        resourceGroupName: ${{ env.RESOURCE_GROUP }}
+        imageToDeploy: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        targetPort: 5000
+        ingress: external
+        minReplicas: 1
+        maxReplicas: 10
+        cpu: 1.0
+        memory: 2Gi
+        envVars: |
+          FLASK_APP=main.py
+          FLASK_ENV=production
+        secrets: |
+          azure-openai-endpoint=${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          azure-openai-api-key=${{ secrets.AZURE_OPENAI_API_KEY }}
+          azure-openai-api-version=${{ secrets.AZURE_OPENAI_API_VERSION }}
+          azure-openai-deployment=${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+        secretEnvVars: |
+          AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint
+          AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key
+          AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version
+          AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
+
+    - name: Get Container App URL
+      id: get-url
+      run: |
+        APP_URL=$(az containerapp show \
+          --name ${{ env.CONTAINER_APP_NAME }} \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --query properties.configuration.ingress.fqdn \
+          --output tsv)
+        echo "url=$APP_URL" >> $GITHUB_OUTPUT
+
+    - name: Test deployment
+      run: |
+        echo "Testing deployment at https://${{ steps.get-url.outputs.url }}"
+        sleep 60  # Wait for app to be ready
+        curl -f "https://${{ steps.get-url.outputs.url }}/health" || exit 1
+
+    - name: Comment PR with deployment info
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `🚀 **Deployment Successful!**
+          
+          **Environment:** Azure Container Apps
+          **Image:** ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          **URL:** https://${{ steps.get-url.outputs.url }}
+          **Health Check:** https://${{ steps.get-url.outputs.url }}/health
+          **Status:** https://${{ steps.get-url.outputs.url }}/status
+          
+          The NutriFit Agents API has been deployed successfully!`
+          }) 

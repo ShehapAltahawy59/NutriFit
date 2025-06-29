@@ -180,14 +180,29 @@ echo -e "${GREEN}🐳 Docker Hub Image: $DOCKER_HUB_USERNAME/$IMAGE_NAME:$IMAGE_
 
 # Step 6: Test the deployment
 echo -e "${YELLOW}🧪 Testing deployment...${NC}"
-sleep 30  # Wait for the app to be ready
+echo -e "${YELLOW}Waiting for application to be ready...${NC}"
+sleep 90  # Increased wait time for container to fully start
 
-# Test health endpoint
-if curl -f "https://$APP_URL/health" > /dev/null 2>&1; then
-    echo -e "${GREEN}✅ Health check passed${NC}"
-else
-    echo -e "${RED}❌ Health check failed${NC}"
-fi
+# Test health endpoint with retries
+max_attempts=5
+attempt=1
+
+while [ $attempt -le $max_attempts ]; do
+    echo -e "${YELLOW}Health check attempt $attempt/$max_attempts...${NC}"
+    if curl -f --max-time 30 "https://$APP_URL/health" > /dev/null 2>&1; then
+        echo -e "${GREEN}✅ Health check passed!${NC}"
+        break
+    else
+        echo -e "${RED}❌ Health check attempt $attempt failed${NC}"
+        if [ $attempt -eq $max_attempts ]; then
+            echo -e "${YELLOW}⚠️  All health check attempts failed, but deployment may still be successful${NC}"
+            echo -e "${YELLOW}The application might need more time to start up${NC}"
+        else
+            sleep 30  # Wait before retry
+            attempt=$((attempt + 1))
+        fi
+    fi
+done
 
 echo -e "${GREEN}🎯 Deployment Summary:${NC}"
 echo -e "${GREEN}   Resource Group: $RESOURCE_GROUP${NC}"

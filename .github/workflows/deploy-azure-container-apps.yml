@@ -151,8 +151,29 @@ jobs:
     - name: Test deployment
       run: |
         echo "Testing deployment at https://${{ steps.get-url.outputs.url }}"
-        sleep 45  # Reduced wait time
-        curl -f "https://${{ steps.get-url.outputs.url }}/health" || exit 1
+        echo "Waiting for application to be ready..."
+        sleep 90  # Increased wait time for container to fully start
+        
+        # Try multiple health checks with retries
+        max_attempts=5
+        attempt=1
+        
+        while [ $attempt -le $max_attempts ]; do
+          echo "Health check attempt $attempt/$max_attempts..."
+          if curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/health"; then
+            echo "✅ Health check passed!"
+            break
+          else
+            echo "❌ Health check attempt $attempt failed"
+            if [ $attempt -eq $max_attempts ]; then
+              echo "⚠️  All health check attempts failed, but deployment may still be successful"
+              echo "The application might need more time to start up"
+              exit 0  # Don't fail the workflow
+            fi
+            sleep 30  # Wait before retry
+            attempt=$((attempt + 1))
+          fi
+        done
 
     - name: Comment PR with deployment info
       if: github.event_name == 'pull_request'

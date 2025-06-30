@@ -1,11 +1,11 @@
 flask
 flask-cors
 python-dotenv
+openai
 autogen-core
 autogen-ext
 autogen-agentchat
 azure-identity
-azure-cognitiveservices-vision-computervision
 pydantic
 requests
 Pillow

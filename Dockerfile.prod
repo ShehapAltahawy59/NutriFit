@@ -17,10 +17,26 @@ RUN apt-get update && apt-get install -y \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Copy requirements and install dependencies (optimized for caching)
+# Install core dependencies first
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Copy requirements and install dependencies in specific order
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+
+# Install OpenAI first
+RUN pip install --no-cache-dir "openai>=1.0.0"
+
+# Install Azure dependencies
+RUN pip install --no-cache-dir "azure-identity>=1.15.0"
+
+# Install AutoGen dependencies
+RUN pip install --no-cache-dir "autogen-core>=0.2.0" "autogen-ext>=0.2.0" "autogen-agentchat>=0.2.0"
+
+# Install remaining dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Verify critical imports
+RUN python -c "from autogen_ext.models.openai import AzureOpenAIChatCompletionClient; import openai; print('Dependencies verified successfully')"
 
 # Production stage
 FROM python:3.11-slim as production
@@ -55,6 +71,9 @@ COPY --chown=app:app Agents/ ./Agents/
 
 # Make startup script executable
 RUN chmod +x start.sh
+
+# Verify critical imports again in production stage
+RUN python -c "from autogen_ext.models.openai import AzureOpenAIChatCompletionClient; import openai; print('Production dependencies verified successfully')"
 
 # Switch to non-root user
 USER app

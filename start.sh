@@ -3,9 +3,6 @@
 # Startup script for NutriFit Agents API
 set -e
 
-# Activate the virtual environment
-source /opt/venv/bin/activate
-
 echo "🚀 Starting NutriFit Agents API..."
 
 # Wait for any dependencies (if needed)

@@ -10,7 +10,7 @@ import json
 import time
 
 # API base URL
-BASE_URL = "http://localhost:5000"
+BASE_URL = "https://nutrifit-agents-api.jollymoss-483cf973.uaenorth.azurecontainerapps.io/"
 
 def test_workflow_status():
     """Test workflow status endpoint"""

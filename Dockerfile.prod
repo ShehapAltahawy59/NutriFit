@@ -57,6 +57,9 @@ RUN apt-get update && apt-get install -y \
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
+# Debug: confirm python and pip paths and openai installation
+RUN which python && python --version && which pip && pip show openai
+
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash app
 

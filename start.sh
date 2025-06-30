@@ -16,8 +16,12 @@ exec gunicorn \
     --keep-alive 5 \
     --max-requests 1000 \
     --max-requests-jitter 100 \
-    --preload \
+    --worker-class sync \
+    --worker-tmp-dir /dev/shm \
+    --capture-output \
+    --enable-stdio-inheritance \
     --access-logfile - \
     --error-logfile - \
-    --log-level info \
+    --log-level debug \
+    --pythonpath /app \
     main:app 

@@ -62,10 +62,10 @@ def create_app():
     def status():
         """Get status of all agents"""
         try:
-            # Import here to avoid circular imports
-            from .Agents.inbody_specialist import create_inbody_agent
-            from .Agents.nutritionist import create_nutritionist_agent, create_evaluator_agent
-            from .Agents.gym_trainer import create_gym_trainer_agent
+            # Import here to avoid circular imports (using absolute imports)
+            from Agents.inbody_specialist import create_inbody_agent
+            from Agents.nutritionist import create_nutritionist_agent, create_evaluator_agent
+            from Agents.gym_trainer import create_gym_trainer_agent
             
             # Check each agent
             inbody_agent = create_inbody_agent()
@@ -237,7 +237,7 @@ def create_app():
     
     return app
 
-# Create the app instance
+# Create the application instance
 app = create_app()
 
 # For gunicorn compatibility

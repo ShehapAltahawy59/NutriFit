@@ -2,9 +2,9 @@ name: Deploy to Azure Container Apps (Docker Hub)
 
 on:
   push:
-    branches: [ main, production ]
+    branches: [main, production]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   RESOURCE_GROUP: nutrifit
@@ -60,12 +60,6 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: linux/amd64
-        build-args: |
-          BUILDKIT_INLINE_CACHE=1
-        # Temporarily disabled due to GitHub Actions service issues
-        # cache-from: type=gha
-        # cache-to: type=gha,mode=max
-        # Alternative: Use Docker Hub cache
         cache-from: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache
         cache-to: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
@@ -80,63 +74,26 @@ jobs:
         # Check if Container Apps environment exists, create if not
         if ! az containerapp env show --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
           echo "Creating Container Apps environment..."
-          # Try to create with automatic Log Analytics workspace
-          az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} || {
-            echo "Failed to create environment automatically. Trying with manual Log Analytics workspace..."
-            # Create Log Analytics workspace first
-            az monitor log-analytics workspace create --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --location ${{ env.LOCATION }}
-            # Create environment with the workspace
-            az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} --logs-workspace-id $(az monitor log-analytics workspace show --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --query customerId --output tsv)
-          }
+          az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
         fi
         
-        # Check if Container App exists, update if yes, create if no
-        if az containerapp show --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
-          echo "Updating existing Container App..."
-          # Update the container app with new image and environment variables
-          az containerapp update \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
-            --set-env-vars FLASK_APP=main.py FLASK_ENV=production
-          
-          # Update secrets separately (secrets need to be updated individually)
-          echo "Updating secrets..."
-          az containerapp secret set \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --secrets \
-              azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
-              azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" \
-              azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" \
-              azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}"
-          
-          # Update environment variables that reference secrets
-          az containerapp update \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --set-env-vars \
-              AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
-              AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
-              AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
-              AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
-        else
-          echo "Creating new Container App..."
-          az containerapp create \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --environment ${{ env.ENVIRONMENT_NAME }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
-            --target-port 5000 \
-            --ingress external \
-            --min-replicas 1 \
-            --max-replicas 10 \
-            --cpu 1.0 \
-            --memory 2Gi \
-            --env-vars FLASK_APP=main.py FLASK_ENV=production \
-            --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
-            --env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
-        fi
+        # Force create a new revision with the latest image
+        az containerapp update \
+          --name ${{ env.CONTAINER_APP_NAME }} \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
+          --set-revision-suffix $(date +%s) \
+          --set-env-vars FLASK_APP=main.py FLASK_ENV=production \
+          --secrets \
+            azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
+            azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" \
+            azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" \
+            azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
+          --env-vars \
+            AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
+            AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
+            AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
+            AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment
 
     - name: Get Container App URL
       id: get-url
@@ -193,4 +150,4 @@ jobs:
           **Status:** https://${{ steps.get-url.outputs.url }}/status
           
           The NutriFit Agents API has been deployed successfully!`
-          }) 
+          })

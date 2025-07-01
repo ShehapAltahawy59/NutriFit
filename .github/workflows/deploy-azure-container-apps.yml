@@ -46,9 +46,10 @@ jobs:
       with:
         images: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}
         tags: |
-          type=sha
           type=ref,event=branch
-          type=raw,value=latest
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
 
     - name: Build and push Docker image to Docker Hub
       uses: docker/build-push-action@v5
@@ -96,7 +97,7 @@ jobs:
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} \
+            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
             --set-env-vars FLASK_APP=main.py FLASK_ENV=production
           
           # Update secrets separately (secrets need to be updated individually)

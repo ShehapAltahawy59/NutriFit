@@ -3,6 +3,13 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
+# Register message types to avoid server-side errors
+try:
+    from autogen_agentchat.messages import register_message_type, StructuredMessage
+    register_message_type(StructuredMessage)
+except ImportError:
+    pass  # Registration not available in this version
+
 # Load environment variables from the parent directory (root)
 env_path = Path(__file__).parent.parent / '.env'
 load_dotenv(env_path)

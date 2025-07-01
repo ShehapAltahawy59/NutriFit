@@ -60,11 +60,11 @@ def create_nutritionist_agent():
         model_client=client,
         system_message = f"""
         You are a certified professional nutritionist.
-        Based on the user InBody report data,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
+        Based on the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
         Provide a 4-week meal plan, with a different meal for each day. Each week must include 7 days, and every day must include breakfast, lunch, snack, and dinner.
         Meals should be simple, practical, and easy to prepare, with clear ingredients and quantities.
-        Meals should reflect ingredients commonly available in client_country.
-        Units of measurement should also be used and known in client_country.
+        Meals should reflect ingredients commonly available in client country.
+        Units of measurement should also be used and known in client country.
         Main Note: Don't include any foods or ingredients the client is allergic to.
         Do not include any explanation, recommendations, or analysis — only provide the structured 4-week diet plan in a clean and clear format.
         output in english language.
@@ -86,7 +86,7 @@ def create_evaluator_agent():
         model_client=client,
         system_message=f"""
         You are a certified nutritionist and evaluator.
-        You will assess a 4-week diet plan based on the client's body composition analysis, allergies, cultural context, and health goal.
+        You will assess a 4-week diet plan based on the client's calories,number of gym days, allergies, cultural context, and health goal.
 
         You must evaluate the following (critical):
         1. Goal Alignment: Does the plan help the client lose weight and build muscle?

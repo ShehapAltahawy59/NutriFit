@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, request, jsonify
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
@@ -12,7 +13,8 @@ from pydantic import BaseModel
 from typing import List, Optional
 from . import initialize_azure_client
 from flask_cors import cross_origin
-
+from autogen_agentchat.conditions import TextMentionTermination
+from autogen_agentchat.teams import RoundRobinGroupChat
 # Create Blueprint for Gym Trainer
 gym_trainer_bp = Blueprint('gym_trainer', __name__)
 
@@ -20,23 +22,16 @@ gym_trainer_bp = Blueprint('gym_trainer', __name__)
 class Exercise(BaseModel):
     name: str
     sets: int
-    reps: int
-    weight: Optional[str] = ""
-    rest_time: str = "60 seconds"
-    notes: Optional[str] = ""
+    reps: str  # string to allow formats like "30 sec", "10 reps per leg", etc.
+    rest: str  # string to allow formats like "30 sec", "60 sec", etc.
 
-class WorkoutDay(BaseModel):
+class DailyWorkout(BaseModel):
     day: str
-    focus: str
     exercises: List[Exercise]
-    duration: str
-    intensity: str
 
-class WeeklyWorkoutPlan(BaseModel):
-    week: str
-    days: List[WorkoutDay]
-    goals: str
-    notes: str
+class GymTrainingPlan(BaseModel):
+    weekly_plan: List[DailyWorkout]
+    daily_calories: int
 
 class FitnessRequest(BaseModel):
     user_info: str
@@ -58,96 +53,93 @@ def create_gym_trainer_agent():
     client = initialize_azure_client()
     if not client:
         return None
-    
+    gym_system_message = f"""
+                            You are a certified professional Gym Trainer.
+                            Based on the user's InBody report data, goal, sex, injuries, and number of gym days, generate a gym training plan for the client.
+                            Provide a gym training plan for one week, with a different workout for each day and in each day write the focus in the day for example (leg day).
+                            The plan should include exercises, sets, reps, and rest times.
+                            Ensure the plan is suitable for the client's goal.
+                            Use the most famous gym machines in the workout plan.
+                            Based on the goal, InBody data, and training plan, you should also output the number of calories to be consumed daily.
+                            Note: number of excercises should be 5-7 exercises per day.
+                            Main Note: Do not include any exercises that may aggravate the client's injuries.
+                            Do not include any explanation, analysis, recommendations, or client headers (like name, goal, age, gender, etc).
+                            Only output the clean structured weekly plan and calories in English.
+                            Output in English.
+                            """
     GymTrainer = AssistantAgent(
-        name="GymTrainer",
-        system_message="""You are a certified fitness trainer specializing in:
-        - Exercise recommendations that complement nutrition plans
-        - Workout routines for different fitness levels (beginner, intermediate, advanced)
-        - Strength training and cardio guidance
-        - Recovery and injury prevention
-        - Bodyweight exercises and gym-based workouts
-        - Progressive overload principles
-        - Form and technique guidance
-        - Workout periodization and planning
-        - Functional fitness and mobility training
-        - Sports-specific training programs
-        
-        Provide safe, effective exercise recommendations that support nutritional goals.
-        Always consider the user's fitness level, available equipment, and time constraints.
-        Format your responses with clear workout plans, exercise descriptions, and safety tips.""",
-        model_client=client
+    name="GymTrainer_agent",
+    model_client=client,
+    system_message =gym_system_message,
+    output_content_type= GymTrainingPlan
     )
     
     return GymTrainer
 
-async def process_fitness_image(image_url):
-    """Process and analyze fitness-related image if provided"""
-    if not image_url:
-        return None
-    
-    try:
-        response = requests.get(image_url)
-        response.raise_for_status()
-        
-        # Convert to PIL Image
-        image = Image.open(BytesIO(response.content))
-        
-        # Convert to AutoGen Image format
-        ag_image = AGImage.from_pil_image(image)
-        
-        return ag_image
-    except Exception as e:
-        print(f"Error processing fitness image: {e}")
-        return None
 
-async def create_comprehensive_workout_plan(user_info, fitness_level, goals, preferences, restrictions="", available_equipment="", time_availability="", image_url=""):
+def create_gym_evalutor_agent():
+    """Create and return the Gym Trainer agent"""
+    client = initialize_azure_client()
+    if not client:
+        return None
+    GymTrainer_evaluator_system_message = f"""
+            You are a certified nutritionist and evaluator.
+            You will assess a one week workout plan based on the client's body composition analysis, sex, injuries, goal and number of gym days.
+            You must evaluate the workout (critical):
+            1. Goal Alignment: Does the plan help the client achieve their goal ?
+            2. Injury Safety: Are all exercises safe for the client's injuries?
+            3. Exercise Variety: Are there enough different exercises to keep the client engaged?
+            4. Does the plan include all muscles and without repition of exercises and days focus in the week?
+            Instructions:
+            - Read the full plan.
+            - Suggest specific improvements only if it is critical.
+            - if there is no need for improvements, just output "approved"
+
+            Do NOT include any unrelated explanations or code. Keep output clear, evaluative, and well-formatted.
+            """
+
+    GymTrainer_evaluator = AssistantAgent(
+        name="evaluator_agent",
+        model_client=client,
+        system_message=GymTrainer_evaluator_system_message
+    )
+    
+    return GymTrainer_evaluator
+
+
+async def create_comprehensive_workout_plan(Inbody_Speciallist_analysis, injuries, goals, number_of_gym_days):
     """Create a comprehensive workout plan"""
     try:
         # Initialize Gym Trainer agent
         gym_trainer = create_gym_trainer_agent()
-        
-        if not gym_trainer:
+        gym_evaluator = create_gym_evalutor_agent()
+
+        if not gym_trainer or not gym_evaluator:
             return {"error": "Failed to initialize Gym Trainer agent"}
         
-        # Process image if provided
-        image = await process_fitness_image(image_url)
+        
         
         # Prepare workout plan message
-        workout_message = f"""
-        User Information: {user_info}
-        Fitness Level: {fitness_level}
+        text_termination = TextMentionTermination("approved")
+    
+
+        gym_team = RoundRobinGroupChat([gym_trainer, gym_evaluator], termination_condition=text_termination, max_turns=6)
+        user_message = f"""
+        Report data: {Inbody_Speciallist_analysis}
         Goals: {goals}
-        Preferences: {preferences}
-        Restrictions: {restrictions}
-        Available Equipment: {available_equipment}
-        Time Availability: {time_availability}
-        
-        Please create a comprehensive workout plan that includes:
-        1. Weekly workout schedule with specific exercises
-        2. Exercise descriptions with proper form cues
-        3. Sets, reps, and rest periods
-        4. Progressive overload recommendations
-        5. Warm-up and cool-down routines
-        6. Injury prevention tips
-        7. Recovery strategies
-        8. Modifications for different fitness levels
-        9. Equipment alternatives if needed
-        10. Progress tracking methods
+        injuries: {injuries}
+        number_of_gym_days: {number_of_gym_days}
         """
-        
-        # Create multimodal message with image
-        message = MultiModalMessage(content=workout_message, source="User", images=[image])
-        
-        # Get workout plan from Gym Trainer
-        workout_output = await gym_trainer.on_messages(
-            message, 
-            cancellation_token=CancellationToken()
-        )
-        
+        workout_plan_output = await gym_team.run(task=user_message)
+        workout_output = workout_plan_output.messages[-2].content
         # Extract the response
-        if workout_output and len(workout_output) > 0:
-            response = workout_output[-1].content
+        if workout_output:
+            response = workout_output
+            # Convert Pydantic model (or any nested models) to dict
+            if hasattr(response, "model_dump"):
+                response = response.model_dump()
+            elif hasattr(response, "dict"):
+                response = response.dict()
         else:
             response = "Unable to generate workout plan"
         
@@ -163,50 +155,6 @@ async def create_comprehensive_workout_plan(user_info, fitness_level, goals, pre
             "status": "error"
         }
 
-async def create_simple_workout_plan(user_info, fitness_level, goals, preferences, restrictions=""):
-    """Create a simple workout plan"""
-    try:
-        # Initialize Gym Trainer agent
-        gym_trainer = create_gym_trainer_agent()
-        
-        if not gym_trainer:
-            return {"error": "Failed to initialize Gym Trainer agent"}
-        
-        # Prepare simple workout message
-        workout_message = f"""
-        User Information: {user_info}
-        Fitness Level: {fitness_level}
-        Goals: {goals}
-        Preferences: {preferences}
-        Restrictions: {restrictions}
-        
-        Please provide a simple workout plan with basic exercises and recommendations.
-        Focus on fundamental movements and safety.
-        """
-        
-        # Get workout plan from Gym Trainer
-        workout_output = await gym_trainer.on_messages(
-            UserMessage(content=workout_message),
-            cancellation_token=CancellationToken()
-        )
-        
-        # Extract the response
-        if workout_output and len(workout_output) > 0:
-            response = workout_output[-1].content
-        else:
-            response = "Unable to generate workout plan"
-        
-        return {
-            "workout_plan": response,
-            "recommendations": "Simple workout plan generated successfully",
-            "status": "success"
-        }
-        
-    except Exception as e:
-        return {
-            "error": f"Error creating simple workout plan: {str(e)}",
-            "status": "error"
-        }
 
 async def get_exercise_advice(query):
     """Get specific exercise advice"""
@@ -252,20 +200,17 @@ def create_workout_plan():
         if not data:
             return jsonify({"error": "No data provided"}), 400
         
-        required_fields = ['user_info', 'fitness_level', 'goals', 'preferences']
+        required_fields = ['Inbody_Speciallist_analysis', 'injuries', 'goals', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
         
         # Extract data
-        user_info = data['user_info']
-        fitness_level = data['fitness_level']
+        Inbody_Speciallist_analysis = data['Inbody_Speciallist_analysis']
+        injuries = data['injuries']
         goals = data['goals']
-        preferences = data['preferences']
-        restrictions = data.get('restrictions', '')
-        available_equipment = data.get('available_equipment', '')
-        time_availability = data.get('time_availability', '')
-        image_url = data.get('image_url', '')
+        number_of_gym_days = data['number_of_gym_days']
+        
         
         # Create workout plan
         loop = asyncio.new_event_loop()
@@ -273,7 +218,7 @@ def create_workout_plan():
         
         try:
             result = loop.run_until_complete(
-                create_comprehensive_workout_plan(user_info, fitness_level, goals, preferences, restrictions, available_equipment, time_availability, image_url)
+                create_comprehensive_workout_plan(Inbody_Speciallist_analysis, injuries, number_of_gym_days)
             )
         finally:
             loop.close()
@@ -283,43 +228,6 @@ def create_workout_plan():
     except Exception as e:
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
-@gym_trainer_bp.route('/simple_workout', methods=['POST'])
-def create_simple_workout():
-    """Endpoint for creating simple workout plans"""
-    try:
-        data = request.get_json()
-        
-        # Validate input
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-        
-        required_fields = ['user_info', 'fitness_level', 'goals', 'preferences']
-        for field in required_fields:
-            if field not in data:
-                return jsonify({"error": f"Missing required field: {field}"}), 400
-        
-        # Extract data
-        user_info = data['user_info']
-        fitness_level = data['fitness_level']
-        goals = data['goals']
-        preferences = data['preferences']
-        restrictions = data.get('restrictions', '')
-        
-        # Create simple workout plan
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
-        try:
-            result = loop.run_until_complete(
-                create_simple_workout_plan(user_info, fitness_level, goals, preferences, restrictions)
-            )
-        finally:
-            loop.close()
-        
-        return jsonify(result)
-        
-    except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @gym_trainer_bp.route('/exercise_advice', methods=['POST'])
 def exercise_advice():

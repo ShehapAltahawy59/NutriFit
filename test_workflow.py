@@ -10,7 +10,7 @@ import json
 import time
 
 # API base URL
-BASE_URL = "https://nutrifit-agents-api.jollymoss-483cf973.uaenorth.azurecontainerapps.io/"
+BASE_URL = " http://127.0.0.1:5000"
 
 def test_workflow_status():
     """Test workflow status endpoint"""
@@ -73,6 +73,8 @@ def test_complete_workflow():
         "client_country": "Egypt",
         "goals": "Weight loss and muscle building",
         "allergies": "egg",
+        "injuries": "none",  # <-- NEW
+        "number_of_gym_days": "5"
     }
     
     try:

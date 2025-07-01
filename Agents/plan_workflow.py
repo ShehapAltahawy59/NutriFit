@@ -15,6 +15,7 @@ The workflow processes:
 """
 
 import asyncio
+import json
 from flask import Blueprint, request, jsonify
 from pydantic import BaseModel
 from typing import Optional
@@ -29,6 +30,7 @@ from .nutritionist import create_nutritionist_agent, create_evaluator_agent, cre
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_agentchat.messages import MultiModalMessage
+from Agents.gym_trainer import create_comprehensive_workout_plan
 
 # Create Blueprint for Plan Workflow
 workflow_bp = Blueprint('plan_workflow', __name__)
@@ -116,7 +118,8 @@ async def process_inbody_analysis(image_url: str, user_info: str = "", goals: st
         }
 
 async def create_nutrition_plan_with_evaluation(
-    inbody_analysis: str, 
+    calories,
+    number_of_gym_days,
     client_country: str, 
     goals: str, 
     allergies: str
@@ -149,7 +152,8 @@ async def create_nutrition_plan_with_evaluation(
         
         # Prepare user message
         user_message = f"""
-        Report data: {inbody_analysis}
+        calories:{calories},
+        number_of_gym_days:{number_of_gym_days},
         Client Country: {client_country}
         Goals: {goals}
         Allergies: {allergies}
@@ -164,7 +168,8 @@ async def create_nutrition_plan_with_evaluation(
         
         # Extract the response
         if diet_plan_output :
-            response = diet_plan_output.messages[-2].content.plan
+            response = diet_plan_output.messages[-2].content
+            response = response.model_dump()
         else:
             response = "Unable to generate nutrition plan"
         
@@ -184,23 +189,14 @@ async def execute_complete_workflow(
     client_country: str,
     goals: str,
     allergies: str = "",
-    user_info: str = ""
+    user_info: str = "",
+    injuries: str = "",
+    number_of_gym_days: str = ""
 ) -> dict:
     """
-    Execute the complete workflow from InBody image to nutrition plan
-    
-    Args:
-        inbody_image_url: URL of the InBody scan image
-        client_country: Client's country for cultural relevance
-        goals: User's health goals
-        allergies: User's allergies and restrictions
-        user_info: Additional user information
-    
-    Returns:
-        dict: Complete workflow results
+    Execute the complete workflow: InBody image -> gym plan -> nutrition plan
     """
     workflow_steps = []
-    
     try:
         # Step 1: InBody Analysis
         workflow_steps.append(WorkflowStep(
@@ -208,9 +204,7 @@ async def execute_complete_workflow(
             status="processing",
             message="Processing InBody image and extracting body composition data"
         ))
-        
         inbody_result = await process_inbody_analysis(inbody_image_url, user_info, goals)
-        
         if inbody_result["status"] == "error":
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = inbody_result.get("error", "InBody analysis failed")
@@ -219,25 +213,55 @@ async def execute_complete_workflow(
                 "workflow_steps": [step.dict() for step in workflow_steps],
                 "status": "error"
             }
-        
         workflow_steps[-1].status = "completed"
         workflow_steps[-1].message = "InBody analysis completed successfully"
         workflow_steps[-1].data = {"analysis": inbody_result["analysis"]}
-        
-        # Step 2: Nutrition Plan Creation
+
+        # Step 2: Gym Plan Creation
+        workflow_steps.append(WorkflowStep(
+            step="gym_plan_creation",
+            status="processing",
+            message="Creating comprehensive gym plan"
+        ))
+        gym_result = await create_comprehensive_workout_plan(
+            inbody_result["analysis"],
+            injuries,
+            goals,
+            number_of_gym_days
+        )
+        if gym_result["status"] == "error":
+            workflow_steps[-1].status = "failed"
+            workflow_steps[-1].message = gym_result.get("error", "Gym plan creation failed")
+            return {
+                "error": "Workflow failed at gym plan creation step",
+                "workflow_steps": [step.dict() for step in workflow_steps],
+                "status": "error"
+            }
+        workflow_steps[-1].status = "completed"
+        workflow_steps[-1].message = "Gym plan created successfully"
+        workflow_steps[-1].data = {"gym_plan": gym_result["workout_plan"]}
+
+        # Extract calories from gym plan
+        calories = None
+        plan = gym_result["workout_plan"]
+        if hasattr(plan, "daily_calories"):
+            calories = plan.daily_calories
+        elif isinstance(plan, dict) and "daily_calories" in plan:
+            calories = plan["daily_calories"]
+
+        # Step 3: Nutrition Plan Creation
         workflow_steps.append(WorkflowStep(
             step="nutrition_planning",
             status="processing",
             message="Creating comprehensive nutrition plan with evaluation"
         ))
-        
         nutrition_result = await create_nutrition_plan_with_evaluation(
-            inbody_result["analysis"],
+            calories,
+            number_of_gym_days,
             client_country,
             goals,
             allergies
         )
-        
         if nutrition_result["status"] == "error":
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = nutrition_result.get("error", "Nutrition planning failed")
@@ -246,33 +270,27 @@ async def execute_complete_workflow(
                 "workflow_steps": [step.dict() for step in workflow_steps],
                 "status": "error"
             }
-        
         workflow_steps[-1].status = "completed"
         workflow_steps[-1].message = "Nutrition plan created and evaluated successfully"
         workflow_steps[-1].data = {"diet_plan": nutrition_result["diet_plan"]}
-        
-        # Step 3: Workflow Completion
+
+        # Step 4: Workflow Completion
         workflow_steps.append(WorkflowStep(
             step="workflow_completion",
             status="completed",
-            message="Complete nutrition planning workflow finished successfully"
+            message="Complete workflow finished successfully"
         ))
-        
         return {
-            "inbody_analysis": inbody_result["analysis"],
+            "gym_plan": gym_result["workout_plan"],
             "nutrition_plan": nutrition_result["diet_plan"],
-            "workflow_steps": [step.dict() for step in workflow_steps],
             "status": "success"
         }
-        
     except Exception as e:
-        # Add error step if workflow fails
         workflow_steps.append(WorkflowStep(
             step="workflow_error",
             status="failed",
             message=f"Workflow failed with error: {str(e)}"
         ))
-        
         return {
             "error": f"Workflow execution failed: {str(e)}",
             "workflow_steps": [step.dict() for step in workflow_steps],
@@ -283,37 +301,30 @@ async def execute_complete_workflow(
 @workflow_bp.route('/create_complete_plan', methods=['POST'])
 @cross_origin()
 def create_complete_plan():
-    """Main endpoint for complete nutrition planning workflow"""
+    """Main endpoint for complete nutrition and gym planning workflow"""
     try:
         data = request.get_json()
-        
-        # Validate input
         if not data:
             return jsonify({"error": "No data provided"}), 400
-        
-        required_fields = ['inbody_image_url', 'client_country', 'goals']
+        required_fields = ['inbody_image_url', 'client_country', 'goals', 'injuries', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
-        
-        # Extract data
         inbody_image_url = data['inbody_image_url']
         client_country = data['client_country']
         goals = data['goals']
         allergies = data.get('allergies', '')
         user_info = data.get('user_info', '')
-        
+        injuries = data['injuries']
+        number_of_gym_days = data['number_of_gym_days']
         # Validate image URL
         try:
             response = requests.head(inbody_image_url, timeout=10)
             response.raise_for_status()
         except Exception as e:
             return jsonify({"error": f"Invalid or inaccessible image URL: {str(e)}"}), 400
-        
-        # Execute complete workflow
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        
         try:
             result = loop.run_until_complete(
                 execute_complete_workflow(
@@ -321,15 +332,14 @@ def create_complete_plan():
                     client_country,
                     goals,
                     allergies,
-                    user_info
+                    user_info,
+                    injuries,
+                    number_of_gym_days
                 )
             )
         finally:
             loop.close()
-        
-        diet_plan_dict = [week.model_dump() for week in result["nutrition_plan"]]
-        return jsonify(diet_plan_dict)
-        
+        return jsonify(result)
     except Exception as e:
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 

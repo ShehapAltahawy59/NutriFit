@@ -5,7 +5,7 @@ from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_core import Image as AGImage
 from PIL import Image
-from autogen_agentchat.messages import MultiModalMessage, StructuredMessage
+from autogen_agentchat.messages import MultiModalMessage
 from io import BytesIO
 import requests
 import asyncio
@@ -15,29 +15,6 @@ from . import initialize_azure_client
 from flask_cors import cross_origin
 from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
-
-# Register message types to avoid server-side errors
-def register_message_types():
-    """Register all required message types for AutoGen"""
-    try:
-        from autogen_agentchat.messages import register_message_type, StructuredMessage
-        from autogen_agentchat.teams._group_chat._events import GroupChatError
-        
-        # Register StructuredMessage
-        register_message_type(StructuredMessage)
-        
-        # Register other message types if needed
-        try:
-            register_message_type(GroupChatError)
-        except:
-            pass
-            
-    except ImportError:
-        pass  # Registration not available in this version
-
-# Call registration function
-register_message_types()
-
 # Create Blueprint for Gym Trainer
 gym_trainer_bp = Blueprint('gym_trainer', __name__)
 

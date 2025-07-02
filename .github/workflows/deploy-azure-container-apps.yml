@@ -95,11 +95,16 @@ jobs:
           echo "Updating existing Container App..."
           # Update the container app with new image and environment variables
           az containerapp update \
+          --name ${{ env.CONTAINER_APP_NAME }} \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
+          --set-env-vars FLASK_APP=main.py FLASK_ENV=production
+      
+          # Then enable revision mode through separate command
+          az containerapp revision set-mode \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --revisions-mode multiple \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
-            --set-env-vars FLASK_APP=main.py FLASK_ENV=production
+            --mode multiple
           
           # Update secrets separately (secrets need to be updated individually)
           echo "Updating secrets..."

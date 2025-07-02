@@ -97,6 +97,7 @@ jobs:
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
+            --revisions-mode multiple \
             --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
             --set-env-vars FLASK_APP=main.py FLASK_ENV=production
           

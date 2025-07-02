@@ -36,7 +36,7 @@ def create_app():
     def health_check():
         """Main health check endpoint"""
         return jsonify({
-            "status": "very healthy",
+            "status": "so healthy",
             "service": "nutrifit_agents",
             "timestamp": "2024-01-01T00:00:00Z",
             "agents": {

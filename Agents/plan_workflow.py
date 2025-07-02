@@ -25,8 +25,8 @@ from io import BytesIO
 from flask_cors import cross_origin
 
 # Import agent functions
-from .inbody_specialist import create_inbody_agent, process_inbody_image
-from .nutritionist import create_nutritionist_agent, create_evaluator_agent, create_nutrition_team
+from .inbody_specialist import create_inbody_agent, process_inbody_analysis, process_inbody_image
+from .nutritionist import create_comprehensive_nutrition_plan, create_nutritionist_agent, create_evaluator_agent, create_nutrition_team
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_agentchat.messages import MultiModalMessage
@@ -55,134 +55,8 @@ class WorkflowStep(BaseModel):
     message: str
     data: Optional[dict] = None
 
-async def process_inbody_analysis(image_url: str, user_info: str = "", goals: str = "") -> dict:
-    """
-    Step 1: Process InBody image and extract body composition data
-    
-    Args:
-        image_url: URL of the InBody scan image
-        user_info: Additional user information
-        goals: User's health goals
-    
-    Returns:
-        dict: InBody analysis results
-    """
-    try:
-        # Initialize InBody Specialist agent
-        inbody_agent = create_inbody_agent()
-        
-        if not inbody_agent:
-            return {
-                "error": "Failed to initialize InBody Specialist agent",
-                "status": "error"
-            }
-        
-        # Process InBody image
-        image = await process_inbody_image(image_url)
-        
-        if not image:
-            return {
-                "error": "Failed to process InBody image",
-                "status": "error"
-            }
-        
-        # Prepare analysis message
-        analysis_message = f"""
-        Please extract all measurable data from this InBody analysis report image.
-        """
-        
-        # Create multimodal message with image
-        message = MultiModalMessage(content=[image],source="User")
-        
-        # Get analysis from InBody Specialist
-        analysis_output = await inbody_agent.on_messages(
-            [message], 
-            cancellation_token=CancellationToken()
-        )
-        
-        # Extract the response
-        if analysis_output :
-            response = analysis_output.chat_message.content
-        else:
-            response = "Unable to generate InBody analysis"
-        
-        return {
-            "analysis": response,
-            "status": "success"
-        }
-        
-    except Exception as e:
-        return {
-            "error": f"Error in InBody analysis: {str(e)}",
-            "status": "error"
-        }
 
-async def create_nutrition_plan_with_evaluation(
-    calories,
-    number_of_gym_days,
-    client_country: str, 
-    goals: str, 
-    allergies: str
-) -> dict:
-    """
-    Step 2: Create nutrition plan using nutritionist and evaluator team
-    
-    Args:
-        inbody_analysis: Results from InBody analysis
-        client_country: Client's country for cultural relevance
-        goals: User's health goals
-        allergies: User's allergies and restrictions
-    
-    Returns:
-        dict: Nutrition plan with evaluation
-    """
-    try:
-        # Initialize agents
-        nutritionist = create_nutritionist_agent()
-        evaluator = create_evaluator_agent()
-        
-        if not nutritionist or not evaluator:
-            return {
-                "error": "Failed to initialize nutrition agents",
-                "status": "error"
-            }
-        
-        # Create team chat
-        team = create_nutrition_team(nutritionist, evaluator)
-        
-        # Prepare user message
-        user_message = f"""
-        calories:{calories},
-        number_of_gym_days:{number_of_gym_days},
-        Client Country: {client_country}
-        Goals: {goals}
-        Allergies: {allergies}
-        Please create a comprehensive 4-week nutrition plan based on this data.
-        """
-        
-        # Create message
-        message = UserMessage(content=[user_message],source="User")
-        
-        # Get nutrition plan from team
-        diet_plan_output = await team.run(task=user_message)
-        
-        # Extract the response
-        if diet_plan_output :
-            response = diet_plan_output.messages[-2].content
-            response = response.model_dump()
-        else:
-            response = "Unable to generate nutrition plan"
-        
-        return {
-            "diet_plan": response,
-            "status": "success"
-        }
-        
-    except Exception as e:
-        return {
-            "error": f"Error creating nutrition plan: {str(e)}",
-            "status": "error"
-        }
+
 
 async def execute_complete_workflow(
     inbody_image_url: str,
@@ -255,7 +129,7 @@ async def execute_complete_workflow(
             status="processing",
             message="Creating comprehensive nutrition plan with evaluation"
         ))
-        nutrition_result = await create_nutrition_plan_with_evaluation(
+        nutrition_result = await create_comprehensive_nutrition_plan(
             calories,
             number_of_gym_days,
             client_country,
@@ -382,35 +256,6 @@ def workflow_status():
             "error": f"Error checking workflow status: {str(e)}"
         }), 500
 
-@workflow_bp.route('/test_inbody_analysis', methods=['POST'])
-@cross_origin()
-def test_inbody_analysis():
-    """Test endpoint for InBody analysis only"""
-    try:
-        data = request.get_json()
-        
-        if not data or 'inbody_image_url' not in data:
-            return jsonify({"error": "inbody_image_url is required"}), 400
-        
-        inbody_image_url = data['inbody_image_url']
-        user_info = data.get('user_info', '')
-        goals = data.get('goals', '')
-        
-        # Execute InBody analysis only
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
-        try:
-            result = loop.run_until_complete(
-                process_inbody_analysis(inbody_image_url, user_info, goals)
-            )
-        finally:
-            loop.close()
-        
-        return jsonify(result)
-        
-    except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 @workflow_bp.route('/health', methods=['GET'])
 @cross_origin()

@@ -67,61 +67,67 @@ async def process_inbody_image(image_url):
         print(f"Error processing InBody image: {e}")
         return None
 
-async def analyze_inbody_data(user_info, scan_data="", image_url="", goals=""):
-    """Analyze InBody data and provide comprehensive insights"""
+async def process_inbody_analysis(image_url: str, user_info: str = "", goals: str = "") -> dict:
+    """
+    Step 1: Process InBody image and extract body composition data
+    
+    Args:
+        image_url: URL of the InBody scan image
+        user_info: Additional user information
+        goals: User's health goals
+    
+    Returns:
+        dict: InBody analysis results
+    """
     try:
-        # Initialize Inbody Specialist agent
+        # Initialize InBody Specialist agent
         inbody_agent = create_inbody_agent()
         
         if not inbody_agent:
-            return {"error": "Failed to initialize Inbody Specialist agent"}
+            return {
+                "error": "Failed to initialize InBody Specialist agent",
+                "status": "error"
+            }
         
-        # Process image if provided
+        # Process InBody image
         image = await process_inbody_image(image_url)
+        
+        if not image:
+            return {
+                "error": "Failed to process InBody image",
+                "status": "error"
+            }
         
         # Prepare analysis message
         analysis_message = f"""
-        User Information: {user_info}
-        Goals: {goals}
-        
-        InBody Scan Data: {scan_data}
-        
-        Please provide a comprehensive analysis of the body composition data, including:
-        1. Body composition breakdown (muscle mass, fat mass, water content)
-        2. Metabolic health indicators
-        3. Specific recommendations for improvement
-        4. Progress tracking guidance
-        5. Risk factors and areas of concern
-        6. Personalized advice based on the user's goals
+        Please extract all measurable data from this InBody analysis report image.
         """
         
         # Create multimodal message with image
-        message = MultiModalMessage(content=[analysis_message, image], source="User")
+        message = MultiModalMessage(content=[image],source="User")
         
-        # Get analysis from Inbody Specialist
+        # Get analysis from InBody Specialist
         analysis_output = await inbody_agent.on_messages(
-            message, 
+            [message], 
             cancellation_token=CancellationToken()
         )
         
         # Extract the response
-        if analysis_output and len(analysis_output) > 0:
-            response = analysis_output[-1].content
+        if analysis_output :
+            response = analysis_output.chat_message.content
         else:
             response = "Unable to generate InBody analysis"
         
         return {
             "analysis": response,
-            "recommendations": "Analysis completed successfully",
             "status": "success"
         }
         
     except Exception as e:
         return {
-            "error": f"Error analyzing InBody data: {str(e)}",
+            "error": f"Error in InBody analysis: {str(e)}",
             "status": "error"
         }
-
 # Flask routes for Inbody Specialist
 @inbody_bp.route('/analyze', methods=['POST'])
 @cross_origin()
@@ -149,7 +155,7 @@ def analyze_inbody():
         
         try:
             result = loop.run_until_complete(
-                analyze_inbody_data(user_info, scan_data, image_url, goals)
+                process_inbody_analysis(user_info, scan_data, image_url, goals)
             )
         finally:
             loop.close()

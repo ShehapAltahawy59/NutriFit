@@ -142,7 +142,7 @@ async def process_food_image(image_url):
         print(f"Error processing food image: {e}")
         return None
 
-async def create_comprehensive_nutrition_plan(Inbody_Speciallist_analysis,client_country, goals, allergies, image_url=""):
+async def create_comprehensive_nutrition_plan(calories,number_of_gym_days,client_country, goals, allergies, image_url=""):
     """Create a comprehensive nutrition plan using nutritionist and evaluator team"""
     try:
         # Initialize agents
@@ -159,36 +159,33 @@ async def create_comprehensive_nutrition_plan(Inbody_Speciallist_analysis,client
         team = create_nutrition_team(nutritionist, evaluator)
         
         # Prepare user message based on meal plan type
-        
+   
         
         user_message = f"""
-        Report data: {Inbody_Speciallist_analysis}
+        calories:{calories},
+        number_of_gym_days:{number_of_gym_days},
         Client Country: {client_country}
         Goals: {goals}
-        allergies: {allergies}
-        
+        Allergies: {allergies}
+        Please create a comprehensive 4-week nutrition plan based on this data.
         """
         
+        # Create message
         
-        message = UserMessage(content=user_message)
         
         # Get nutrition plan from team
-        diet_plan_output = await team.on_messages(
-            message, 
-            cancellation_token=CancellationToken()
-        )
+        diet_plan_output = await team.run(task=user_message)
         
         # Extract the response
-        if diet_plan_output and len(diet_plan_output) > 0:
-            response = diet_plan_output[-1].content
+        if diet_plan_output :
+            response = diet_plan_output.messages[-2].content
+            response = response.model_dump()
         else:
             response = "Unable to generate nutrition plan"
         
         return {
             "diet_plan": response,
-            "recommendations": "Plan generated successfully",
-            "status": "success",
-            
+            "status": "success"
         }
         
     except Exception as e:

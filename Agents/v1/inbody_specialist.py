@@ -11,10 +11,10 @@ import requests
 import asyncio
 from pydantic import BaseModel
 from typing import Optional
-from . import initialize_azure_client
+from .. import initialize_azure_client
 
 # Create Blueprint for Inbody Specialist
-inbody_bp = Blueprint('inbody_specialist', __name__)
+inbody_bp = Blueprint('inbody_specialist_v1', __name__)
 
 # Pydantic models for Inbody analysis
 class InbodyAnalysisRequest(BaseModel):
@@ -38,11 +38,10 @@ def create_inbody_agent():
     name="Inbody_Speciallist_agent",
     model_client=client,
     system_message="You are a professional Inbody Speciallist. I will upload an InBody analysis report image." \
-    "perform the following tasks: Extract all measurable data from the image." \
-    "Ensure accuracy in all extracted values, as all numbers and metrics are critical." \
-    "Present the extracted data in a well-structured and labeled format, without any analysis or recommendations or any other text." \
+    "you check if the image is InBody analysis report or not "
+    "Rule:if the image is not InBody analysis report return  'not valid image' "
+    "Rule:if the image is  InBody analysis report return  'valid image' "
     "note: make the output text "
-
     )
     
     return Inbody_Specialist
@@ -100,7 +99,7 @@ async def process_inbody_analysis(image_url: str, user_info: str = "", goals: st
         
         # Prepare analysis message
         analysis_message = f"""
-        Please extract all measurable data from this InBody analysis report image.
+        Please check if this image is InBody analysis report or not
         """
         
         # Create multimodal message with image

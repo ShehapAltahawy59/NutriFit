@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 import os
 
 # Import agent blueprints
-from Agents.inbody_specialist import inbody_bp
-from Agents.nutritionist import nutritionist_bp
-from Agents.gym_trainer import gym_trainer_bp
-from Agents.plan_workflow import workflow_bp
+from Agents.v1.inbody_specialist import inbody_bp
+from Agents.v1.nutritionist import nutritionist_bp
+from Agents.v1.gym_trainer import gym_trainer_bp
+from Agents.v1.plan_workflow import workflow_bp
 
 # Load environment variables
 load_dotenv()
@@ -26,10 +26,10 @@ def create_app():
     })
     
     # Register blueprints with URL prefixes
-    app.register_blueprint(inbody_bp, url_prefix='/inbody')
-    app.register_blueprint(nutritionist_bp, url_prefix='/nutritionist')
-    app.register_blueprint(gym_trainer_bp, url_prefix='/gym')
-    app.register_blueprint(workflow_bp, url_prefix='/workflow')
+    app.register_blueprint(inbody_bp, url_prefix='/api/v1/inbody')
+    app.register_blueprint(nutritionist_bp, url_prefix='/api/v1/nutritionist')
+    app.register_blueprint(gym_trainer_bp, url_prefix='/api/v1/gym')
+    app.register_blueprint(workflow_bp, url_prefix='/api/v1/workflow')
     
     # Main health check endpoint
     @app.route('/health', methods=['GET'])
@@ -63,9 +63,9 @@ def create_app():
         """Get status of all agents"""
         try:
             # Import here to avoid circular imports (using absolute imports)
-            from Agents.inbody_specialist import create_inbody_agent
-            from Agents.nutritionist import create_nutritionist_agent, create_evaluator_agent
-            from Agents.gym_trainer import create_gym_trainer_agent
+            from Agents.v1.inbody_specialist import create_inbody_agent
+            from Agents.v1.nutritionist import create_nutritionist_agent, create_evaluator_agent
+            from Agents.v1.gym_trainer import create_gym_trainer_agent
             
             # Check each agent
             inbody_agent = create_inbody_agent()

@@ -30,10 +30,10 @@ from .nutritionist import create_comprehensive_nutrition_plan, create_nutritioni
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_agentchat.messages import MultiModalMessage
-from Agents.gym_trainer import create_comprehensive_workout_plan
+from Agents.v1.gym_trainer import create_comprehensive_workout_plan
 
 # Create Blueprint for Plan Workflow
-workflow_bp = Blueprint('plan_workflow', __name__)
+workflow_bp = Blueprint('plan_workflow_v1', __name__)
 
 # Pydantic models for workflow
 class WorkflowRequest(BaseModel):
@@ -63,7 +63,6 @@ async def execute_complete_workflow(
     client_country: str,
     goals: str,
     allergies: str = "",
-    user_info: str = "",
     injuries: str = "",
     number_of_gym_days: str = ""
 ) -> dict:
@@ -72,19 +71,26 @@ async def execute_complete_workflow(
     """
     workflow_steps = []
     try:
-        # Step 1: InBody Analysis
+        # 1: InBody Analysis
         workflow_steps.append(WorkflowStep(
             step="inbody_analysis",
             status="processing",
             message="Processing InBody image and extracting body composition data"
         ))
-        inbody_result = await process_inbody_analysis(inbody_image_url, user_info, goals)
+        inbody_result = await process_inbody_analysis(inbody_image_url)
         if inbody_result["status"] == "error":
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = inbody_result.get("error", "InBody analysis failed")
             return {
-                "error": "Workflow failed at InBody analysis step",
+                "message": "Workflow failed at InBody analysis step",
                 "workflow_steps": [step.dict() for step in workflow_steps],
+                "status": "error"
+            }
+        if (inbody_result["analysis"] == "not valid image"):
+            workflow_steps[-1].status = "failed"
+            workflow_steps[-1].message = inbody_result.get("error", "InBody analysis failed")
+            return {
+                "message": "failed as the image is not InBody analysis",
                 "status": "error"
             }
         workflow_steps[-1].status = "completed"
@@ -98,7 +104,7 @@ async def execute_complete_workflow(
             message="Creating comprehensive gym plan"
         ))
         gym_result = await create_comprehensive_workout_plan(
-            inbody_result["analysis"],
+            inbody_image_url,
             injuries,
             goals,
             number_of_gym_days
@@ -107,7 +113,7 @@ async def execute_complete_workflow(
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = gym_result.get("error", "Gym plan creation failed")
             return {
-                "error": "Workflow failed at gym plan creation step",
+                "message": "Workflow failed at gym plan creation step",
                 "workflow_steps": [step.dict() for step in workflow_steps],
                 "status": "error"
             }
@@ -130,6 +136,7 @@ async def execute_complete_workflow(
             message="Creating comprehensive nutrition plan with evaluation"
         ))
         nutrition_result = await create_comprehensive_nutrition_plan(
+            inbody_image_url,
             calories,
             number_of_gym_days,
             client_country,
@@ -140,7 +147,7 @@ async def execute_complete_workflow(
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = nutrition_result.get("error", "Nutrition planning failed")
             return {
-                "error": "Workflow failed at nutrition planning step",
+                "message": "Workflow failed at nutrition planning step",
                 "workflow_steps": [step.dict() for step in workflow_steps],
                 "status": "error"
             }
@@ -166,7 +173,7 @@ async def execute_complete_workflow(
             message=f"Workflow failed with error: {str(e)}"
         ))
         return {
-            "error": f"Workflow execution failed: {str(e)}",
+            "message": f"Workflow execution failed: {str(e)}",
             "workflow_steps": [step.dict() for step in workflow_steps],
             "status": "error"
         }
@@ -188,7 +195,6 @@ def create_complete_plan():
         client_country = data['client_country']
         goals = data['goals']
         allergies = data.get('allergies', '')
-        user_info = data.get('user_info', '')
         injuries = data['injuries']
         number_of_gym_days = data['number_of_gym_days']
         # Validate image URL
@@ -206,7 +212,6 @@ def create_complete_plan():
                     client_country,
                     goals,
                     allergies,
-                    user_info,
                     injuries,
                     number_of_gym_days
                 )

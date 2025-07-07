@@ -12,11 +12,13 @@ import requests
 import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
-from . import initialize_azure_client
+
+from Agents.v1.gym_trainer import process_inbody_image
+from .. import initialize_azure_client
 from flask_cors import cross_origin
 
 # Create Blueprint for Nutritionist
-nutritionist_bp = Blueprint('nutritionist', __name__)
+nutritionist_bp = Blueprint('nutritionist_v1', __name__)
 
 # Pydantic models for nutrition planning
 class MealPlan(BaseModel):
@@ -60,7 +62,7 @@ def create_nutritionist_agent():
         model_client=client,
         system_message = f"""
         You are a certified professional nutritionist.
-        Based on the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
+        Based on user's InBody report image,the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
         Provide a 4-week meal plan, with a different meal for each day. Each week must include 7 days, and every day must include breakfast, lunch, snack, and dinner.
         Meals should be simple, practical, and easy to prepare, with clear ingredients and quantities.
         Meals should reflect ingredients commonly available in client country.
@@ -142,7 +144,7 @@ async def process_food_image(image_url):
         print(f"Error processing food image: {e}")
         return None
 
-async def create_comprehensive_nutrition_plan(calories,number_of_gym_days,client_country, goals, allergies, image_url=""):
+async def create_comprehensive_nutrition_plan(inbody_image_url,calories,number_of_gym_days,client_country, goals, allergies):
     """Create a comprehensive nutrition plan using nutritionist and evaluator team"""
     try:
         # Initialize agents
@@ -171,10 +173,10 @@ async def create_comprehensive_nutrition_plan(calories,number_of_gym_days,client
         """
         
         # Create message
-        
-        
+        image = await process_inbody_image(inbody_image_url)
+        message = MultiModalMessage(content=[image,user_message],source="User")
         # Get nutrition plan from team
-        diet_plan_output = await team.run(task=user_message)
+        diet_plan_output = await team.run(task=message)
         
         # Extract the response
         if diet_plan_output :
@@ -208,15 +210,18 @@ def create_nutrition_plan():
         if not data:
             return jsonify({"error": "No data provided"}), 400
         
-        required_fields = ['user_info', 'goals', 'allergies']
+        required_fields = ['inbody_image_url', 'goals', 'allergies']
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
         
         # Extract data
-        user_info = data['user_info']
+        inbody_image_url = data['inbody_image_url']
+        calories = data['calories']
         goals = data['goals']
         allergies = data['allergies']
+        number_of_gym_days = data['number_of_gym_days']
+        client_country = data["client_country"]
 
         
         # Create nutrition plan
@@ -225,7 +230,7 @@ def create_nutrition_plan():
         
         try:
             result = loop.run_until_complete(
-                create_comprehensive_nutrition_plan(user_info, goals, allergies)
+                create_comprehensive_nutrition_plan(inbody_image_url,calories,number_of_gym_days,client_country, goals, allergies)
             )
         finally:
             loop.close()

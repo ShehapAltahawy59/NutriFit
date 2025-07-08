@@ -21,7 +21,12 @@ import json
 
 firebase_json_b64 = os.environ.get('FIREBASE_SERVICE_ACCOUNT_JSON')
 if firebase_json_b64:
-    service_account_info = json.loads(base64.b64decode(firebase_json_b64).decode('utf-8'))
+    print("FIREBASE_SERVICE_ACCOUNT_JSON present:", bool(firebase_json_b64))
+    try:
+        service_account_info = json.loads(base64.b64decode(firebase_json_b64).decode('utf-8'))
+    except Exception as e:
+        print("Error decoding FIREBASE_SERVICE_ACCOUNT_JSON:", e)
+        raise
 else:
     raise RuntimeError("FIREBASE_SERVICE_ACCOUNT_JSON environment variable not set")
 

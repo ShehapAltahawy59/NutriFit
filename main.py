@@ -15,22 +15,17 @@ load_dotenv()
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-FIREBASE_JSON_PATH = '/tmp/firebase.json'
-
-# Write the service account JSON from the environment variable to a file
 import os
 import base64
+import json
 
-FIREBASE_JSON_PATH = '/tmp/firebase.json'
 firebase_json_b64 = os.environ.get('FIREBASE_SERVICE_ACCOUNT_JSON')
 if firebase_json_b64:
-    os.makedirs(os.path.dirname(FIREBASE_JSON_PATH), exist_ok=True)
-    with open(FIREBASE_JSON_PATH, 'wb') as f:
-        f.write(base64.b64decode(firebase_json_b64))
+    service_account_info = json.loads(base64.b64decode(firebase_json_b64).decode('utf-8'))
 else:
     raise RuntimeError("FIREBASE_SERVICE_ACCOUNT_JSON environment variable not set")
 
-cred = credentials.Certificate(FIREBASE_JSON_PATH)
+cred = credentials.Certificate(service_account_info)
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 

@@ -12,6 +12,25 @@ from Agents.v1.plan_workflow import workflow_bp
 # Load environment variables
 load_dotenv()
 
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+FIREBASE_JSON_PATH = '/app/secrets/firebase.json'
+
+# Write the service account JSON from the environment variable to a file
+firebase_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT_JSON')
+if firebase_json:
+    os.makedirs(os.path.dirname(FIREBASE_JSON_PATH), exist_ok=True)
+    with open(FIREBASE_JSON_PATH, 'w') as f:
+        f.write(firebase_json)
+else:
+    raise RuntimeError("FIREBASE_SERVICE_ACCOUNT_JSON environment variable not set")
+
+cred = credentials.Certificate(FIREBASE_JSON_PATH)
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+
 def create_app():
     """Create and configure the Flask application"""
     app = Flask(__name__)

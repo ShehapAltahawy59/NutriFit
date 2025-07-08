@@ -71,3 +71,4 @@ tests/
 .env
 .env.local
 .env.production 
+app/

@@ -32,3 +32,4 @@ transformers>=4.30.0
 
 # Production server
 gunicorn>=21.0.0 
+firebase_admin

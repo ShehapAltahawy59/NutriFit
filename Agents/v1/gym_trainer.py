@@ -77,18 +77,17 @@ def create_gym_trainer_agent():
         return None
     gym_system_message = f"""
                             You are a certified professional Gym Trainer.
-                            Based on the user's InBody report image, goal, sex, injuries, and number of gym days, generate a gym training plan for the client.
+                            Based on the user history gymPlan,current user's InBody report image, goal, sex, injuries, and number of gym days, generate a gym training plan for the client.
                             Provide a gym training plan for one week, with a different workout for each day and in each day write the focus in the day for example (leg day).
                             The plan should include exercises, sets, reps, and rest times.
                             Ensure the plan is suitable for the client's goal.
                             Use the most famous gym machines in the workout plan.
                             Based on the goal, InBody data, and training plan, you should also output the number of calories to be consumed daily.
-                            Note: number of excercises should be 5-7 exercises per day.
+                            Note: number of excercises should be 4-8 exercises per day.
                             Main Note: Do not include any exercises that may aggravate the client's injuries.
                             Do not include any explanation, analysis, recommendations, or client headers (like name, goal, age, gender, etc).
                             Only output the clean structured weekly plan and calories in English.
                             Output in English.
-                            Rule:if the image is not InBody analysis report return 'not valid image'
                             """
     GymTrainer = AssistantAgent(
     name="GymTrainer_agent",
@@ -130,7 +129,7 @@ def create_gym_evalutor_agent():
     return GymTrainer_evaluator
 
 
-async def create_comprehensive_workout_plan(image_url, injuries, goals, number_of_gym_days):
+async def create_comprehensive_workout_plan(image, injuries, goals, number_of_gym_days,lastgymPlan):
     """Create a comprehensive workout plan"""
     try:
         # Initialize Gym Trainer agent
@@ -145,9 +144,15 @@ async def create_comprehensive_workout_plan(image_url, injuries, goals, number_o
         # Prepare workout plan message
         text_termination = TextMentionTermination("approved")
     
-        image = await process_inbody_image(image_url)
+        
         gym_team = RoundRobinGroupChat([gym_trainer, gym_evaluator], termination_condition=text_termination, max_turns=6)
+        if lastgymPlan:
+            lastgymPlan = lastgymPlan
+        else:
+            lastgymPlan="no history for that user"
+        
         user_message = f"""
+        lastgymPlan:{lastgymPlan}
         Goals: {goals}
         injuries: {injuries}
         number_of_gym_days: {number_of_gym_days}

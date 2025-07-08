@@ -31,6 +31,8 @@ from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_agentchat.messages import MultiModalMessage
 from Agents.v1.gym_trainer import create_comprehensive_workout_plan
+from Agents.firebase_plans import get_user_plans
+from Agents.v1.summerizer import summerize_workout_plan
 
 # Create Blueprint for Plan Workflow
 workflow_bp = Blueprint('plan_workflow_v1', __name__)
@@ -64,20 +66,46 @@ async def execute_complete_workflow(
     goals: str,
     allergies: str = "",
     injuries: str = "",
-    number_of_gym_days: str = ""
+    number_of_gym_days: str = "",
+    user_id: str = None,
+    language:str = "english"
 ) -> dict:
     """
-    Execute the complete workflow: InBody image -> gym plan -> nutrition plan
+    Execute the complete workflow: (history summary) -> InBody image -> gym plan -> nutrition plan
     """
+    image = await process_inbody_image(inbody_image_url)
+    if not image:
+            return {
+                "error": "Failed to process InBody image",
+                "status": "error"
+            }
     workflow_steps = []
     try:
+        # Step 0: Fetch and summarize last plan if exists
+        last_plan_summary = None
+        if user_id:
+            user_plans = get_user_plans(user_id)
+            if user_plans:
+                last_plan = user_plans[-1]  # Get the most recent (last in list)
+                plan_to_summarize = {
+                    'gymPlan': last_plan.get('gymPlan'),
+                    'nutritionPlan': last_plan.get('nutritionPlan')
+                }
+                summary_result = await summerize_workout_plan(plan_to_summarize)
+                last_plan_summary = summary_result.get('summerizer_output')
+        workflow_steps.append(WorkflowStep(
+            step="history_summary",
+            status="completed" if last_plan_summary else "skipped",
+            message="Summarized last user plan" if last_plan_summary else "No previous plan found to summarize",
+            data={"summary": last_plan_summary} if last_plan_summary else None
+        ))
         # 1: InBody Analysis
         workflow_steps.append(WorkflowStep(
             step="inbody_analysis",
             status="processing",
             message="Processing InBody image and extracting body composition data"
         ))
-        inbody_result = await process_inbody_analysis(inbody_image_url)
+        inbody_result = await process_inbody_analysis(image)
         if inbody_result["status"] == "error":
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = inbody_result.get("error", "InBody analysis failed")
@@ -96,7 +124,7 @@ async def execute_complete_workflow(
         workflow_steps[-1].status = "completed"
         workflow_steps[-1].message = "InBody analysis completed successfully"
         workflow_steps[-1].data = {"analysis": inbody_result["analysis"]}
-
+        
         # Step 2: Gym Plan Creation
         workflow_steps.append(WorkflowStep(
             step="gym_plan_creation",
@@ -104,10 +132,11 @@ async def execute_complete_workflow(
             message="Creating comprehensive gym plan"
         ))
         gym_result = await create_comprehensive_workout_plan(
-            inbody_image_url,
+            image,
             injuries,
             goals,
-            number_of_gym_days
+            number_of_gym_days,
+            last_plan_summary
         )
         if gym_result["status"] == "error":
             workflow_steps[-1].status = "failed"
@@ -136,12 +165,14 @@ async def execute_complete_workflow(
             message="Creating comprehensive nutrition plan with evaluation"
         ))
         nutrition_result = await create_comprehensive_nutrition_plan(
-            inbody_image_url,
+            language,
+            image,
             calories,
             number_of_gym_days,
             client_country,
             goals,
-            allergies
+            allergies,
+            last_plan_summary
         )
         if nutrition_result["status"] == "error":
             workflow_steps[-1].status = "failed"
@@ -164,6 +195,7 @@ async def execute_complete_workflow(
         return {
             "gym_plan": gym_result["workout_plan"],
             "nutrition_plan": nutrition_result["diet_plan"],
+            "last_plan_summary":last_plan_summary,
             "status": "success"
         }
     except Exception as e:
@@ -197,6 +229,8 @@ def create_complete_plan():
         allergies = data.get('allergies', '')
         injuries = data['injuries']
         number_of_gym_days = data['number_of_gym_days']
+        user_id = data.get('user_id', None)
+        language = data.get('lang', "english")
         # Validate image URL
         try:
             response = requests.head(inbody_image_url, timeout=10)
@@ -208,12 +242,15 @@ def create_complete_plan():
         try:
             result = loop.run_until_complete(
                 execute_complete_workflow(
+                    
                     inbody_image_url,
                     client_country,
                     goals,
                     allergies,
                     injuries,
-                    number_of_gym_days
+                    number_of_gym_days,
+                    user_id,
+                    language
                 )
             )
         finally:

@@ -21,11 +21,15 @@ from flask_cors import cross_origin
 nutritionist_bp = Blueprint('nutritionist_v1', __name__)
 
 # Pydantic models for nutrition planning
+class Ingredient(BaseModel):
+    name: str
+    quantity: str  # Example: "2 eggs", "100g chicken", "1 cup milk"
+
 class MealPlan(BaseModel):
-    breakfast: str
-    lunch: str
-    snack: str
-    dinner: str
+    breakfast: List[Ingredient]
+    lunch: List[Ingredient]
+    snack: List[Ingredient]
+    dinner: List[Ingredient]
 
 class DailyPlan(BaseModel):
     day: str
@@ -37,7 +41,7 @@ class WeeklyPlan(BaseModel):
 
 class FourWeekDietPlan(BaseModel):
     plan: List[WeeklyPlan]
-
+    
 class NutritionRequest(BaseModel):
     user_info: str
     goals: str
@@ -62,14 +66,15 @@ def create_nutritionist_agent():
         model_client=client,
         system_message = f"""
         You are a certified professional nutritionist.
-        Based on user's InBody report image,the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
+        Based on user history nutritionPlan, current user's InBody report image,the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
         Provide a 4-week meal plan, with a different meal for each day. Each week must include 7 days, and every day must include breakfast, lunch, snack, and dinner.
         Meals should be simple, practical, and easy to prepare, with clear ingredients and quantities.
         Meals should reflect ingredients commonly available in client country.
+        ingredients must be  clearly listed with understandable quantities (cups, grams, pieces, etc.) for all days in all weeks
         Units of measurement should also be used and known in client country.
         Main Note: Don't include any foods or ingredients the client is allergic to.
         Do not include any explanation, recommendations, or analysis — only provide the structured 4-week diet plan in a clean and clear format.
-        output in english language.
+        return the response with the language the user give to you.
         """,
         output_content_type= FourWeekDietPlan
         
@@ -96,8 +101,8 @@ def create_evaluator_agent():
         3. Cultural Relevance: Are the ingredients, meals, and units common and understandable in user country?
         4. Nutritional Balance: Are meals rich in protein, fiber, and healthy fats while being moderate in calories?
         5. Meal Variety: Is there enough variety in meals across all 4 weeks to avoid repetition?
-        6. Clarity & Portion Consistency (It is very criticall): Are ingredients clearly listed with understandable quantities (cups, grams, pieces, etc.) specifically in last weeks?
-
+        6. Clarity & Portion Consistency (It is very criticall): Are ingredients clearly listed with understandable quantities (cups, grams, pieces, etc.) for all days in all weeks?
+        
         Instructions:
         - Read the full plan.
         - Suggest specific improvements only if it is critical.
@@ -144,7 +149,7 @@ async def process_food_image(image_url):
         print(f"Error processing food image: {e}")
         return None
 
-async def create_comprehensive_nutrition_plan(inbody_image_url,calories,number_of_gym_days,client_country, goals, allergies):
+async def create_comprehensive_nutrition_plan(language,image,calories,number_of_gym_days,client_country, goals, allergies,last_nutritionPlan):
     """Create a comprehensive nutrition plan using nutritionist and evaluator team"""
     try:
         # Initialize agents
@@ -162,18 +167,23 @@ async def create_comprehensive_nutrition_plan(inbody_image_url,calories,number_o
         
         # Prepare user message based on meal plan type
    
-        
+        if last_nutritionPlan:
+            last_nutritionPlan = last_nutritionPlan
+        else:
+            last_nutritionPlan="no history for that user"
         user_message = f"""
+        last_nutritionPlan:{last_nutritionPlan}
         calories:{calories},
         number_of_gym_days:{number_of_gym_days},
         Client Country: {client_country}
         Goals: {goals}
         Allergies: {allergies}
+        language:{language}
         Please create a comprehensive 4-week nutrition plan based on this data.
         """
         
         # Create message
-        image = await process_inbody_image(inbody_image_url)
+        
         message = MultiModalMessage(content=[image,user_message],source="User")
         # Get nutrition plan from team
         diet_plan_output = await team.run(task=message)

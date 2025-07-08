@@ -66,7 +66,7 @@ async def process_inbody_image(image_url):
         print(f"Error processing InBody image: {e}")
         return None
 
-async def process_inbody_analysis(image_url: str, user_info: str = "", goals: str = "") -> dict:
+async def process_inbody_analysis(image, user_info: str = "", goals: str = "") -> dict:
     """
     Step 1: Process InBody image and extract body composition data
     
@@ -89,13 +89,6 @@ async def process_inbody_analysis(image_url: str, user_info: str = "", goals: st
             }
         
         # Process InBody image
-        image = await process_inbody_image(image_url)
-        
-        if not image:
-            return {
-                "error": "Failed to process InBody image",
-                "status": "error"
-            }
         
         # Prepare analysis message
         analysis_message = f"""

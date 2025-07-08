@@ -33,3 +33,5 @@ transformers>=4.30.0
 # Production server
 gunicorn>=21.0.0 
 firebase_admin
+
+# base64 is part of the Python standard library and does not need to be installed separately

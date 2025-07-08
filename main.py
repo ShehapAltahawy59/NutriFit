@@ -15,13 +15,13 @@ load_dotenv()
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-FIREBASE_JSON_PATH = '/app/secrets/firebase.json'
+FIREBASE_JSON_PATH = '/tmp/firebase.json'
 
 # Write the service account JSON from the environment variable to a file
 import os
 import base64
 
-FIREBASE_JSON_PATH = '/app/secrets/firebase.json'
+FIREBASE_JSON_PATH = '/tmp/firebase.json'
 firebase_json_b64 = os.environ.get('FIREBASE_SERVICE_ACCOUNT_JSON')
 if firebase_json_b64:
     os.makedirs(os.path.dirname(FIREBASE_JSON_PATH), exist_ok=True)

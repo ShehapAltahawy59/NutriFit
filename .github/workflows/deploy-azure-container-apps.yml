@@ -104,7 +104,7 @@ jobs:
           az containerapp revision set-mode \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            
+            --mode Single
           
           # Update secrets separately (secrets need to be updated individually)
           echo "Updating secrets..."

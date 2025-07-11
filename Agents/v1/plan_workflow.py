@@ -31,7 +31,7 @@ from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_agentchat.messages import MultiModalMessage
 from Agents.v1.gym_trainer import create_comprehensive_workout_plan
-from Agents.firebase_plans import get_user_plans
+from Agents.firebase_plans import get_user_plans, increment_used_requests, save_full_user_plan, send_plan_created_notification
 from Agents.v1.summerizer import summerize_workout_plan
 
 # Create Blueprint for Plan Workflow
@@ -192,9 +192,27 @@ async def execute_complete_workflow(
             status="completed",
             message="Complete workflow finished successfully"
         ))
+        # Save plan to DB if user_id is provided
+        if user_id:
+            try:
+                save_full_user_plan(
+                    user_id=user_id,
+                    gym_plan=gym_result["workout_plan"],
+                    nutrition_plan=nutrition_result["diet_plan"],
+                    image_url=inbody_image_url,
+                    is_viewed=False,
+                    subscription_type=0
+                )
+                increment_used_requests(user_id)
+                send_plan_created_notification(user_id)
+            except Exception as e:
+                # Optionally log or append to workflow_steps
+                workflow_steps.append(WorkflowStep(
+                    step="db_save",
+                    status="failed",
+                    message=f"Failed to save plan to DB: {str(e)}"
+                ))
         return {
-            "gym_plan": gym_result["workout_plan"],
-            "nutrition_plan": nutrition_result["diet_plan"],
             "last_plan_summary":last_plan_summary,
             "status": "success"
         }

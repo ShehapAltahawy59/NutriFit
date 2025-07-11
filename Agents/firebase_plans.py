@@ -25,24 +25,6 @@ def get_firestore_client():
 
 PLANS_COLLECTION = 'plans'
 
-def save_user_plan(user_id, gym_plan, nutrition_plan):
-    db = get_firestore_client()
-    """
-    Save a new plan for a user. Each plan is a document in the 'plans' collection.
-    Args:
-        user_id (str): The user's unique identifier
-        gym_plan (dict): The gym plan data
-        nutrition_plan (dict): The nutrition plan data
-    Returns:
-        str: The document ID of the saved plan
-    """
-    doc_ref = db.collection(PLANS_COLLECTION).document()
-    doc_ref.set({
-        'userId': user_id,
-        'gymPlan': gym_plan,
-        'nutritionPlan': nutrition_plan
-    })
-    return doc_ref.id
 
 def get_user_plans(user_id):
     db = get_firestore_client()
@@ -65,7 +47,7 @@ def get_user_plans(user_id):
         for doc in docs
     ] 
 
-def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed, subscription_type):
+def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed, subscription_type,time):
     db = get_firestore_client()
     """
     Save a new plan for a user with the full schema.
@@ -84,7 +66,7 @@ def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed,
         'userId': user_id,
         'gymPlan': gym_plan,
         'nutritionPlan': nutrition_plan,
-        'createdAt': datetime.datetime.now().isoformat(),
+        'createdAt': time,
         'imageUrl': image_url,
         'isViewed': is_viewed,
         'subscriptionType': subscription_type

@@ -68,7 +68,8 @@ async def execute_complete_workflow(
     injuries: str = "",
     number_of_gym_days: str = "",
     user_id: str = None,
-    language:str = "english"
+    language:str = "english",
+    time:str = ""
 ) -> dict:
     """
     Execute the complete workflow: (history summary) -> InBody image -> gym plan -> nutrition plan
@@ -201,7 +202,8 @@ async def execute_complete_workflow(
                     nutrition_plan=nutrition_result["diet_plan"],
                     image_url=inbody_image_url,
                     is_viewed=False,
-                    subscription_type=0
+                    subscription_type=0,
+                    time=time
                 )
                 increment_used_requests(user_id)
                 send_plan_created_notification(user_id)
@@ -237,7 +239,7 @@ def create_complete_plan():
         data = request.get_json()
         if not data:
             return jsonify({"error": "No data provided"}), 400
-        required_fields = ['inbody_image_url', 'client_country', 'goals', 'injuries', 'number_of_gym_days']
+        required_fields = ['time','user_id','inbody_image_url', 'client_country', 'goals', 'injuries', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
@@ -249,6 +251,7 @@ def create_complete_plan():
         number_of_gym_days = data['number_of_gym_days']
         user_id = data.get('user_id', None)
         language = data.get('lang', "english")
+        time=data['time']
         # Validate image URL
         try:
             response = requests.head(inbody_image_url, timeout=10)
@@ -268,7 +271,8 @@ def create_complete_plan():
                     injuries,
                     number_of_gym_days,
                     user_id,
-                    language
+                    language,
+                    time
                 )
             )
         finally:

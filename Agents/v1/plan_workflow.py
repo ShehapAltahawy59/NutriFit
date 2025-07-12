@@ -126,38 +126,42 @@ async def execute_complete_workflow(
         workflow_steps[-1].message = "InBody analysis completed successfully"
         workflow_steps[-1].data = {"analysis": inbody_result["analysis"]}
         
-        # Step 2: Gym Plan Creation
-        workflow_steps.append(WorkflowStep(
-            step="gym_plan_creation",
-            status="processing",
-            message="Creating comprehensive gym plan"
-        ))
-        gym_result = await create_comprehensive_workout_plan(
-            image,
-            injuries,
-            goals,
-            number_of_gym_days,
-            last_plan_summary
-        )
-        if gym_result["status"] == "error":
-            workflow_steps[-1].status = "failed"
-            workflow_steps[-1].message = gym_result.get("error", "Gym plan creation failed")
-            return {
-                "message": "Workflow failed at gym plan creation step",
-                "workflow_steps": [step.dict() for step in workflow_steps],
-                "status": "error"
-            }
-        workflow_steps[-1].status = "completed"
-        workflow_steps[-1].message = "Gym plan created successfully"
-        workflow_steps[-1].data = {"gym_plan": gym_result["workout_plan"]}
+        gym_result=None
+        calories = None
+
+        if int(number_of_gym_days) > 0:
+            # Step 2: Gym Plan Creation
+            workflow_steps.append(WorkflowStep(
+                step="gym_plan_creation",
+                status="processing",
+                message="Creating comprehensive gym plan"
+            ))
+            gym_result = await create_comprehensive_workout_plan(
+                image,
+                injuries,
+                goals,
+                number_of_gym_days,
+                last_plan_summary
+            )
+            if gym_result["status"] == "error":
+                workflow_steps[-1].status = "failed"
+                workflow_steps[-1].message = gym_result.get("error", "Gym plan creation failed")
+                return {
+                    "message": "Workflow failed at gym plan creation step",
+                    "workflow_steps": [step.dict() for step in workflow_steps],
+                    "status": "error"
+                }
+            workflow_steps[-1].status = "completed"
+            workflow_steps[-1].message = "Gym plan created successfully"
+            workflow_steps[-1].data = {"gym_plan": gym_result["workout_plan"]}
 
         # Extract calories from gym plan
-        calories = None
-        plan = gym_result["workout_plan"]
-        if hasattr(plan, "daily_calories"):
-            calories = plan.daily_calories
-        elif isinstance(plan, dict) and "daily_calories" in plan:
-            calories = plan["daily_calories"]
+            
+            plan = gym_result["workout_plan"]
+            if hasattr(plan, "daily_calories"):
+                calories = plan.daily_calories
+            elif isinstance(plan, dict) and "daily_calories" in plan:
+                calories = plan["daily_calories"]
 
         # Step 3: Nutrition Plan Creation
         workflow_steps.append(WorkflowStep(
@@ -168,7 +172,7 @@ async def execute_complete_workflow(
         nutrition_result = await create_comprehensive_nutrition_plan(
             language,
             image,
-            calories,
+            calories if calories else "",
             number_of_gym_days,
             client_country,
             goals,
@@ -198,7 +202,7 @@ async def execute_complete_workflow(
             try:
                 save_full_user_plan(
                     user_id=user_id,
-                    gym_plan=gym_result["workout_plan"],
+                    gym_plan=gym_result["workout_plan"] if gym_result else {},
                     nutrition_plan=nutrition_result["diet_plan"],
                     image_url=inbody_image_url,
                     is_viewed=False,

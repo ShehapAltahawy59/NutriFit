@@ -37,10 +37,10 @@ def create_inbody_agent():
     Inbody_Specialist = AssistantAgent(
     name="Inbody_Speciallist_agent",
     model_client=client,
-    system_message="You are a professional Inbody Speciallist. I will upload an InBody analysis report image." \
-    "you check if the image is InBody analysis report or not "
-    "Rule:if the image is not InBody analysis report return  'not valid image' "
-    "Rule:if the image is  InBody analysis report return  'valid image' "
+    system_message="You are a professional Inbody Speciallist. I will upload an image." \
+    "you check if the image is any type of InBody analysis or have any data related to inbody measure"
+    "Rule:if not return  'not valid image' "
+    "Rule:if yes the image is any type of InBody analysis or have any data related to inbody measure return 'valid image' "
     "note: make the output text "
     )
     
@@ -92,7 +92,7 @@ async def process_inbody_analysis(image, user_info: str = "", goals: str = "") -
         
         # Prepare analysis message
         analysis_message = f"""
-        Please check if this image is InBody analysis report or not
+        Please check this image
         """
         
         # Create multimodal message with image

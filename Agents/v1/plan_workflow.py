@@ -85,9 +85,9 @@ async def execute_complete_workflow(
         # Step 0: Fetch and summarize last plan if exists
         last_plan_summary = None
         if user_id:
-            user_plans = get_user_plans(user_id)
-            if user_plans:
-                last_plan = user_plans[-1]  # Get the most recent (last in list)
+            last_plan = get_user_plans(user_id)
+            if last_plan:
+               
                 plan_to_summarize = {
                     'gymPlan': last_plan.get('gymPlan'),
                     'nutritionPlan': last_plan.get('nutritionPlan')

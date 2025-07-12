@@ -29,23 +29,22 @@ PLANS_COLLECTION = 'plans'
 def get_user_plans(user_id):
     db = get_firestore_client()
     """
-    Retrieve all plans for a given user.
+    Retrieve the last plan for a given user based on createdAt.
     Args:
         user_id (str): The user's unique identifier
     Returns:
-        list: A list of plan documents (dicts) with only gymPlan and nutritionPlan
+        dict: The last plan document with gymPlan and nutritionPlan, or None if no plans exist
     """
     plans_ref = db.collection(PLANS_COLLECTION)
-    query = plans_ref.where('userId', '==', user_id)
+    query = plans_ref.where('userId', '==', user_id).order_by('createdAt', direction=firestore.Query.DESCENDING).limit(1)
     docs = query.stream()
     
-    return [
-        {
+    for doc in docs:
+        return {
             'gymPlan': doc.to_dict().get('gymPlan'),
             'nutritionPlan': doc.to_dict().get('nutritionPlan'),
         }
-        for doc in docs
-    ] 
+    return None
 
 def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed, subscription_type,time):
     db = get_firestore_client()

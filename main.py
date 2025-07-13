@@ -8,6 +8,7 @@ from Agents.v1.inbody_specialist import inbody_bp
 from Agents.v1.nutritionist import nutritionist_bp
 from Agents.v1.gym_trainer import gym_trainer_bp
 from Agents.v1.plan_workflow import workflow_bp
+from Agents.v1.notification import notification_bp
 
 # Load environment variables
 load_dotenv()
@@ -53,6 +54,7 @@ def create_app():
     app.register_blueprint(nutritionist_bp, url_prefix='/api/v1/nutritionist')
     app.register_blueprint(gym_trainer_bp, url_prefix='/api/v1/gym')
     app.register_blueprint(workflow_bp, url_prefix='/api/v1/workflow')
+    app.register_blueprint(notification_bp, url_prefix='/api/v1/notification')
     
     # Main health check endpoint
     @app.route('/health', methods=['GET'])

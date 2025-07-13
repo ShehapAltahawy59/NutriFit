@@ -83,6 +83,7 @@ def create_gym_trainer_agent():
                             Ensure the plan is suitable for the client's goal.
                             Use the most famous gym machines in the workout plan.
                             Based on the goal, InBody data, and training plan, you should also output the number of calories to be consumed daily.
+                            Rule:based on the user workout type(home,gym) you will give him plan sutible for that.
                             Note: number of excercises should be 4-8 exercises per day.
                             Main Note: Do not include any exercises that may aggravate the client's injuries.
                             Do not include any explanation, analysis, recommendations, or client headers (like name, goal, age, gender, etc).
@@ -129,7 +130,7 @@ def create_gym_evalutor_agent():
     return GymTrainer_evaluator
 
 
-async def create_comprehensive_workout_plan(image, injuries, goals, number_of_gym_days,lastgymPlan):
+async def create_comprehensive_workout_plan(image, injuries, goals, number_of_gym_days,lastgymPlan,type):
     """Create a comprehensive workout plan"""
     try:
         # Initialize Gym Trainer agent
@@ -155,7 +156,8 @@ async def create_comprehensive_workout_plan(image, injuries, goals, number_of_gy
         lastgymPlan:{lastgymPlan}
         Goals: {goals}
         injuries: {injuries}
-        number_of_gym_days: {number_of_gym_days}
+        number_of_gym_days: {number_of_gym_days},
+        workout type:{type}
         """
         message = MultiModalMessage(content=[image,user_message],source="User")
 

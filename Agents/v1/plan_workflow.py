@@ -271,10 +271,9 @@ def create_complete_plan():
             response.raise_for_status()
         except Exception as e:
             return jsonify({"error": f"Invalid or inaccessible image URL: {str(e)}"}), 400
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+       
         try:
-            result = loop.run_until_complete(
+            result = asyncio.run(
                 execute_complete_workflow(
                     
                     inbody_image_url,

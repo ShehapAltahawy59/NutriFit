@@ -21,9 +21,14 @@ from flask_cors import cross_origin
 nutritionist_bp = Blueprint('nutritionist_v1', __name__)
 
 # Pydantic models for nutrition planning
+class IngredientAlternative(BaseModel):
+    name: str
+    quantity: str  # Example: "100g tofu", "1 cup soy milk"
+
 class Ingredient(BaseModel):
     name: str
     quantity: str  # Example: "2 eggs", "100g chicken", "1 cup milk"
+    alternatives: List[IngredientAlternative] = []
 
 class MealPlan(BaseModel):
     breakfast: List[Ingredient]
@@ -69,8 +74,9 @@ def create_nutritionist_agent():
         Based on user history nutritionPlan, current user's InBody report image,the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
         Provide a 4-week meal plan, with a different meal for each day. Each week must include 7 days, and every day must include breakfast, lunch, snack, and dinner.
         Meals should be simple, practical, and easy to prepare, with clear ingredients and quantities.
+        Each meal should have main ingredients and at least two Ingredient Alternative.
         Meals should reflect ingredients commonly available in client country.
-        ingredients must be  clearly listed with understandable quantities (cups, grams, pieces, etc.) for all days in all weeks
+        ingredients must be  clearly listed with understandable quantities (grams, pieces) for all days in all weeks
         Units of measurement should also be used and known in client country.
         Main Note: Don't include any foods or ingredients the client is allergic to.
         Do not include any explanation, recommendations, or analysis — only provide the structured 4-week diet plan in a clean and clear format.
@@ -149,7 +155,7 @@ async def process_food_image(image_url):
         print(f"Error processing food image: {e}")
         return None
 
-async def create_comprehensive_nutrition_plan(language,image,calories,number_of_gym_days,client_country, goals, allergies,last_nutritionPlan):
+async def create_comprehensive_nutrition_plan(language,inbody_data,calories,number_of_gym_days,client_country, goals, allergies,last_nutritionPlan,last_plan_inbody_data):
     """Create a comprehensive nutrition plan using nutritionist and evaluator team"""
     try:
         # Initialize agents
@@ -173,6 +179,8 @@ async def create_comprehensive_nutrition_plan(language,image,calories,number_of_
             last_nutritionPlan="no history for that user"
         user_message = f"""
         last_nutritionPlan:{last_nutritionPlan}
+        last inbody data:{last_plan_inbody_data}
+        current inbody data:{inbody_data}
         calories:{calories},
         number_of_gym_days:{number_of_gym_days},
         Client Country: {client_country}
@@ -184,7 +192,7 @@ async def create_comprehensive_nutrition_plan(language,image,calories,number_of_
         
         # Create message
         
-        message = MultiModalMessage(content=[image,user_message],source="User")
+        message = MultiModalMessage(content=[user_message],source="User")
         # Get nutrition plan from team
         diet_plan_output = await team.run(task=message)
         

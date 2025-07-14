@@ -43,10 +43,11 @@ def get_user_plans(user_id):
         return {
             'gymPlan': doc.to_dict().get('gymPlan'),
             'nutritionPlan': doc.to_dict().get('nutritionPlan'),
+            'inbody_data':doc.to_dict().get('inbody_data',''),
         }
     return None
 
-def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed, subscription_type,time):
+def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed, subscription_type,time,inbody_data):
     db = get_firestore_client()
     """
     Save a new plan for a user with the full schema.
@@ -68,7 +69,8 @@ def save_full_user_plan(user_id, gym_plan, nutrition_plan, image_url, is_viewed,
         'createdAt': time,
         'imageUrl': image_url,
         'isViewed': is_viewed,
-        'subscriptionType': subscription_type
+        'subscriptionType': subscription_type,
+        'inbody_data':inbody_data
     })
     return doc_ref.id 
 

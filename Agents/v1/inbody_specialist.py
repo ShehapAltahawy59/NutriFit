@@ -12,21 +12,45 @@ import asyncio
 from pydantic import BaseModel
 from typing import Optional
 from .. import initialize_azure_client
-
+from pydantic import BaseModel, Field
 # Create Blueprint for Inbody Specialist
 inbody_bp = Blueprint('inbody_specialist_v1', __name__)
 
 # Pydantic models for Inbody analysis
-class InbodyAnalysisRequest(BaseModel):
-    user_info: str
-    scan_data: Optional[str] = ""
-    image_url: Optional[str] = ""
-    goals: Optional[str] = ""
+from pydantic import BaseModel
+from typing import Optional, Dict
 
-class InbodyAnalysisResponse(BaseModel):
-    analysis: dict
-    recommendations: str
-    status: str
+
+class InbodyData(BaseModel):
+    weight: Optional[float] = Field(None, description="Weight in kilograms")
+    height: Optional[float] = Field(None, description="Height in centimeters")
+    body_fat_percentage: Optional[float] = Field(None, description="Body fat percentage")
+    body_fat_mass: Optional[float] = Field(None, description="Body fat mass in kilograms")
+    muscle_mass: Optional[float] = Field(None, description="Skeletal muscle mass")
+    fat_free_mass: Optional[float] = Field(None, description="Fat-free mass in kilograms")
+    bmi: Optional[float] = Field(None, description="Body Mass Index")
+    basal_metabolic_rate: Optional[float] = Field(None, description="Basal Metabolic Rate in kcal")
+    metabolic_age: Optional[int] = Field(None, description="Metabolic age")
+    protein: Optional[float] = Field(None, description="Protein level")
+    minerals: Optional[float] = Field(None, description="Mineral content")
+    body_water: Optional[float] = Field(None, description="Total body water")
+    visceral_fat_level: Optional[float] = Field(None, description="Visceral fat level")
+    waist_hip_ratio: Optional[float] = Field(None, description="Waist-Hip Ratio")
+    obesity_degree: Optional[float] = Field(None, description="Obesity Degree")
+    segmental_fat: Optional[str] = Field(None, description="Segmental fat info")
+    segmental_muscle: Optional[str] = Field(None, description="Segmental muscle info")
+    impedance: Optional[Dict[str, float]] = Field(None, description="Impedance values by body part")
+    inbody_score: Optional[int] = Field(None, description="Overall InBody score")
+
+
+class ImageResponse(BaseModel):
+    status: str  # either "ok" or "not valid image"
+    results: Optional[InbodyData] = {}  # Only present if status is "ok"
+    
+
+
+# Final Union Output
+
 
 def create_inbody_agent():
     """Create and return the Inbody Specialist agent"""
@@ -34,14 +58,17 @@ def create_inbody_agent():
     if not client:
         return None
     
+
     Inbody_Specialist = AssistantAgent(
     name="Inbody_Speciallist_agent",
     model_client=client,
     system_message="You are a professional Inbody Speciallist. I will upload an image." \
     "you check if the image is any type of InBody analysis or have any data related to inbody measure"
     "Rule:if not return  'not valid image' "
-    "Rule:if yes the image is any type of InBody analysis or have any data related to inbody measure return 'valid image' "
+    "Rule:if yes the image is any type of InBody analysis or have any data related to inbody measure return the measure data as that weight:60 etc "
     "note: make the output text "
+    ,
+    output_content_type=ImageResponse
     )
     
     return Inbody_Specialist
@@ -66,7 +93,7 @@ async def process_inbody_image(image_url):
         print(f"Error processing InBody image: {e}")
         return None
 
-async def process_inbody_analysis(image, user_info: str = "", goals: str = "") -> dict:
+async def process_inbody_analysis(image) -> dict:
     """
     Step 1: Process InBody image and extract body composition data
     
@@ -96,7 +123,7 @@ async def process_inbody_analysis(image, user_info: str = "", goals: str = "") -
         """
         
         # Create multimodal message with image
-        message = MultiModalMessage(content=[image],source="User")
+        message = MultiModalMessage(content=[image,analysis_message],source="User")
         
         # Get analysis from InBody Specialist
         analysis_output = await inbody_agent.on_messages(
@@ -107,6 +134,7 @@ async def process_inbody_analysis(image, user_info: str = "", goals: str = "") -
         # Extract the response
         if analysis_output :
             response = analysis_output.chat_message.content
+            response = response.model_dump()
         else:
             response = "Unable to generate InBody analysis"
         
@@ -132,14 +160,19 @@ def analyze_inbody():
         if not data:
             return jsonify({"error": "No data provided"}), 400
         
-        if 'user_info' not in data:
-            return jsonify({"error": "Missing required field: user_info"}), 400
-        
+       
         # Extract data
-        user_info = data['user_info']
-        scan_data = data.get('scan_data', '')
-        image_url = data.get('image_url', '')
-        goals = data.get('goals', '')
+        
+        image_url = data.get('inbody_image_url', '')
+        image =None
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            image = loop.run_until_complete(
+               process_inbody_image(image_url)
+            )
+        finally:
+            loop.close()
         
         # Perform InBody analysis
         loop = asyncio.new_event_loop()
@@ -147,7 +180,7 @@ def analyze_inbody():
         
         try:
             result = loop.run_until_complete(
-                process_inbody_analysis(user_info, scan_data, image_url, goals)
+                process_inbody_analysis(image)
             )
         finally:
             loop.close()

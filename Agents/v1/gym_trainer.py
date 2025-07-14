@@ -77,7 +77,7 @@ def create_gym_trainer_agent():
         return None
     gym_system_message = f"""
                             You are a certified professional Gym Trainer.
-                            Based on the user history gymPlan,current user's InBody report image, goal, sex, injuries, and number of gym days, generate a gym training plan for the client.
+                            Based on the user history (gymPlan & inbody data),current user's InBody report data, goal, sex, injuries, and number of gym days, generate a gym training plan for the client.
                             Provide a gym training plan for one week, with a different workout for each day and in each day write the focus in the day for example (leg day).
                             The plan should include exercises, sets, reps, and rest times.
                             Ensure the plan is suitable for the client's goal.
@@ -130,7 +130,7 @@ def create_gym_evalutor_agent():
     return GymTrainer_evaluator
 
 
-async def create_comprehensive_workout_plan(image, injuries, goals, number_of_gym_days,lastgymPlan,type):
+async def create_comprehensive_workout_plan(inbody_data, injuries, goals, number_of_gym_days,lastgymPlan,last_plan_inbody_data,type):
     """Create a comprehensive workout plan"""
     try:
         # Initialize Gym Trainer agent
@@ -153,13 +153,15 @@ async def create_comprehensive_workout_plan(image, injuries, goals, number_of_gy
             lastgymPlan="no history for that user"
         
         user_message = f"""
-        lastgymPlan:{lastgymPlan}
+        last gym Plan:{lastgymPlan}
+        last inbody data:{last_plan_inbody_data}
+        current inbody data:{inbody_data}
         Goals: {goals}
         injuries: {injuries}
-        number_of_gym_days: {number_of_gym_days},
+        number of gym days: {number_of_gym_days},
         workout type:{type}
         """
-        message = MultiModalMessage(content=[image,user_message],source="User")
+        message = MultiModalMessage(content=[user_message],source="User")
 
         workout_plan_output = await gym_team.run(task=message)
         workout_output = workout_plan_output.messages[-2].content

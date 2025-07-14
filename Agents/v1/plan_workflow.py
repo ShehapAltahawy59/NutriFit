@@ -84,7 +84,8 @@ async def execute_complete_workflow(
     workflow_steps = []
     try:
         # Step 0: Fetch and summarize last plan if exists
-        last_plan_summary = None
+        last_plan_summary = ""
+        last_plan_inbody_data=""
         if user_id:
             last_plan = get_user_plans(user_id)
             if last_plan:
@@ -95,6 +96,7 @@ async def execute_complete_workflow(
                 }
                 summary_result = await summerize_workout_plan(plan_to_summarize)
                 last_plan_summary = summary_result.get('summerizer_output')
+                last_plan_inbody_data=last_plan.get('inbody_data',"")
         workflow_steps.append(WorkflowStep(
             step="history_summary",
             status="completed" if last_plan_summary else "skipped",
@@ -116,7 +118,7 @@ async def execute_complete_workflow(
                 "workflow_steps": [step.dict() for step in workflow_steps],
                 "status": "error"
             }
-        if (inbody_result["analysis"] == "not valid image"):
+        if (inbody_result["analysis"]["status"] == "not valid image"):
             workflow_steps[-1].status = "failed"
             workflow_steps[-1].message = inbody_result.get("error", "InBody analysis failed")
             return {
@@ -126,9 +128,9 @@ async def execute_complete_workflow(
         workflow_steps[-1].status = "completed"
         workflow_steps[-1].message = "InBody analysis completed successfully"
         workflow_steps[-1].data = {"analysis": inbody_result["analysis"]}
-        
+        inbody_data=inbody_result["analysis"]["results"]
         gym_result=None
-        calories = None
+        calories = ""
 
         if int(number_of_gym_days) > 0:
             # Step 2: Gym Plan Creation
@@ -138,12 +140,14 @@ async def execute_complete_workflow(
                 message="Creating comprehensive gym plan"
             ))
             gym_result = await create_comprehensive_workout_plan(
-                image,
+                inbody_data,
                 injuries,
                 goals,
                 number_of_gym_days,
                 last_plan_summary,
+                last_plan_inbody_data,
                 type
+                
             )
             if gym_result["status"] == "error":
                 workflow_steps[-1].status = "failed"
@@ -173,13 +177,14 @@ async def execute_complete_workflow(
         ))
         nutrition_result = await create_comprehensive_nutrition_plan(
             language,
-            image,
-            calories if calories else "",
+            inbody_data,
+            calories ,
             number_of_gym_days,
             client_country,
             goals,
             allergies,
-            last_plan_summary
+            last_plan_summary,
+            last_plan_inbody_data
         )
         if nutrition_result["status"] == "error":
             workflow_steps[-1].status = "failed"
@@ -209,7 +214,8 @@ async def execute_complete_workflow(
                     image_url=inbody_image_url,
                     is_viewed=False,
                     subscription_type=0,
-                    time=time
+                    time=time,
+                    inbody_data=inbody_data
                 )
                 increment_used_requests(user_id)
                 send_plan_created_notification(user_id)
@@ -221,7 +227,7 @@ async def execute_complete_workflow(
                     message=f"Failed to save plan to DB: {str(e)}"
                 ))
         return {
-            "last_plan_summary":last_plan_summary,
+            "nutrition_result":nutrition_result,
             "status": "success"
         }
     except Exception as e:

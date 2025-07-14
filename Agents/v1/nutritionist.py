@@ -74,7 +74,7 @@ def create_nutritionist_agent():
         Based on user history nutritionPlan, current user's InBody report image,the user calories needed,number of gym days,Goal ,Country and allergies generate a complete 4-week diet plan for the client:
         Provide a 4-week meal plan, with a different meal for each day. Each week must include 7 days, and every day must include breakfast, lunch, snack, and dinner.
         Meals should be simple, practical, and easy to prepare, with clear ingredients and quantities.
-        Each meal should have main ingredients and at least two Ingredient Alternative.
+        Each meal should have main ingredients and one Ingredient Alternative.
         Meals should reflect ingredients commonly available in client country.
         ingredients must be  clearly listed with understandable quantities (grams, pieces) for all days in all weeks
         Units of measurement should also be used and known in client country.

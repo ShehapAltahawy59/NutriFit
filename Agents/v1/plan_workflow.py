@@ -272,24 +272,24 @@ def create_complete_plan():
         except Exception as e:
             return jsonify({"error": f"Invalid or inaccessible image URL: {str(e)}"}), 400
        
-        try:
-            result = asyncio.run(
-                execute_complete_workflow(
-                    
-                    inbody_image_url,
-                    client_country,
-                    goals,
-                    allergies,
-                    injuries,
-                    number_of_gym_days,
-                    user_id,
-                    language,
-                    time,
-                    type
-                )
+        
+        result = asyncio.run(
+            execute_complete_workflow(
+                
+                inbody_image_url,
+                client_country,
+                goals,
+                allergies,
+                injuries,
+                number_of_gym_days,
+                user_id,
+                language,
+                time,
+                type
             )
-        finally:
-            loop.close()
+        )
+        
+            
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": f"Server error: {str(e)}"}), 500

@@ -81,7 +81,7 @@ def create_app():
                 "gym_trainer": "/gym/health",
                 "plan_workflow": "/workflow/health"
             },
-            "version": "2.2.0"
+            "version": "2.3.0"
         })
     
     # Simple health check endpoint (no agent dependencies)

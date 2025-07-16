@@ -19,10 +19,10 @@ def initialize_azure_client():
     """Initialize Azure OpenAI client with proper authentication"""
     try:
         # Azure configuration
-        endpoint   = os.environ["AZURE_OPENAI_ENDPOINT"]
-        api_key    = os.environ["AZURE_OPENAI_API_KEY"]
-        api_ver    = os.environ["AZURE_OPENAI_API_VERSION"]
-        deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
+        # endpoint   = os.environ["AZURE_OPENAI_ENDPOINT"]
+        # api_key    = os.environ["AZURE_OPENAI_API_KEY"]
+        # api_ver    = os.environ["AZURE_OPENAI_API_VERSION"]
+        # deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
 
         # client = AzureOpenAIChatCompletionClient(
         #     azure_deployment=deployment,

@@ -1,5 +1,4 @@
-from flask import Blueprint, request, jsonify
-from flask_cors import cross_origin
+from fastapi import APIRouter, Request
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
@@ -9,18 +8,14 @@ from autogen_agentchat.messages import MultiModalMessage
 from io import BytesIO
 import requests
 import asyncio
-from pydantic import BaseModel
-from typing import Optional
-from . import initialize_azure_client
 from pydantic import BaseModel, Field
-# Create Blueprint for Inbody Specialist
-inbody_bp = Blueprint('inbody_specialist_v2', __name__)
+from typing import Optional, Dict
+from . import initialize_azure_client
+
+# Create APIRouter for Inbody Specialist
+router = APIRouter()
 
 # Pydantic models for Inbody analysis
-from pydantic import BaseModel
-from typing import Optional, Dict
-
-
 
 
 class InbodyData(BaseModel):
@@ -151,75 +146,65 @@ async def process_inbody_analysis(image) -> dict:
             "status": "error"
         }
 # Flask routes for Inbody Specialist
-@inbody_bp.route('/analyze', methods=['POST'])
-@cross_origin()
-def analyze_inbody():
+@router.post('/analyze')
+async def analyze_inbody(request: Request):
     """Main endpoint for InBody analysis"""
     try:
-        data = request.get_json()
+        data = await request.json()
         
         # Validate input
         if not data:
-            return jsonify({"error": "No data provided"}), 400
+            return {"error": "No data provided"}
         
        
         # Extract data
         
         image_url = data.get('inbody_image_url', '')
         image =None
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
         try:
-            image = loop.run_until_complete(
-               process_inbody_image(image_url)
-            )
-        finally:
-            loop.close()
+            image = await process_inbody_image(image_url)
+        except Exception as e:
+            print(f"Error processing InBody image: {e}")
+            return {"error": f"Server error: {str(e)}"}
         
         # Perform InBody analysis
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
         try:
-            result = loop.run_until_complete(
-                process_inbody_analysis(image)
-            )
-        finally:
-            loop.close()
+            result = await process_inbody_analysis(image)
+        except Exception as e:
+            print(f"Error in InBody analysis: {str(e)}")
+            return {"error": f"Server error: {str(e)}"}
         
-        return jsonify(result)
+        return result
         
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
+        return {"error": f"Server error: {str(e)}"}
 
-@inbody_bp.route('/health', methods=['GET'])
-@cross_origin()
-def inbody_health_check():
+@router.get('/health')
+async def inbody_health_check():
     """Health check endpoint for Inbody Specialist"""
     try:
         agent = create_inbody_agent()
         status = "healthy" if agent else "unhealthy"
-        return jsonify({
+        return {
             "status": status, 
             "service": "inbody_specialist",
             "agent_available": agent is not None
-        })
+        }
     except Exception as e:
-        return jsonify({
+        return {
             "status": "unhealthy",
             "service": "inbody_specialist",
             "error": str(e)
-        }), 500
+        }
 
-@inbody_bp.route('/simple_analysis', methods=['POST'])
-@cross_origin()
-def simple_inbody_analysis():
+@router.post('/simple_analysis')
+async def simple_inbody_analysis(request: Request):
     """Simplified endpoint for basic InBody analysis"""
     try:
-        data = request.get_json()
+        data = await request.json()
         
         if not data or 'query' not in data:
-            return jsonify({"error": "Query is required"}), 400
+            return {"error": "Query is required"}
         
         query = data['query']
         
@@ -227,7 +212,7 @@ def simple_inbody_analysis():
         inbody_agent = create_inbody_agent()
         
         if not inbody_agent:
-            return jsonify({"error": "Failed to initialize Inbody Specialist agent"}), 500
+            return {"error": "Failed to initialize Inbody Specialist agent"}
         
         # Create simple response
         loop = asyncio.new_event_loop()
@@ -248,7 +233,7 @@ def simple_inbody_analysis():
         else:
             result = "Unable to generate response"
         
-        return jsonify({"response": result, "status": "success"})
+        return {"response": result, "status": "success"}
         
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500 
+        return {"error": f"Server error: {str(e)}"} 

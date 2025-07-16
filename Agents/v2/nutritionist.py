@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Request
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
@@ -15,10 +15,9 @@ from typing import List, Optional
 
 from Agents.v2.gym_trainer import process_inbody_image
 from . import initialize_azure_client
-from flask_cors import cross_origin
 
-# Create Blueprint for Nutritionist
-nutritionist_bp = Blueprint('nutritionist_v2', __name__)
+# Create APIRouter for Nutritionist
+router = APIRouter()
 
 # Pydantic models for nutrition planning
 class IngredientAlternative(BaseModel):
@@ -206,21 +205,20 @@ async def create_comprehensive_nutrition_plan(language,inbody_data,calories,numb
 
 
 # Flask routes for Nutritionist
-@nutritionist_bp.route('/create_plan', methods=['POST'])
-@cross_origin()
-def create_nutrition_plan():
+@router.post('/create_plan')
+async def create_nutrition_plan(request: Request):
     """Main endpoint for creating comprehensive nutrition plans"""
     try:
-        data = request.get_json()
+        data = await request.json()
         
         # Validate input
         if not data:
-            return jsonify({"error": "No data provided"}), 400
+            return {"error": "No data provided"}
         
         required_fields = ['inbody_image_url', 'goals', 'allergies']
         for field in required_fields:
             if field not in data:
-                return jsonify({"error": f"Missing required field: {field}"}), 400
+                return {"error": f"Missing required field: {field}"}
         
         # Extract data
         inbody_image_url = data['inbody_image_url']
@@ -232,41 +230,12 @@ def create_nutrition_plan():
 
         
         # Create nutrition plan
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        result = await create_comprehensive_nutrition_plan(inbody_image_url,calories,number_of_gym_days,client_country, goals, allergies)
         
-        try:
-            result = loop.run_until_complete(
-                create_comprehensive_nutrition_plan(inbody_image_url,calories,number_of_gym_days,client_country, goals, allergies)
-            )
-        finally:
-            loop.close()
-        
-        return jsonify(result)
+        return result
         
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
+        return {"error": f"Server error: {str(e)}"}
 
 
 
-@nutritionist_bp.route('/health', methods=['GET'])
-@cross_origin()
-def nutritionist_health_check():
-    """Health check endpoint for Nutritionist"""
-    try:
-        nutritionist = create_nutritionist_agent()
-        evaluator = create_evaluator_agent()
-        
-        status = "healthy" if nutritionist and evaluator else "unhealthy"
-        return jsonify({
-            "status": status, 
-            "service": "nutritionist",
-            "nutritionist_available": nutritionist is not None,
-            "evaluator_available": evaluator is not None
-        })
-    except Exception as e:
-        return jsonify({
-            "status": "unhealthy",
-            "service": "nutritionist",
-            "error": str(e)
-        }), 500 

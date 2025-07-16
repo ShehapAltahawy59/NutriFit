@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Request
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
@@ -12,11 +12,10 @@ import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
 from . import initialize_azure_client
-from flask_cors import cross_origin
 from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
-# Create Blueprint for Gym Trainer
-gym_trainer_bp = Blueprint('gym_trainer_v1', __name__)
+# Create APIRouter for Gym Trainer
+router = APIRouter()
 
 # Pydantic models for fitness training
 class Exercise(BaseModel):
@@ -222,21 +221,20 @@ async def get_exercise_advice(query):
         }
 
 # Flask routes for Gym Trainer
-@gym_trainer_bp.route('/create_workout', methods=['POST'])
-@cross_origin()
-def create_workout_plan():
+@router.post('/create_workout')
+async def create_workout_plan(request: Request):
     """Main endpoint for creating comprehensive workout plans"""
     try:
-        data = request.get_json()
+        data = await request.json()
         
         # Validate input
         if not data:
-            return jsonify({"error": "No data provided"}), 400
+            return {"error": "No data provided"}
         
         required_fields = ['inbody_image_url', 'injuries', 'goals', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
-                return jsonify({"error": f"Missing required field: {field}"}), 400
+                return {"error": f"Missing required field: {field}"}
         
         # Extract data
         image_url = data['inbody_image_url']
@@ -256,20 +254,20 @@ def create_workout_plan():
         finally:
             loop.close()
         
-        return jsonify(result)
+        return result
         
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
+        return {"error": f"Server error: {str(e)}"}
 
 
-@gym_trainer_bp.route('/exercise_advice', methods=['POST'])
-def exercise_advice():
+@router.post('/exercise_advice')
+async def exercise_advice(request: Request):
     """Endpoint for exercise-specific advice"""
     try:
-        data = request.get_json()
+        data = await request.json()
         
         if not data or 'query' not in data:
-            return jsonify({"error": "Query is required"}), 400
+            return {"error": "Query is required"}
         
         query = data['query']
         
@@ -284,28 +282,27 @@ def exercise_advice():
         finally:
             loop.close()
         
-        return jsonify(result)
+        return result
         
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
+        return {"error": f"Server error: {str(e)}"}
 
 
-@gym_trainer_bp.route('/health', methods=['GET'])
-@cross_origin()
-def gym_trainer_health_check():
+@router.get('/health')
+async def gym_trainer_health_check():
     """Health check endpoint for Gym Trainer"""
     try:
         gym_trainer = create_gym_trainer_agent()
         
         status = "healthy" if gym_trainer else "unhealthy"
-        return jsonify({
+        return {
             "status": status, 
             "service": "gym_trainer",
             "agent_available": gym_trainer is not None
-        })
+        }
     except Exception as e:
-        return jsonify({
+        return {
             "status": "unhealthy",
             "service": "gym_trainer",
             "error": str(e)
-        }), 500 
+        } 

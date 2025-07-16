@@ -1,6 +1,5 @@
-# Core Flask dependencies
-flask>=2.3.0
-flask-cors>=4.0.0
+# Core FastAPI dependencies
+fastapi
 python-dotenv>=1.0.0
 
 # OpenAI and Azure dependencies
@@ -31,6 +30,6 @@ torch>=2.0.0
 transformers>=4.30.0
 
 # Production server
-gunicorn>=21.0.0 
-firebase_admin
 uvicorn
+asgiref
+firebase_admin

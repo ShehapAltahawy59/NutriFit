@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
@@ -12,13 +12,11 @@ import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
 from . import initialize_azure_client
-from flask_cors import cross_origin
 from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
-# Create Blueprint for Gym Trainer
-summerizer_bp = Blueprint('summerizer_v1', __name__)
 
-# Pydantic models for fitness training
+router = APIRouter()
+# No HTTP endpoints in this file, but router is defined for consistency.
 
 
 

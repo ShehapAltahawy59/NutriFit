@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Startup script for NutriFit Agents API
+# Startup script for NutriFit Agents API (FastAPI/Uvicorn)
 set -e
 
 echo "🚀 Starting NutriFit Agents API..."
@@ -8,20 +8,11 @@ echo "🚀 Starting NutriFit Agents API..."
 # Wait for any dependencies (if needed)
 echo "⏳ Initializing application..."
 
-# Start the application with gunicorn
-exec gunicorn \
-    --bind 0.0.0.0:5000 \
-    --workers 2 \
-    --timeout 120 \
-    --keep-alive 5 \
-    --max-requests 1000 \
-    --max-requests-jitter 100 \
-    --worker-class sync \
-    --worker-tmp-dir /dev/shm \
-    --capture-output \
-    --enable-stdio-inheritance \
-    --access-logfile - \
-    --error-logfile - \
-    --log-level debug \
-    --pythonpath /app \
-    main:app 
+# Start the application with Uvicorn (production)
+exec uvicorn main:app \
+    --host 0.0.0.0 \
+    --port 8000 \
+    --workers 2
+
+# For development, you can use:
+# uvicorn main:app --host 0.0.0.0 --port 8000 --reload

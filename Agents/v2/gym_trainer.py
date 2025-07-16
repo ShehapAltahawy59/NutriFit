@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Request
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
@@ -7,16 +7,16 @@ from autogen_core import Image as AGImage
 from PIL import Image
 from autogen_agentchat.messages import MultiModalMessage
 from io import BytesIO
+from flask import jsonify
 import requests
 import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
 from . import initialize_azure_client
-from flask_cors import cross_origin
 from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
-# Create Blueprint for Gym Trainer
-gym_trainer_bp = Blueprint('gym_trainer_v2', __name__)
+# Create APIRouter for Gym Trainer
+router = APIRouter()
 
 # Pydantic models for fitness training
 class Exercise(BaseModel):
@@ -222,12 +222,11 @@ async def get_exercise_advice(query):
         }
 
 # Flask routes for Gym Trainer
-@gym_trainer_bp.route('/create_workout', methods=['POST'])
-@cross_origin()
-def create_workout_plan():
+@router.post('/create_workout')
+async def create_workout_plan(request: Request):
     """Main endpoint for creating comprehensive workout plans"""
     try:
-        data = request.get_json()
+        data = await request.json()
         
         # Validate input
         if not data:
@@ -246,15 +245,7 @@ def create_workout_plan():
         
         
         # Create workout plan
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
-        try:
-            result = loop.run_until_complete(
-                create_comprehensive_workout_plan(image_url, injuries, goals,number_of_gym_days)
-            )
-        finally:
-            loop.close()
+        result = await create_comprehensive_workout_plan(image_url, injuries, goals,number_of_gym_days)
         
         return jsonify(result)
         
@@ -262,50 +253,3 @@ def create_workout_plan():
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 
-@gym_trainer_bp.route('/exercise_advice', methods=['POST'])
-def exercise_advice():
-    """Endpoint for exercise-specific advice"""
-    try:
-        data = request.get_json()
-        
-        if not data or 'query' not in data:
-            return jsonify({"error": "Query is required"}), 400
-        
-        query = data['query']
-        
-        # Get exercise advice
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
-        try:
-            result = loop.run_until_complete(
-                get_exercise_advice(query)
-            )
-        finally:
-            loop.close()
-        
-        return jsonify(result)
-        
-    except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
-
-
-@gym_trainer_bp.route('/health', methods=['GET'])
-@cross_origin()
-def gym_trainer_health_check():
-    """Health check endpoint for Gym Trainer"""
-    try:
-        gym_trainer = create_gym_trainer_agent()
-        
-        status = "healthy" if gym_trainer else "unhealthy"
-        return jsonify({
-            "status": status, 
-            "service": "gym_trainer",
-            "agent_available": gym_trainer is not None
-        })
-    except Exception as e:
-        return jsonify({
-            "status": "unhealthy",
-            "service": "gym_trainer",
-            "error": str(e)
-        }), 500 

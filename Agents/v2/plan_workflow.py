@@ -16,13 +16,12 @@ The workflow processes:
 
 import asyncio
 import json
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Request
 from pydantic import BaseModel
 from typing import Optional
 import requests
 from PIL import Image
 from io import BytesIO
-from flask_cors import cross_origin
 
 # Import agent functions
 from .inbody_specialist import create_inbody_agent, process_inbody_analysis, process_inbody_image
@@ -34,8 +33,8 @@ from .gym_trainer import create_comprehensive_workout_plan
 from Agents.firebase_plans import get_user_plans, increment_used_requests, save_full_user_plan, send_plan_created_notification
 from .summerizer import summerize_workout_plan
 
-# Create Blueprint for Plan Workflow
-workflow_bp = Blueprint('plan_workflow_v2', __name__)
+# Create APIRouter for Plan Workflow
+router = APIRouter()
 
 # Pydantic models for workflow
 class WorkflowRequest(BaseModel):
@@ -243,18 +242,17 @@ async def execute_complete_workflow(
         }
 
 # Flask routes for Plan Workflow
-@workflow_bp.route('/create_complete_plan', methods=['POST'])
-@cross_origin()
-def create_complete_plan():
+@router.post('/create_complete_plan')
+async def create_complete_plan(request: Request):
     """Main endpoint for complete nutrition and gym planning workflow"""
     try:
-        data = request.get_json()
+        data = await request.json()
         if not data:
-            return jsonify({"error": "No data provided"}), 400
+            return {"error": "No data provided"}
         required_fields = ['type','time','user_id','inbody_image_url', 'client_country', 'goals', 'injuries', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
-                return jsonify({"error": f"Missing required field: {field}"}), 400
+                return {"error": f"Missing required field: {field}"}
         inbody_image_url = data['inbody_image_url']
         client_country = data['client_country']
         goals = data['goals']
@@ -263,18 +261,17 @@ def create_complete_plan():
         number_of_gym_days = data['number_of_gym_days']
         user_id = data.get('user_id', None)
         language = data.get('lang', "english")
-        time=data['time']
-        type=data['type']
+        time = data['time']
+        type_ = data['type']
         # Validate image URL
         try:
             response = requests.head(inbody_image_url, timeout=10)
             response.raise_for_status()
         except Exception as e:
-            return jsonify({"error": f"Invalid or inaccessible image URL: {str(e)}"}), 400
+            return {"error": f"Invalid or inaccessible image URL: {str(e)}"}
        
         
-        result = asyncio.run(
-            execute_complete_workflow(
+        result = await execute_complete_workflow(
                 
                 inbody_image_url,
                 client_country,
@@ -285,18 +282,16 @@ def create_complete_plan():
                 user_id,
                 language,
                 time,
-                type
+                type_
             )
-        )
         
             
-        return jsonify(result)
+        return result
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
+        return {"error": f"Server error: {str(e)}"}
 
-@workflow_bp.route('/workflow_status', methods=['GET'])
-@cross_origin()
-def workflow_status():
+@router.get('/workflow_status')
+async def workflow_status():
     """Get workflow status and capabilities"""
     try:
         # Check if all required agents are available
@@ -306,7 +301,7 @@ def workflow_status():
         
         all_agents_available = all([inbody_agent, nutritionist_agent, evaluator_agent])
         
-        return jsonify({
+        return {
             "workflow_status": "ready" if all_agents_available else "unavailable",
             "agents": {
                 "inbody_specialist": "available" if inbody_agent else "unavailable",
@@ -325,18 +320,14 @@ def workflow_status():
                 "allergies (optional)",
                 "user_info (optional)"
             ]
-        })
+        }
         
     except Exception as e:
-        return jsonify({
-            "workflow_status": "error",
-            "error": f"Error checking workflow status: {str(e)}"
-        }), 500
+        return {"workflow_status": "error", "error": f"Error checking workflow status: {str(e)}"}
 
 
-@workflow_bp.route('/health', methods=['GET'])
-@cross_origin()
-def workflow_health_check():
+@router.get('/health')
+async def workflow_health_check():
     """Health check endpoint for Plan Workflow"""
     try:
         # Check all required agents
@@ -346,16 +337,16 @@ def workflow_health_check():
         
         all_agents_available = all([inbody_agent, nutritionist_agent, evaluator_agent])
         
-        return jsonify({
+        return {
             "status": "healthy" if all_agents_available else "unhealthy",
             "service": "plan_workflow",
             "agents_available": all_agents_available,
             "workflow_ready": all_agents_available
-        })
+        }
         
     except Exception as e:
-        return jsonify({
+        return {
             "status": "unhealthy",
             "service": "plan_workflow",
             "error": str(e)
-        }), 500 
+        } 

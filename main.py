@@ -77,7 +77,7 @@ def health_check():
             "gym_trainer": "/gym/health",
             "plan_workflow": "/workflow/health"
         },
-        "version": "2.3.0"
+        "version": "2.4.0"
     }
 
 @app.get("/ping")

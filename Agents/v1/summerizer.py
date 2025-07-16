@@ -26,7 +26,7 @@ summerizer_bp = Blueprint('summerizer_v1', __name__)
 
 def create_summerizer_agent():
     """Create and return the summerizer agent"""
-    client = initialize_azure_client()
+    client, = initialize_azure_client()
     if not client:
         return None
     summerizer_system_message = f"""

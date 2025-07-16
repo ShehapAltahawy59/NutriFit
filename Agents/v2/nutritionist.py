@@ -51,7 +51,7 @@ class FourWeekDietPlan(BaseModel):
 
 def create_nutritionist_agent():
     """Create and return the main Nutritionist agent"""
-    client = initialize_azure_client()
+    x,client = initialize_azure_client()
     if not client:
         return None
     

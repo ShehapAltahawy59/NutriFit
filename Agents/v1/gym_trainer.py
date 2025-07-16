@@ -72,7 +72,7 @@ async def process_inbody_image(image_url):
 
 def create_gym_trainer_agent():
     """Create and return the Gym Trainer agent"""
-    client = initialize_azure_client()
+    client, = initialize_azure_client()
     if not client:
         return None
     gym_system_message = f"""

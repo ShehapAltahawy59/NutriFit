@@ -19,25 +19,27 @@ def initialize_azure_client():
     """Initialize Azure OpenAI client with proper authentication"""
     try:
         # Azure configuration
-        # endpoint   = os.environ["AZURE_OPENAI_ENDPOINT"]
-        # api_key    = os.environ["AZURE_OPENAI_API_KEY"]
-        # api_ver    = os.environ["AZURE_OPENAI_API_VERSION"]
-        # deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
-
-        # client = AzureOpenAIChatCompletionClient(
-        #     azure_deployment=deployment,
-        #     model=deployment,
-        #     api_version=api_ver,
-        #     azure_endpoint=endpoint,
-        #     api_key=api_key, # For key-based authentication.
-        # )
-        client = OpenAIChatCompletionClient(
+        endpoint   = os.environ["AZURE_OPENAI_ENDPOINT"]
+        api_key    = os.environ["AZURE_OPENAI_API_KEY"]
+        api_ver    = os.environ["AZURE_OPENAI_API_VERSION"]
+        deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
+        gemini_api_key = os.environ["GEMINI_API_KEY"]
+        
+        client = AzureOpenAIChatCompletionClient(
+            azure_deployment=deployment,
+            model=deployment,
+            api_version=api_ver,
+            azure_endpoint=endpoint,
+            api_key=api_key, # For key-based authentication.
+        )
+        
+        gemini_client = OpenAIChatCompletionClient(
         model="gemini-2.5-flash",
-        api_key="AIzaSyBXm5_gmzDx1tzX10ibC_Omp4YyASc8ZGs",
+        api_key=gemini_api_key,
         model_info=ModelInfo(vision=True, function_calling=True, json_output=True, family="unknown", structured_output=True)
         )
 
-        return client
+        return client,gemini_client
     except Exception as e:
         print(f"Error initializing Azure client: {e}")
         return None 

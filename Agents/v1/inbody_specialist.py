@@ -54,7 +54,7 @@ class ImageResponse(BaseModel):
 
 def create_inbody_agent():
     """Create and return the Inbody Specialist agent"""
-    client = initialize_azure_client()
+    client, = initialize_azure_client()
     if not client:
         return None
     

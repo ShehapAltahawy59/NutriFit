@@ -102,7 +102,7 @@ def create_gym_trainer_agent():
 
 def create_gym_evalutor_agent():
     """Create and return the Gym Trainer agent"""
-    client = initialize_azure_client()
+    x,client = initialize_azure_client()
     if not client:
         return None
     GymTrainer_evaluator_system_message = f"""

@@ -2,7 +2,8 @@ from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-
+from autogen_core.models import ModelInfo
+from autogen_ext.models.openai import OpenAIChatCompletionClient
 # Register message types to avoid server-side errors
 try:
     from autogen_agentchat.messages import register_message_type, StructuredMessage
@@ -23,12 +24,17 @@ def initialize_azure_client():
         api_ver    = os.environ["AZURE_OPENAI_API_VERSION"]
         deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
 
-        client = AzureOpenAIChatCompletionClient(
-            azure_deployment=deployment,
-            model=deployment,
-            api_version=api_ver,
-            azure_endpoint=endpoint,
-            api_key=api_key, # For key-based authentication.
+        # client = AzureOpenAIChatCompletionClient(
+        #     azure_deployment=deployment,
+        #     model=deployment,
+        #     api_version=api_ver,
+        #     azure_endpoint=endpoint,
+        #     api_key=api_key, # For key-based authentication.
+        # )
+        client = OpenAIChatCompletionClient(
+        model="gemini-2.5-flash",
+        api_key="AIzaSyBXm5_gmzDx1tzX10ibC_Omp4YyASc8ZGs",
+        model_info=ModelInfo(vision=True, function_calling=True, json_output=True, family="unknown", structured_output=True)
         )
 
         return client

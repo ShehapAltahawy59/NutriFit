@@ -97,8 +97,7 @@ jobs:
           az containerapp update \
           --name ${{ env.CONTAINER_APP_NAME }} \
           --resource-group ${{ env.RESOURCE_GROUP }} \
-          --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
-          --set-env-vars FLASK_APP=main.py FLASK_ENV=production
+          --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
       
           # Then enable revision mode through separate command
           az containerapp revision set-mode \
@@ -131,15 +130,15 @@ jobs:
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --environment ${{ env.ENVIRONMENT_NAME }} \
             --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
-            --target-port 5000 \
+            --target-port 8000 \
             --ingress external \
             --min-replicas 0 \
             --max-replicas 10 \
             --cpu 1 \
             --memory 2Gi \
-            --env-vars FLASK_APP=main.py FLASK_ENV=production \
             --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
             --secrets firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" \
+            --secrets gemini-api-key="${{ secrets.GEMINI_API_KEY }}" \
             --env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
             --env-vars FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json\
             --env-vars GEMINI_API_KEY=secretref:gemini-api-key

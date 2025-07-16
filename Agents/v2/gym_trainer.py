@@ -7,7 +7,7 @@ from autogen_core import Image as AGImage
 from PIL import Image
 from autogen_agentchat.messages import MultiModalMessage
 from io import BytesIO
-from flask import jsonify
+
 import requests
 import asyncio
 from pydantic import BaseModel
@@ -230,12 +230,12 @@ async def create_workout_plan(request: Request):
         
         # Validate input
         if not data:
-            return jsonify({"error": "No data provided"}), 400
+            return {"error": "No data provided"}, 400
         
         required_fields = ['inbody_image_url', 'injuries', 'goals', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
-                return jsonify({"error": f"Missing required field: {field}"}), 400
+                return {"error": f"Missing required field: {field}"}, 400
         
         # Extract data
         image_url = data['inbody_image_url']
@@ -247,9 +247,9 @@ async def create_workout_plan(request: Request):
         # Create workout plan
         result = await create_comprehensive_workout_plan(image_url, injuries, goals,number_of_gym_days)
         
-        return jsonify(result)
+        return result
         
     except Exception as e:
-        return jsonify({"error": f"Server error: {str(e)}"}), 500
+        return {"error": f"Server error: {str(e)}"}, 500
 
 

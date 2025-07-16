@@ -11,7 +11,7 @@ import requests
 import asyncio
 from pydantic import BaseModel
 from typing import List, Optional
-from .. import initialize_azure_client
+from . import initialize_azure_client
 from flask_cors import cross_origin
 from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
@@ -72,7 +72,7 @@ async def process_inbody_image(image_url):
 
 def create_gym_trainer_agent():
     """Create and return the Gym Trainer agent"""
-    client, = initialize_azure_client()
+    client = initialize_azure_client()
     if not client:
         return None
     gym_system_message = f"""

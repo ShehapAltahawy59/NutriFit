@@ -30,9 +30,9 @@ from .nutritionist import create_comprehensive_nutrition_plan, create_nutritioni
 from autogen_core import CancellationToken
 from autogen_core.models import UserMessage
 from autogen_agentchat.messages import MultiModalMessage
-from Agents.v2.gym_trainer import create_comprehensive_workout_plan
+from .gym_trainer import create_comprehensive_workout_plan
 from Agents.firebase_plans import get_user_plans, increment_used_requests, save_full_user_plan, send_plan_created_notification
-from Agents.v2.summerizer import summerize_workout_plan
+from .summerizer import summerize_workout_plan
 
 # Create Blueprint for Plan Workflow
 workflow_bp = Blueprint('plan_workflow_v2', __name__)

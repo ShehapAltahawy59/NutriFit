@@ -11,7 +11,7 @@ import requests
 import asyncio
 from pydantic import BaseModel
 from typing import Optional
-from .. import initialize_azure_client
+from . import initialize_azure_client
 from pydantic import BaseModel, Field
 # Create Blueprint for Inbody Specialist
 inbody_bp = Blueprint('inbody_specialist_v2', __name__)
@@ -56,7 +56,7 @@ class ImageResponse(BaseModel):
 
 def create_inbody_agent():
     """Create and return the Inbody Specialist agent"""
-    x,client = initialize_azure_client()
+    client = initialize_azure_client()
     if not client:
         return None
     

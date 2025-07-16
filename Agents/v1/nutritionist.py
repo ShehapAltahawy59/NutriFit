@@ -14,7 +14,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 from Agents.v1.gym_trainer import process_inbody_image
-from .. import initialize_azure_client
+from . import initialize_azure_client
 from flask_cors import cross_origin
 
 # Create Blueprint for Nutritionist
@@ -62,7 +62,7 @@ class NutritionResponse(BaseModel):
 
 def create_nutritionist_agent():
     """Create and return the main Nutritionist agent"""
-    client, = initialize_azure_client()
+    client = initialize_azure_client()
     if not client:
         return None
     

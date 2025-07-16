@@ -111,7 +111,7 @@ jobs:
           az containerapp secret set \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}"
+            --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" gemini-api-key="${{ secrets.GEMINI_API_KEY }}
           
           # Update environment variables that reference secrets
           az containerapp update \
@@ -123,6 +123,7 @@ jobs:
               AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
               AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
               FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json
+              GEMINI_API_KEY=secretref:gemini-api-key
         else
           echo "Creating new Container App..."
           az containerapp create \
@@ -141,6 +142,7 @@ jobs:
             --secrets firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" \
             --env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
             --env-vars FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json
+            --env-vars GEMINI_API_KEY=secretref:gemini-api-key
         fi
 
     - name: Get Container App URL

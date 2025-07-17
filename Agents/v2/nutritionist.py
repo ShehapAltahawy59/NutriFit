@@ -57,10 +57,17 @@ def convert_flat_to_nested(nutrition_result):
     # Arabic to English meal type map
     
 
+    meal_map = {
+        "فطور": "breakfast",
+        "غداء": "lunch",
+        "عشاء": "dinner",
+        "وجبة خفيفة": "snack"
+    }
+
     for entry in plan_entries:
         week = entry["week"]
         day = entry["day"]
-        meal_type =  entry["meal_type"]
+        meal_type = meal_map.get(entry["meal_type"], entry["meal_type"])
 
         # Create week if not exists
         if week not in week_map:

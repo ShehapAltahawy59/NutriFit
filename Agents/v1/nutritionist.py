@@ -241,7 +241,7 @@ async def create_nutrition_plan(request: Request):
 
         
         # Create nutrition plan
-        import asyncio
+        
         result = await create_comprehensive_nutrition_plan(inbody_image_url,calories,number_of_gym_days,client_country, goals, allergies)
         
         return result

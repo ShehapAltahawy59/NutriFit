@@ -1,0 +1,2394 @@
+{
+    "nutrition_result": {
+        "diet_plan": {
+            "plan": [
+                {
+                    "week": "الأسبوع الأول",
+                    "days": [
+                        {
+                            "day": "السبت",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "توست أسمر",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بني مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "مكرونة أسمر",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء كبيرة",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "تفاح",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "موز",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي لايت",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خمس حبات لوز",
+                                            "quantity": "5 قطع"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا مصفاة من الزيت",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مطبوخ على البخار",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق كبير سلطة خضراء",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأحد",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي يوناني",
+                                            "quantity": "1 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "فواكه مقطعة (فراولة أو توت)",
+                                        "quantity": "نصف كوب",
+                                        "alternatives": {
+                                            "name": "ملعقة بذور شيا",
+                                            "quantity": "1 ملعقة كبيرة"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "كفتة دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري قليل الدهن",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خبز شعير",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "بطاطا حلوة مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة جرجير وخس",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "خضار مشوي (باذنجان، كوسة)",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "5 حبات بلح",
+                                        "quantity": "5 قطع",
+                                        "alternatives": {
+                                            "name": "حفنة مكسرات نية",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "صدور دجاج مسلوقة ومقطعة",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار سوتيه",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة طماطم وخيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الإثنين",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "بيضة أومليت بالخضار",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "جبنة فيتا لايت",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "50 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خس",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "زيتون",
+                                            "quantity": "5 حبات"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش بلدي أسمر",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "خبز الشوفان",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "لحم بقري ستيك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك فيليه مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بطاطس مسلوقة أو مشوية",
+                                        "quantity": "200 جرام",
+                                        "alternatives": {
+                                            "name": "كوب أرز بسمتي بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مسلوق",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق سلطة كبير",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "علبة تونة صغيرة مصفاة",
+                                        "quantity": "1 علبة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مسلوق",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه مشكلة",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الثلاثاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "لبنة لايت",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "شوفان بالماء",
+                                            "quantity": "50 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "طماطم",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "خبز الشعير",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "أصابع كفتة لحم مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "كبدة دجاج مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة فوتشيني أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "برغل مطبوخ",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء مشكلة",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "تفاح",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "برتقال",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "زبادي لايت",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "طماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأربعاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض أومليت بالخضار",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "توست أسمر",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خس",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري مفروم مطبوخ",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بني مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا حلوة مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "فاصوليا خضراء مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة جرجير وشمندر",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خمس حبات لوز",
+                                            "quantity": "5 قطع"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة دجاج بالخضار",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق كبير سلطة خضراء بقطع الدجاج",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الخميس",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش بلدي أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خضروات ورقية",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "سمك بلطي مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدور دجاج مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "أرز بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سبانخ مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة فجل وجرجير",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "فواكه مقطعة (موز)",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "حفنة سوداني ني",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا بالخضار",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "طبق سلطة بقوليات",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الجمعة",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "أومليت بالخضار",
+                                        "quantity": "2 قطعة بيض",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "خبز أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "كفتة لحم مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بسمتي أسمر",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل سوتيه",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كابوتشا وجزر",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة خضروات",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "week": "الأسبوع الثاني",
+                    "days": [
+                        {
+                            "day": "السبت",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض أومليت",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش سن",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خس وخيار",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "زيتون",
+                                            "quantity": "5 حبات"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بسمتي بني",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "مكرونة أسمر",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة فتوش",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "تفاح",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "برتقال",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "حفنة عين جمل",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا بالخضار",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "شوربة دجاج بالخضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خس وطماطم",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأحد",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "شوفان بالماء والحليب قليل الدسم",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "فراولة",
+                                        "quantity": "نصف كوب",
+                                        "alternatives": {
+                                            "name": "تفاح",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "كفتة دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك فيليه مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خبز شعير",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "بطاطا مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سبانخ مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كينوا وخضار",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "موز",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "عدس بجبة مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "طماطم",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خس",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الإثنين",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش بلدي أسمر",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "توست أسمر",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري قليل الدهن",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بطاطا حلوة مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "أرز أسمر",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل سوتيه",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة زبادي وخيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "خمس حبات لوز",
+                                        "quantity": "5 قطع",
+                                        "alternatives": {
+                                            "name": "خمس حبات عين جمل",
+                                            "quantity": "5 قطع"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات ورقية",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الثلاثاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "لبنة لايت",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "موز",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "خبز أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "أرز بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء كبيرة",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "برتقال",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "تفاح",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "جبنة قريش",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "طماطم",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأربعاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "فول مدمس",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بيض أومليت بالخضار",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش بلدي أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري مفروم مطبوخ",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بني مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا حلوة مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "فاصوليا خضراء مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كابوتشا وذرة",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "علبة تونة صغيرة",
+                                            "quantity": "1 علبة"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق كبير سلطة خضراء بقطع التونة",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الخميس",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "جبنة قريش",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش بلدي أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات ورقية",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "سمك بلطي مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدور دجاج مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "أرز بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سبانخ مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة فجل وجرجير",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "فواكه مقطعة (موز)",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "حفنة مكسرات نية",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا بالخضار",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "طبق سلطة بقوليات",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الجمعة",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "فول مدمس",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "خبز أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "كفتة لحم مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بسمتي أسمر",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل سوتيه",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كابوتشا وجزر",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة خضروات",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "week": "الأسبوع الثالث",
+                    "days": [
+                        {
+                            "day": "السبت",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض أومليت بالخضروات",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "توست أسمر",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بني مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "مكرونة أسمر",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء كبيرة",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "تفاح",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "موز",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي لايت",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "لوز",
+                                            "quantity": "5 حبات"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا مصفاة من الزيت",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مطبوخ على البخار",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق كبير سلطة خضراء",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأحد",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي يوناني",
+                                            "quantity": "1 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "فواكه مقطعة (فراولة أو توت)",
+                                        "quantity": "نصف كوب",
+                                        "alternatives": {
+                                            "name": "ملعقة بذور كتان",
+                                            "quantity": "1 ملعقة كبيرة"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "كفتة دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري قليل الدهن",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خبز شعير",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "بطاطا حلوة مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة جرجير وخس",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "خضار مشوي (باذنجان، كوسة)",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "3 حبات بلح",
+                                        "quantity": "3 قطع",
+                                        "alternatives": {
+                                            "name": "حفنة سوداني ني",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "صدور دجاج مسلوقة ومقطعة",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار سوتيه",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة طماطم وخيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الإثنين",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "بيضة أومليت بالخضار",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "جبنة فيتا لايت",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "50 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خس",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "زيتون",
+                                            "quantity": "5 حبات"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش بلدي أسمر",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "خبز الشعير",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "لحم بقري ستيك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك فيليه مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بطاطس مسلوقة أو مشوية",
+                                        "quantity": "200 جرام",
+                                        "alternatives": {
+                                            "name": "كوب أرز بسمتي بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مسلوق",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق سلطة كبير",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "علبة تونة صغيرة مصفاة",
+                                        "quantity": "1 علبة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مسلوق",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه مشكلة",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الثلاثاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "لبنة لايت",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "شوفان بالماء",
+                                            "quantity": "50 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "طماطم",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "خبز الشعير",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "أصابع كفتة لحم مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "كبدة دجاج مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة فوتشيني أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "برغل مطبوخ",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء مشكلة",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "تفاح",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "برتقال",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "زبادي لايت",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "طماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأربعاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض أومليت بالخضار",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "توست أسمر",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خس",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري مفروم مطبوخ",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بني مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا حلوة مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "فاصوليا خضراء مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة جرجير وشمندر",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خمس حبات لوز",
+                                            "quantity": "5 قطع"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة دجاج بالخضار",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق كبير سلطة خضراء بقطع الدجاج",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الخميس",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش بلدي أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خضروات ورقية",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "سمك بلطي مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدور دجاج مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "أرز بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سبانخ مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة فجل وجرجير",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "فواكه مقطعة (موز)",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "حفنة مكسرات نية",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا بالخضار",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "طبق سلطة بقوليات",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الجمعة",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "أومليت بالخضار",
+                                        "quantity": "2 قطعة بيض",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "خبز أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "كفتة لحم مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بسمتي أسمر",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل سوتيه",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كابوتشا وجزر",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة خضروات",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "week": "الأسبوع الرابع",
+                    "days": [
+                        {
+                            "day": "السبت",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "جبنة قريش",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش سن",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خس وخيار",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "زيتون",
+                                            "quantity": "5 حبات"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بسمتي بني",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "مكرونة أسمر",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة فتوش",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "تفاح",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "برتقال",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "حفنة عين جمل",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا بالخضار",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "شوربة دجاج بالخضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خس وطماطم",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأحد",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "شوفان بالماء والحليب قليل الدسم",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "فراولة",
+                                        "quantity": "نصف كوب",
+                                        "alternatives": {
+                                            "name": "تفاح",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "كفتة دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك فيليه مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خبز شعير",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "بطاطا مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سبانخ مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كينوا وخضار",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "موز",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "عدس بجبة مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "طماطم",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خس",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الإثنين",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش بلدي أسمر",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "توست أسمر",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري قليل الدهن",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بطاطا حلوة مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "أرز أسمر",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل سوتيه",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة زبادي وخيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "خمس حبات لوز",
+                                        "quantity": "5 قطع",
+                                        "alternatives": {
+                                            "name": "خمس حبات عين جمل",
+                                            "quantity": "5 قطع"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خضروات ورقية",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الثلاثاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "لبنة لايت",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "موز",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "عيش سن",
+                                        "quantity": "نصف رغيف",
+                                        "alternatives": {
+                                            "name": "خبز أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "أرز بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء كبيرة",
+                                        "quantity": "2 كوب",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "برتقال",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "تفاح",
+                                            "quantity": "1 قطعة"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "جبنة قريش",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "طماطم",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الأربعاء",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "فول مدمس",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بيض أومليت بالخضار",
+                                            "quantity": "2 قطعة"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش بلدي أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "لحم بقري مفروم مطبوخ",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بني مطبوخ",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا حلوة مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "فاصوليا خضراء مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كابوتشا وذرة",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "زبادي يوناني",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "علبة تونة صغيرة",
+                                            "quantity": "1 علبة"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "طبق كبير سلطة خضراء بقطع التونة",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الخميس",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 قطعة",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "عيش بلدي أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "خضروات ورقية",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "سمك بلطي مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدور دجاج مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "مكرونة أسمر",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "أرز بني",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سبانخ مطبوخة",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة فجل وجرجير",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "فواكه مقطعة (موز)",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "حفنة مكسرات نية",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "تونا بالخضار",
+                                        "quantity": "1 علبة صغيرة",
+                                        "alternatives": {
+                                            "name": "طبق سلطة بقوليات",
+                                            "quantity": "1.5 كوب"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "فلفل ملون",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "الجمعة",
+                            "meals": {
+                                "وجبة الإفطار": [
+                                    {
+                                        "name": "أومليت بالخضار",
+                                        "quantity": "2 قطعة بيض",
+                                        "alternatives": {
+                                            "name": "فول مدمس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "توست أسمر",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "خبز أسمر",
+                                            "quantity": "نصف رغيف"
+                                        }
+                                    },
+                                    {
+                                        "name": "فلفل ملون",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "خيار",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة الغداء": [
+                                    {
+                                        "name": "صدور دجاج مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "كفتة لحم مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "أرز بسمتي أسمر",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "بطاطا مشوية",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل سوتيه",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة كابوتشا وجزر",
+                                            "quantity": "2 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة خفيفة": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "1 قطعة",
+                                        "alternatives": {
+                                            "name": "زبادي لايت",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ],
+                                "وجبة العشاء": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "1.5 كوب",
+                                        "alternatives": {
+                                            "name": "جبنة قريش",
+                                            "quantity": "100 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خيار وطماطم",
+                                        "quantity": "1 كوب",
+                                        "alternatives": {
+                                            "name": "سلطة خضروات",
+                                            "quantity": "1 كوب"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "status": "success"
+    },
+    "status": "success"
+}

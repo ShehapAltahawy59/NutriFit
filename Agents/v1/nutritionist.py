@@ -27,7 +27,7 @@ class IngredientAlternative(BaseModel):
 class Ingredient(BaseModel):
     name: str
     quantity: str  # Example: "2 eggs", "100g chicken", "1 cup milk"
-    alternatives: List[IngredientAlternative] = []
+    alternatives: IngredientAlternative
 
 class MealPlan(BaseModel):
     breakfast: List[Ingredient]

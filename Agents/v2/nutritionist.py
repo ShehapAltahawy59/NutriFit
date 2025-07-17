@@ -1,3 +1,5 @@
+from collections import defaultdict
+import json
 from fastapi import APIRouter, Request
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core import CancellationToken
@@ -11,7 +13,7 @@ from io import BytesIO
 import requests
 import asyncio
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from Agents.v2.gym_trainer import process_inbody_image
 from . import initialize_azure_client
@@ -22,29 +24,74 @@ router = APIRouter()
 # Pydantic models for nutrition planning
 class IngredientAlternative(BaseModel):
     name: str
-    quantity: str  # Example: "100g tofu", "1 cup soy milk"
-
+    quantity: str 
+# Pydantic models for nutrition planning
 class Ingredient(BaseModel):
-    name: str
-    quantity: str  # Example: "2 eggs", "100g chicken", "1 cup milk"
-    alternatives: list[str]
+    name: str  # Can be in any language
+    quantity: str
+    alternatives: IngredientAlternative  # Still language-flexible
 
-class MealPlan(BaseModel):
-    breakfast: List[str]
-    lunch: List[str]
-    snack: List[str]
-    dinner: List[str]
 
-class DailyPlan(BaseModel):
-    day: str
-    meals: MealPlan
+class DayPlan(BaseModel):
+    week: str  # e.g., "Week 1", "الأسبوع الأول"
+    day: str   # e.g., "Monday", "الإثنين"
+    meal_type: str # e.g. "breakfast", "lunch", "عشاء"
+    ingredients: List[Ingredient]
 
-class WeeklyPlan(BaseModel):
-    week: str
-    days: List[DailyPlan]
 
 class FourWeekDietPlan(BaseModel):
-    plan: List[WeeklyPlan]
+    plan: List[DayPlan]  # 28 items: 4 weeks * 7 days
+
+
+
+# ----------------------------
+# 🔁 Convert Flat → Nested
+# ----------------------------
+
+def convert_flat_to_nested(nutrition_result):
+    result = {"plan": []}
+    plan_entries = nutrition_result["plan"]
+
+    week_map = {}
+
+    # Arabic to English meal type map
+    
+
+    for entry in plan_entries:
+        week = entry["week"]
+        day = entry["day"]
+        meal_type =  entry["meal_type"]
+
+        # Create week if not exists
+        if week not in week_map:
+            week_obj = {"week": week, "days": []}
+            week_map[week] = week_obj
+            result["plan"].append(week_obj)
+
+        week_obj = week_map[week]
+
+        # Check if day already added
+        day_obj = next((d for d in week_obj["days"] if d["day"] == day), None)
+        if not day_obj:
+            day_obj = {"day": day, "meals": {}}
+            week_obj["days"].append(day_obj)
+
+        # Add meal items
+        ingredients = entry.get("ingredients", [])
+        meal_items = []
+        for item in ingredients:
+            meal_items.append({
+                "name": item.get("name", ""),
+                "quantity": item.get("quantity", ""),
+                "alternatives": {
+                    "name": item.get("alternatives", {}).get("name", ""),
+                    "quantity": item.get("alternatives", {}).get("quantity", "")
+                }
+            })
+
+        day_obj["meals"][meal_type] = meal_items
+
+    return result
     
 
 
@@ -64,15 +111,14 @@ def create_nutritionist_agent():
         Meals should be simple, practical, and easy to prepare, with clear ingredients and quantities.
         Each meal should have main ingredients and one Ingredient Alternative.
         Meals should reflect ingredients commonly available in client country.
-        ingredients must be  clearly listed with understandable quantities (grams, pieces) for all days in all weeks
+        ingredients must be  clearly listed with understandable quantities (grams or pieces only) for all days in all weeks
         Units of measurement should also be used and known in client country.
         Main Note: Don't include any foods or ingredients the client is allergic to.
         Do not include any explanation, recommendations, or analysis — only provide the structured 4-week diet plan in a clean and clear format.
         return the response with the language the user give to you.
         """,
-        output_content_type= FourWeekDietPlan
-        
-    )
+      output_content_type= FourWeekDietPlan
+   )
     
     return nutritionist
 
@@ -187,7 +233,12 @@ async def create_comprehensive_nutrition_plan(language,inbody_data,calories,numb
         # Extract the response
         if diet_plan_output :
             response = diet_plan_output.messages[-2].content
-            response = response.model_dump()
+            if hasattr(response, "model_dump"):
+                response_dict = response.model_dump()
+            else:
+                response_dict = response.dict()
+            response = convert_flat_to_nested(response_dict)
+            
         else:
             response = "Unable to generate nutrition plan"
         

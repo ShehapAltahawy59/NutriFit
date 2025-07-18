@@ -1,4 +1,4 @@
-name: Deploy to Azure Container Apps (Docker Hub)
+name: Deploy to Google Cloud Run (Docker Hub)
 
 on:
   push:
@@ -7,17 +7,16 @@ on:
     branches: [ main ]
 
 env:
-  RESOURCE_GROUP: nutrifit
-  LOCATION: uaenorth
-  CONTAINER_APP_NAME: nutrifit-agents-api
-  ENVIRONMENT_NAME: nutrifit-env
+  PROJECT_ID: my-nutrifit-project
+  SERVICE_NAME: nutrifit-agents-api
+  REGION: me-central2
   IMAGE_NAME: nutrifit-agents-api
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # Set timeout to 30 minutes
+    timeout-minutes: 30
     
     steps:
     - name: Checkout code
@@ -25,9 +24,6 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-      with:
-        driver-opts: |
-          image=moby/buildkit:v0.12.0
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
@@ -35,10 +31,12 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Log in to Azure
-      uses: azure/login@v1
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        project_id: ${{ env.PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
 
     - name: Extract metadata
       id: meta
@@ -47,11 +45,9 @@ jobs:
         images: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}
         tags: |
           type=ref,event=branch
-          type=ref,event=pr
           type=sha,prefix={{branch}}-
-          type=raw,value=latest,enable={{is_default_branch}}
 
-    - name: Build and push Docker image to Docker Hub
+    - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -60,126 +56,38 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: linux/amd64
-        build-args: |
-          BUILDKIT_INLINE_CACHE=1
-        # Temporarily disabled due to GitHub Actions service issues
-        # cache-from: type=gha
-        # cache-to: type=gha,mode=max
-        # Alternative: Use Docker Hub cache
-        cache-from: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache
-        cache-to: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
-    - name: Deploy to Azure Container Apps
+    - name: Deploy to Google Cloud Run
       run: |
-        # Check if resource group exists, create if not
-        if ! az group show --name ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
-          echo "Creating resource group..."
-          az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
-        fi
-        
-        # Check if Container Apps environment exists, create if not
-        if ! az containerapp env show --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
-          echo "Creating Container Apps environment..."
-          # Try to create with automatic Log Analytics workspace
-          az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} || {
-            echo "Failed to create environment automatically. Trying with manual Log Analytics workspace..."
-            # Create Log Analytics workspace first
-            az monitor log-analytics workspace create --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --location ${{ env.LOCATION }}
-            # Create environment with the workspace
-            az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} --logs-workspace-id $(az monitor log-analytics workspace show --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --query customerId --output tsv)
-          }
-        fi
-        
-        # Check if Container App exists, update if yes, create if no
-        if az containerapp show --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
-          echo "Updating existing Container App..."
-          # Update the container app with new image and environment variables
-          az containerapp update \
-          --name ${{ env.CONTAINER_APP_NAME }} \
-          --resource-group ${{ env.RESOURCE_GROUP }} \
-          --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-      
-          # Then enable revision mode through separate command
-          az containerapp revision set-mode \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --mode Single
-          
-          # Update secrets separately (secrets need to be updated individually)
-          echo "Updating secrets..."
-          az containerapp secret set \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" gemini-api-key="${{ secrets.GEMINI_API_KEY }}"
-          
-          # Update environment variables that reference secrets
-          az containerapp update \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --set-env-vars \
-              AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
-              AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
-              AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
-              AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
-              FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json\
-              GEMINI_API_KEY=secretref:gemini-api-key
-        else
-          echo "Creating new Container App..."
-          az containerapp create \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --environment ${{ env.ENVIRONMENT_NAME }} \
-            --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
-            --target-port 8000 \
-            --ingress external \
-            --min-replicas 0 \
-            --max-replicas 10 \
-            --cpu 1 \
-            --memory 2Gi \
-            --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
-            --secrets firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" \
-            --secrets gemini-api-key="${{ secrets.GEMINI_API_KEY }}" \
-            --env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
-            --env-vars FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json\
-            --env-vars GEMINI_API_KEY=secretref:gemini-api-key
-        fi
+        IMAGE=${{ steps.meta.outputs.tags }}
+        gcloud run deploy ${{ env.SERVICE_NAME }} \
+          --image=${IMAGE} \
+          --region=${{ env.REGION }} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --set-env-vars=AZURE_OPENAI_ENDPOINT=${{ secrets.AZURE_OPENAI_ENDPOINT }},AZURE_OPENAI_API_KEY=${{ secrets.AZURE_OPENAI_API_KEY }},AZURE_OPENAI_API_VERSION=${{ secrets.AZURE_OPENAI_API_VERSION }},AZURE_OPENAI_DEPLOYMENT=${{ secrets.AZURE_OPENAI_DEPLOYMENT }},FIREBASE_SERVICE_ACCOUNT_JSON='${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}',GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
 
-    - name: Get Container App URL
-      id: get-url
+    - name: Get Service URL
+      id: service-url
       run: |
-        APP_URL=$(az containerapp show \
-          --name ${{ env.CONTAINER_APP_NAME }} \
-          --resource-group ${{ env.RESOURCE_GROUP }} \
-          --query properties.configuration.ingress.fqdn \
-          --output tsv)
-        echo "url=$APP_URL" >> $GITHUB_OUTPUT
+        URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+          --region ${{ env.REGION }} \
+          --format 'value(status.url)')
+        echo "url=$URL" >> $GITHUB_OUTPUT
 
     - name: Test deployment
       run: |
-        echo "Testing deployment at https://${{ steps.get-url.outputs.url }}"
+        echo "Testing deployment at ${{ steps.service-url.outputs.url }}"
         echo "Waiting for application to be ready..."
-        sleep 90  # Increased wait time for container to fully start
-        
-        # Try multiple health checks with retries
-        max_attempts=5
-        attempt=1
-        
-        while [ $attempt -le $max_attempts ]; do
-          echo "Health check attempt $attempt/$max_attempts..."
-          if curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/ping" || curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/health"; then
-            echo "✅ Health check passed!"
-            break
-          else
-            echo "❌ Health check attempt $attempt failed"
-            if [ $attempt -eq $max_attempts ]; then
-              echo "⚠️  All health check attempts failed, but deployment may still be successful"
-              echo "The application might need more time to start up"
-              exit 0  # Don't fail the workflow
-            fi
-            sleep 30  # Wait before retry
-            attempt=$((attempt + 1))
-          fi
-        done
+        sleep 60
+
+        if curl -f --max-time 30 "${{ steps.service-url.outputs.url }}/ping" || curl -f --max-time 30 "${{ steps.service-url.outputs.url }}/health"; then
+          echo "✅ Health check passed!"
+        else
+          echo "⚠️ Health check failed, but deployment may still be initializing"
+        fi
 
     - name: Comment PR with deployment info
       if: github.event_name == 'pull_request'
@@ -192,11 +100,226 @@ jobs:
             repo: context.repo.repo,
             body: `🚀 **Deployment Successful!**
           
-          **Environment:** Azure Container Apps
-          **Image:** ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-          **URL:** https://${{ steps.get-url.outputs.url }}
-          **Health Check:** https://${{ steps.get-url.outputs.url }}/health
-          **Status:** https://${{ steps.get-url.outputs.url }}/status
+          **Environment:** Google Cloud Run
+          **Image:** ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}
+          **URL:** ${{ steps.service-url.outputs.url }}
+          **Health Check:** ${{ steps.service-url.outputs.url }}/health
+          **Status:** ${{ steps.service-url.outputs.url }}/status
           
           The NutriFit Agents API has been deployed successfully!`
-          }) 
+          })
+
+
+
+
+
+
+
+
+
+
+
+
+
+# name: Deploy to Azure Container Apps (Docker Hub)
+
+# on:
+#   push:
+#     branches: [ main, production ]
+#   pull_request:
+#     branches: [ main ]
+
+# env:
+#   RESOURCE_GROUP: nutrifit
+#   LOCATION: uaenorth
+#   CONTAINER_APP_NAME: nutrifit-agents-api
+#   ENVIRONMENT_NAME: nutrifit-env
+#   IMAGE_NAME: nutrifit-agents-api
+#   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 30  # Set timeout to 30 minutes
+    
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
+
+#     - name: Set up Docker Buildx
+#       uses: docker/setup-buildx-action@v3
+#       with:
+#         driver-opts: |
+#           image=moby/buildkit:v0.12.0
+
+#     - name: Log in to Docker Hub
+#       uses: docker/login-action@v3
+#       with:
+#         username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#         password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+#     - name: Log in to Azure
+#       uses: azure/login@v1
+#       with:
+#         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+#     - name: Extract metadata
+#       id: meta
+#       uses: docker/metadata-action@v5
+#       with:
+#         images: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}
+#         tags: |
+#           type=ref,event=branch
+#           type=ref,event=pr
+#           type=sha,prefix={{branch}}-
+#           type=raw,value=latest,enable={{is_default_branch}}
+
+#     - name: Build and push Docker image to Docker Hub
+#       uses: docker/build-push-action@v5
+#       with:
+#         context: .
+#         file: ./Dockerfile.prod
+#         push: true
+#         tags: ${{ steps.meta.outputs.tags }}
+#         labels: ${{ steps.meta.outputs.labels }}
+#         platforms: linux/amd64
+#         build-args: |
+#           BUILDKIT_INLINE_CACHE=1
+#         # Temporarily disabled due to GitHub Actions service issues
+#         # cache-from: type=gha
+#         # cache-to: type=gha,mode=max
+#         # Alternative: Use Docker Hub cache
+#         cache-from: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache
+#         cache-to: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
+
+#     - name: Deploy to Azure Container Apps
+#       run: |
+#         # Check if resource group exists, create if not
+#         if ! az group show --name ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
+#           echo "Creating resource group..."
+#           az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+#         fi
+        
+#         # Check if Container Apps environment exists, create if not
+#         if ! az containerapp env show --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
+#           echo "Creating Container Apps environment..."
+#           # Try to create with automatic Log Analytics workspace
+#           az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} || {
+#             echo "Failed to create environment automatically. Trying with manual Log Analytics workspace..."
+#             # Create Log Analytics workspace first
+#             az monitor log-analytics workspace create --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --location ${{ env.LOCATION }}
+#             # Create environment with the workspace
+#             az containerapp env create --name ${{ env.ENVIRONMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }} --logs-workspace-id $(az monitor log-analytics workspace show --resource-group ${{ env.RESOURCE_GROUP }} --workspace-name nutrifit-logs --query customerId --output tsv)
+#           }
+#         fi
+        
+#         # Check if Container App exists, update if yes, create if no
+#         if az containerapp show --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output none 2>/dev/null; then
+#           echo "Updating existing Container App..."
+#           # Update the container app with new image and environment variables
+#           az containerapp update \
+#           --name ${{ env.CONTAINER_APP_NAME }} \
+#           --resource-group ${{ env.RESOURCE_GROUP }} \
+#           --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+      
+#           # Then enable revision mode through separate command
+#           az containerapp revision set-mode \
+#             --name ${{ env.CONTAINER_APP_NAME }} \
+#             --resource-group ${{ env.RESOURCE_GROUP }} \
+#             --mode Single
+          
+#           # Update secrets separately (secrets need to be updated individually)
+#           echo "Updating secrets..."
+#           az containerapp secret set \
+#             --name ${{ env.CONTAINER_APP_NAME }} \
+#             --resource-group ${{ env.RESOURCE_GROUP }} \
+#             --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" gemini-api-key="${{ secrets.GEMINI_API_KEY }}"
+          
+#           # Update environment variables that reference secrets
+#           az containerapp update \
+#             --name ${{ env.CONTAINER_APP_NAME }} \
+#             --resource-group ${{ env.RESOURCE_GROUP }} \
+#             --set-env-vars \
+#               AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint \
+#               AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key \
+#               AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version \
+#               AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
+#               FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json\
+#               GEMINI_API_KEY=secretref:gemini-api-key
+#         else
+#           echo "Creating new Container App..."
+#           az containerapp create \
+#             --name ${{ env.CONTAINER_APP_NAME }} \
+#             --resource-group ${{ env.RESOURCE_GROUP }} \
+#             --environment ${{ env.ENVIRONMENT_NAME }} \
+#             --image ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest \
+#             --target-port 8000 \
+#             --ingress external \
+#             --min-replicas 0 \
+#             --max-replicas 10 \
+#             --cpu .25 \
+#             --memory .5Gi \
+#             --secrets azure-openai-endpoint="${{ secrets.AZURE_OPENAI_ENDPOINT }}" azure-openai-api-key="${{ secrets.AZURE_OPENAI_API_KEY }}" azure-openai-api-version="${{ secrets.AZURE_OPENAI_API_VERSION }}" azure-openai-deployment="${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" \
+#             --secrets firebase-service-account-json="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" \
+#             --secrets gemini-api-key="${{ secrets.GEMINI_API_KEY }}" \
+#             --env-vars AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint AZURE_OPENAI_API_KEY=secretref:azure-openai-api-key AZURE_OPENAI_API_VERSION=secretref:azure-openai-api-version AZURE_OPENAI_DEPLOYMENT=secretref:azure-openai-deployment \
+#             --env-vars FIREBASE_SERVICE_ACCOUNT_JSON=secretref:firebase-service-account-json\
+#             --env-vars GEMINI_API_KEY=secretref:gemini-api-key
+#         fi
+
+#     - name: Get Container App URL
+#       id: get-url
+#       run: |
+#         APP_URL=$(az containerapp show \
+#           --name ${{ env.CONTAINER_APP_NAME }} \
+#           --resource-group ${{ env.RESOURCE_GROUP }} \
+#           --query properties.configuration.ingress.fqdn \
+#           --output tsv)
+#         echo "url=$APP_URL" >> $GITHUB_OUTPUT
+
+#     - name: Test deployment
+#       run: |
+#         echo "Testing deployment at https://${{ steps.get-url.outputs.url }}"
+#         echo "Waiting for application to be ready..."
+#         sleep 90  # Increased wait time for container to fully start
+        
+#         # Try multiple health checks with retries
+#         max_attempts=5
+#         attempt=1
+        
+#         while [ $attempt -le $max_attempts ]; do
+#           echo "Health check attempt $attempt/$max_attempts..."
+#           if curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/ping" || curl -f --max-time 30 "https://${{ steps.get-url.outputs.url }}/health"; then
+#             echo "✅ Health check passed!"
+#             break
+#           else
+#             echo "❌ Health check attempt $attempt failed"
+#             if [ $attempt -eq $max_attempts ]; then
+#               echo "⚠️  All health check attempts failed, but deployment may still be successful"
+#               echo "The application might need more time to start up"
+#               exit 0  # Don't fail the workflow
+#             fi
+#             sleep 30  # Wait before retry
+#             attempt=$((attempt + 1))
+#           fi
+#         done
+
+#     - name: Comment PR with deployment info
+#       if: github.event_name == 'pull_request'
+#       uses: actions/github-script@v7
+#       with:
+#         script: |
+#           github.rest.issues.createComment({
+#             issue_number: context.issue.number,
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             body: `🚀 **Deployment Successful!**
+          
+#           **Environment:** Azure Container Apps
+#           **Image:** ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+#           **URL:** https://${{ steps.get-url.outputs.url }}
+#           **Health Check:** https://${{ steps.get-url.outputs.url }}/health
+#           **Status:** https://${{ steps.get-url.outputs.url }}/status
+          
+#           The NutriFit Agents API has been deployed successfully!`
+#           }) 

@@ -59,9 +59,9 @@ jobs:
 
     - name: Deploy to Google Cloud Run
       run: |
-        IMAGE=${{ steps.meta.outputs.tags }}
+        IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | head -n 1)
         gcloud run deploy ${{ env.SERVICE_NAME }} \
-          --image=${IMAGE} \
+          --image=$IMAGE \
           --region=${{ env.REGION }} \
           --platform=managed \
           --allow-unauthenticated \

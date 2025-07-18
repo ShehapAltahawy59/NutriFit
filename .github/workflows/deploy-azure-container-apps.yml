@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  PROJECT_ID: my-nutrifit-project
+  PROJECT_ID: nutrifitai-2025
   SERVICE_NAME: nutrifit-agents-api
   REGION: me-central2
   IMAGE_NAME: nutrifit-agents-api

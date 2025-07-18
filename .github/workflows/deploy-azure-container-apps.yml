@@ -56,6 +56,9 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: linux/amd64
+        
+    - name: Activate service account manually (fix for deploy error)
+        run: gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
 
     - name: Deploy to Google Cloud Run
       run: |

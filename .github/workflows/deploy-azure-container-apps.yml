@@ -9,7 +9,7 @@ on:
 env:
   PROJECT_ID: nutrifitai-2025
   SERVICE_NAME: nutrifit-agents-api
-  REGION: me-central2
+  REGION: me-central1
   IMAGE_NAME: nutrifit-agents-api
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
 

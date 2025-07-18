@@ -19,6 +19,7 @@ router = APIRouter()
 
 
 class InbodyData(BaseModel):
+    gender: Optional[str] = Field(None, description="Gender")
     weight: Optional[float] = Field(None, description="Weight in kilograms")
     height: Optional[float] = Field(None, description="Height in centimeters")
     body_fat_percentage: Optional[float] = Field(None, description="Body fat percentage")

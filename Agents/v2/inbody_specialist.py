@@ -19,31 +19,27 @@ router = APIRouter()
 
 
 class InbodyData(BaseModel):
-    gender: Optional[str] = Field(None, description="Gender")
-    weight: Optional[float] = Field(None, description="Weight in kilograms")
-    height: Optional[float] = Field(None, description="Height in centimeters")
-    body_fat_percentage: Optional[float] = Field(None, description="Body fat percentage")
-    body_fat_mass: Optional[float] = Field(None, description="Body fat mass in kilograms")
-    muscle_mass: Optional[float] = Field(None, description="Skeletal muscle mass")
-    fat_free_mass: Optional[float] = Field(None, description="Fat-free mass in kilograms")
-    bmi: Optional[float] = Field(None, description="Body Mass Index")
-    basal_metabolic_rate: Optional[float] = Field(None, description="Basal Metabolic Rate in kcal")
-    metabolic_age: Optional[int] = Field(None, description="Metabolic age")
-    protein: Optional[float] = Field(None, description="Protein level")
-    minerals: Optional[float] = Field(None, description="Mineral content")
-    body_water: Optional[float] = Field(None, description="Total body water")
-    visceral_fat_level: Optional[float] = Field(None, description="Visceral fat level")
-    waist_hip_ratio: Optional[float] = Field(None, description="Waist-Hip Ratio")
-    obesity_degree: Optional[float] = Field(None, description="Obesity Degree")
-    segmental_fat: Optional[str] = Field(None, description="Segmental fat info")
-    segmental_muscle: Optional[str] = Field(None, description="Segmental muscle info")
-    impedance: Optional[str] = Field(None, description="Impedance values by body part")
-    inbody_score: Optional[int] = Field(None, description="Overall InBody score")
+    weight: Optional[float] = None
+    height: Optional[float] = None
+    body_fat_percentage: Optional[float] = None
+    body_fat_mass: Optional[float] = None
+    muscle_mass: Optional[float] = None
+    fat_free_mass: Optional[float] = None
+    bmi: Optional[float] = None
+    basal_metabolic_rate: Optional[float] = None
+    metabolic_age: Optional[int] = None
+    protein: Optional[float] = None
+    minerals: Optional[float] = None
+    body_water: Optional[float] = None
+    visceral_fat_level: Optional[float] = None
+    waist_hip_ratio: Optional[float] = None
+    obesity_degree: Optional[float] = None
+    inbody_score: Optional[int] = None
 
 
 class ImageResponse(BaseModel):
-    status: str  # either "ok" or "not valid image"
-    results: Optional[InbodyData]   # Only present if status is "ok"
+    status: str
+    results: Optional[InbodyData] = None
     
 
 

@@ -69,7 +69,9 @@ async def execute_complete_workflow(
     user_id: str = None,
     language:str = "english",
     time:str = "",
-    type:str = ""
+    type:str = "",
+    age:str = "",
+    gender = "",
 ) -> dict:
     """
     Execute the complete workflow: (history summary) -> InBody image -> gym plan -> nutrition plan
@@ -145,7 +147,9 @@ async def execute_complete_workflow(
                 number_of_gym_days,
                 last_plan_summary,
                 last_plan_inbody_data,
-                type
+                type,
+                age,
+                gender
                 
             )
             if gym_result["status"] == "error":
@@ -183,7 +187,9 @@ async def execute_complete_workflow(
             goals,
             allergies,
             last_plan_summary,
-            last_plan_inbody_data
+            last_plan_inbody_data,
+            age,
+            gender
         )
         if nutrition_result["status"] == "error":
             workflow_steps[-1].status = "failed"
@@ -249,7 +255,7 @@ async def create_complete_plan(request: Request):
         data = await request.json()
         if not data:
             return {"error": "No data provided"}
-        required_fields = ['type','time','user_id','inbody_image_url', 'client_country', 'goals', 'injuries', 'number_of_gym_days']
+        required_fields = ['age','gender','type','time','user_id','inbody_image_url', 'client_country', 'goals', 'injuries', 'number_of_gym_days']
         for field in required_fields:
             if field not in data:
                 return {"error": f"Missing required field: {field}"}
@@ -263,6 +269,8 @@ async def create_complete_plan(request: Request):
         language = data.get('lang', "english")
         time = data['time']
         type_ = data['type']
+        age = data['age']
+        gender = data['gender']
         # Validate image URL
         try:
             response = requests.head(inbody_image_url, timeout=10)
@@ -282,7 +290,9 @@ async def create_complete_plan(request: Request):
                 user_id,
                 language,
                 time,
-                type_
+                type_,
+                age,
+                gender
             )
         
             

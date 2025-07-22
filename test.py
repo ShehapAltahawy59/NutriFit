@@ -6,15 +6,6 @@ def convert_flat_to_nested(nutrition_result):
     plan_entries = nutrition_result["plan"]
 
     week_map = {}
-
-    # Arabic to English meal type map
-    meal_map = {
-        "فطور": "breakfast",
-        "غداء": "lunch",
-        "عشاء": "dinner",
-        "وجبة خفيفة": "snack"
-    }
-
     for entry in plan_entries:
         week = entry["week"]
         day = entry["day"]

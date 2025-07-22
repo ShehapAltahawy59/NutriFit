@@ -130,7 +130,7 @@ def create_gym_evalutor_agent():
     return GymTrainer_evaluator
 
 
-async def create_comprehensive_workout_plan(inbody_data, injuries, goals, number_of_gym_days,lastgymPlan,last_plan_inbody_data,type):
+async def create_comprehensive_workout_plan(inbody_data, injuries, goals, number_of_gym_days,lastgymPlan,last_plan_inbody_data,type,age,gender):
     """Create a comprehensive workout plan"""
     try:
         # Initialize Gym Trainer agent
@@ -153,6 +153,8 @@ async def create_comprehensive_workout_plan(inbody_data, injuries, goals, number
             lastgymPlan="no history for that user"
         
         user_message = f"""
+        age:{age}
+        gender:{gender}
         last gym Plan:{lastgymPlan}
         last inbody data:{last_plan_inbody_data}
         current inbody data:{inbody_data}

@@ -196,7 +196,7 @@ async def process_food_image(image_url):
         print(f"Error processing food image: {e}")
         return None
 
-async def create_comprehensive_nutrition_plan(language,inbody_data,calories,number_of_gym_days,client_country, goals, allergies,last_nutritionPlan,last_plan_inbody_data):
+async def create_comprehensive_nutrition_plan(language,inbody_data,calories,number_of_gym_days,client_country, goals, allergies,last_nutritionPlan,last_plan_inbody_data,age,gender):
     """Create a comprehensive nutrition plan using nutritionist and evaluator team"""
     try:
         # Initialize agents
@@ -219,6 +219,8 @@ async def create_comprehensive_nutrition_plan(language,inbody_data,calories,numb
         else:
             last_nutritionPlan="no history for that user"
         user_message = f"""
+        age:{age}
+        gender:{gender}
         last_nutritionPlan:{last_nutritionPlan}
         last inbody data:{last_plan_inbody_data}
         current inbody data:{inbody_data}

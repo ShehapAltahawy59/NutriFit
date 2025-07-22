@@ -1,0 +1,1636 @@
+"diet_plan": {
+            "plan": [
+                {
+                    "week": "الأسبوع 1",
+                    "days": [
+                        {
+                            "day": "اليوم 1",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "200 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهو",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "كمثرى",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة تونة مع خس وخيار",
+                                        "quantity": "150 جرام تونة, 100 جرام خس, 100 جرام خيار",
+                                        "alternatives": {
+                                            "name": "سلطة سلمون مدخن",
+                                            "quantity": "150 جرام سلمون, 100 جرام خس, 100 جرام خيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 2",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي, 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مسلوق",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سبانخ مطبوخة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة لوز",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "حفنة عين الجمل",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض أومليت مع فلفل أخضر وبندورة",
+                                        "quantity": "2 بيضة, 50 جرام فلفل أخضر, 50 جرام بندورة",
+                                        "alternatives": {
+                                            "name": "سلطة فول مدشوش",
+                                            "quantity": "150 جرام فول, 50 جرام بصل, 50 جرام طماطم"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 3",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "خبز بلدي",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "توست القمح الكامل",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "جبنة قريش قليلة الدسم",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مسلوق",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "كرفس مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 4",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "زبادي قليل الدسم مع عسل طبيعي",
+                                        "quantity": "150 جرام مع ملعقة صغيرة عسل",
+                                        "alternatives": {
+                                            "name": "كوب حليب قليل الدسم",
+                                            "quantity": "200 مل"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة مفرومة بدون دهون مطبوخة",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار سوتيه",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "برتقالة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "تفاحة",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 5",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "كورن فليكس بدون سكر مع حليب قليل الدسم",
+                                        "quantity": "50 جرام كورن فليكس, 150 مل حليب",
+                                        "alternatives": {
+                                            "name": "شوفان مع حليب قليل الدسم",
+                                            "quantity": "50 جرام شوفان, 150 مل حليب"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء مع زيت زيتون",
+                                        "quantity": "150 جرام, 10 مل زيت زيتون",
+                                        "alternatives": {
+                                            "name": "خضار مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة مكسرات مشكلة",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة خضار",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة تونة",
+                                        "quantity": "150 جرام تونة، 100 جرام خس وخيار",
+                                        "alternatives": {
+                                            "name": "سلطة دجاج",
+                                            "quantity": "150 جرام دجاج، 100 جرام خس وخيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 6",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض أومليت مع سبانخ",
+                                        "quantity": "2 بيضة، 50 جرام سبانخ",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي، 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهوج",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "موزة صغيرة",
+                                            "quantity": "1"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة فاصوليا بيضاء مع زيت زيتون وليمون",
+                                        "quantity": "150 جرام فاصوليا، 10 مل زيت زيتون، 10 مل عصير ليمون",
+                                        "alternatives": {
+                                            "name": "سلطة حمص",
+                                            "quantity": "150 جرام حمص، 10 مل زيت زيتون، 10 مل عصير ليمون"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 7",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "توست القمح الكامل مع جبنة قليلة الدسم",
+                                        "quantity": "2 شريحة، 100 جرام جبنة",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 بيضة"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضار سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "خيار مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي قليل الدسم",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "week": "الأسبوع 2",
+                    "days": [
+                        {
+                            "day": "اليوم 1",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "200 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهو",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "كمثرى",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة تونة مع خس وخيار",
+                                        "quantity": "150 جرام تونة, 100 جرام خس, 100 جرام خيار",
+                                        "alternatives": {
+                                            "name": "سلطة سلمون مدخن",
+                                            "quantity": "150 جرام سلمون, 100 جرام خس, 100 جرام خيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 2",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي, 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مسلوق",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سبانخ مطبوخة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة لوز",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "حفنة عين الجمل",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض أومليت مع فلفل أخضر وبندورة",
+                                        "quantity": "2 بيضة, 50 جرام فلفل أخضر, 50 جرام بندورة",
+                                        "alternatives": {
+                                            "name": "سلطة فول مدشوش",
+                                            "quantity": "150 جرام فول, 50 جرام بصل, 50 جرام طماطم"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 3",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "خبز بلدي",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "توست القمح الكامل",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "جبنة قريش قليلة الدسم",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مسلوق",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "كرفس مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 4",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "زبادي قليل الدسم مع عسل طبيعي",
+                                        "quantity": "150 جرام مع ملعقة صغيرة عسل",
+                                        "alternatives": {
+                                            "name": "كوب حليب قليل الدسم",
+                                            "quantity": "200 مل"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة مفرومة بدون دهون مطبوخة",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار سوتيه",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "برتقالة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "تفاحة",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 5",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "كورن فليكس بدون سكر مع حليب قليل الدسم",
+                                        "quantity": "50 جرام كورن فليكس, 150 مل حليب",
+                                        "alternatives": {
+                                            "name": "شوفان مع حليب قليل الدسم",
+                                            "quantity": "50 جرام شوفان, 150 مل حليب"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء مع زيت زيتون",
+                                        "quantity": "150 جرام, 10 مل زيت زيتون",
+                                        "alternatives": {
+                                            "name": "خضار مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة مكسرات مشكلة",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة خضار",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة تونة",
+                                        "quantity": "150 جرام تونة، 100 جرام خس وخيار",
+                                        "alternatives": {
+                                            "name": "سلطة دجاج",
+                                            "quantity": "150 جرام دجاج، 100 جرام خس وخيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 6",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض أومليت مع سبانخ",
+                                        "quantity": "2 بيضة، 50 جرام سبانخ",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي، 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهوج",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "موزة صغيرة",
+                                            "quantity": "1"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة فاصوليا بيضاء مع زيت زيتون وليمون",
+                                        "quantity": "150 جرام فاصوليا، 10 مل زيت زيتون، 10 مل عصير ليمون",
+                                        "alternatives": {
+                                            "name": "سلطة حمص",
+                                            "quantity": "150 جرام حمص، 10 مل زيت زيتون، 10 مل عصير ليمون"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 7",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "توست القمح الكامل مع جبنة قليلة الدسم",
+                                        "quantity": "2 شريحة، 100 جرام جبنة",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 بيضة"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضار سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "خيار مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي قليل الدسم",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "week": "الأسبوع 3",
+                    "days": [
+                        {
+                            "day": "اليوم 1",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "200 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهو",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "كمثرى",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة تونة مع خس وخيار",
+                                        "quantity": "150 جرام تونة, 100 جرام خس, 100 جرام خيار",
+                                        "alternatives": {
+                                            "name": "سلطة سلمون مدخن",
+                                            "quantity": "150 جرام سلمون, 100 جرام خس, 100 جرام خيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 2",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي, 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مسلوق",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سبانخ مطبوخة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة لوز",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "حفنة عين الجمل",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض أومليت مع فلفل أخضر وبندورة",
+                                        "quantity": "2 بيضة, 50 جرام فلفل أخضر, 50 جرام بندورة",
+                                        "alternatives": {
+                                            "name": "سلطة فول مدشوش",
+                                            "quantity": "150 جرام فول, 50 جرام بصل, 50 جرام طماطم"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 3",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "خبز بلدي",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "توست القمح الكامل",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "جبنة قريش قليلة الدسم",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مسلوق",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "كرفس مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 4",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "زبادي قليل الدسم مع عسل طبيعي",
+                                        "quantity": "150 جرام مع ملعقة صغيرة عسل",
+                                        "alternatives": {
+                                            "name": "كوب حليب قليل الدسم",
+                                            "quantity": "200 مل"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة مفرومة بدون دهون مطبوخة",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار سوتيه",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "برتقالة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "تفاحة",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 5",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "كورن فليكس بدون سكر مع حليب قليل الدسم",
+                                        "quantity": "50 جرام كورن فليكس, 150 مل حليب",
+                                        "alternatives": {
+                                            "name": "شوفان مع حليب قليل الدسم",
+                                            "quantity": "50 جرام شوفان, 150 مل حليب"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء مع زيت زيتون",
+                                        "quantity": "150 جرام, 10 مل زيت زيتون",
+                                        "alternatives": {
+                                            "name": "خضار مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة مكسرات مشكلة",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة خضار",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة تونة",
+                                        "quantity": "150 جرام تونة، 100 جرام خس وخيار",
+                                        "alternatives": {
+                                            "name": "سلطة دجاج",
+                                            "quantity": "150 جرام دجاج، 100 جرام خس وخيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 6",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض أومليت مع سبانخ",
+                                        "quantity": "2 بيضة، 50 جرام سبانخ",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي، 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهوج",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "موزة صغيرة",
+                                            "quantity": "1"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة فاصوليا بيضاء مع زيت زيتون وليمون",
+                                        "quantity": "150 جرام فاصوليا، 10 مل زيت زيتون، 10 مل عصير ليمون",
+                                        "alternatives": {
+                                            "name": "سلطة حمص",
+                                            "quantity": "150 جرام حمص، 10 مل زيت زيتون، 10 مل عصير ليمون"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 7",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "توست القمح الكامل مع جبنة قليلة الدسم",
+                                        "quantity": "2 شريحة، 100 جرام جبنة",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 بيضة"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضار سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "خيار مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي قليل الدسم",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "week": "الأسبوع 4",
+                    "days": [
+                        {
+                            "day": "اليوم 1",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "200 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهو",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "كمثرى",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة تونة مع خس وخيار",
+                                        "quantity": "150 جرام تونة, 100 جرام خس, 100 جرام خيار",
+                                        "alternatives": {
+                                            "name": "سلطة سلمون مدخن",
+                                            "quantity": "150 جرام سلمون, 100 جرام خس, 100 جرام خيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 2",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "شوفان مطبوخ بالماء",
+                                        "quantity": "50 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي, 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "بروكلي مسلوق",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سبانخ مطبوخة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة لوز",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "حفنة عين الجمل",
+                                            "quantity": "30 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض أومليت مع فلفل أخضر وبندورة",
+                                        "quantity": "2 بيضة, 50 جرام فلفل أخضر, 50 جرام بندورة",
+                                        "alternatives": {
+                                            "name": "سلطة فول مدشوش",
+                                            "quantity": "150 جرام فول, 50 جرام بصل, 50 جرام طماطم"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 3",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "خبز بلدي",
+                                        "quantity": "2 شريحة",
+                                        "alternatives": {
+                                            "name": "توست القمح الكامل",
+                                            "quantity": "2 شريحة"
+                                        }
+                                    },
+                                    {
+                                        "name": "جبنة قريش قليلة الدسم",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مسلوق",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضروات سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "كرفس مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 4",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "زبادي قليل الدسم مع عسل طبيعي",
+                                        "quantity": "150 جرام مع ملعقة صغيرة عسل",
+                                        "alternatives": {
+                                            "name": "كوب حليب قليل الدسم",
+                                            "quantity": "200 مل"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة مفرومة بدون دهون مطبوخة",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار سوتيه",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة مشكلة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "برتقالة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "تفاحة",
+                                            "quantity": "1 متوسطة"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "بيض مسلوق",
+                                        "quantity": "2 بيضة",
+                                        "alternatives": {
+                                            "name": "حمص مهروس",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 5",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "كورن فليكس بدون سكر مع حليب قليل الدسم",
+                                        "quantity": "50 جرام كورن فليكس, 150 مل حليب",
+                                        "alternatives": {
+                                            "name": "شوفان مع حليب قليل الدسم",
+                                            "quantity": "50 جرام شوفان, 150 مل حليب"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "صدر دجاج مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء مع زيت زيتون",
+                                        "quantity": "150 جرام, 10 مل زيت زيتون",
+                                        "alternatives": {
+                                            "name": "خضار مسلوقة",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "حفنة مكسرات مشكلة",
+                                        "quantity": "30 جرام",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة خضار",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة عدس",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة تونة",
+                                        "quantity": "150 جرام تونة، 100 جرام خس وخيار",
+                                        "alternatives": {
+                                            "name": "سلطة دجاج",
+                                            "quantity": "150 جرام دجاج، 100 جرام خس وخيار"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 6",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "بيض أومليت مع سبانخ",
+                                        "quantity": "2 بيضة، 50 جرام سبانخ",
+                                        "alternatives": {
+                                            "name": "زبادي قليل الدسم مع فواكه",
+                                            "quantity": "150 جرام زبادي، 50 جرام فواكه"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "سمك مشوي",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "صدر دجاج مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "خضار مشكل مطهوج",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "تفاحة",
+                                        "quantity": "1 متوسطة",
+                                        "alternatives": {
+                                            "name": "موزة صغيرة",
+                                            "quantity": "1"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "سلطة فاصوليا بيضاء مع زيت زيتون وليمون",
+                                        "quantity": "150 جرام فاصوليا، 10 مل زيت زيتون، 10 مل عصير ليمون",
+                                        "alternatives": {
+                                            "name": "سلطة حمص",
+                                            "quantity": "150 جرام حمص، 10 مل زيت زيتون، 10 مل عصير ليمون"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "day": "اليوم 7",
+                            "meals": {
+                                "breakfast": [
+                                    {
+                                        "name": "توست القمح الكامل مع جبنة قليلة الدسم",
+                                        "quantity": "2 شريحة، 100 جرام جبنة",
+                                        "alternatives": {
+                                            "name": "بيض مسلوق",
+                                            "quantity": "2 بيضة"
+                                        }
+                                    }
+                                ],
+                                "lunch": [
+                                    {
+                                        "name": "لحمة بقري مشوية",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سمك مشوي",
+                                            "quantity": "150 جرام"
+                                        }
+                                    },
+                                    {
+                                        "name": "سلطة خضراء",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "خضار سوتيه",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ],
+                                "snack": [
+                                    {
+                                        "name": "جزر مقطع",
+                                        "quantity": "100 جرام",
+                                        "alternatives": {
+                                            "name": "خيار مقطع",
+                                            "quantity": "100 جرام"
+                                        }
+                                    }
+                                ],
+                                "dinner": [
+                                    {
+                                        "name": "شوربة عدس",
+                                        "quantity": "250 مل",
+                                        "alternatives": {
+                                            "name": "شوربة خضار",
+                                            "quantity": "250 مل"
+                                        }
+                                    },
+                                    {
+                                        "name": "زبادي قليل الدسم",
+                                        "quantity": "150 جرام",
+                                        "alternatives": {
+                                            "name": "سلطة خضراء",
+                                            "quantity": "150 جرام"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
